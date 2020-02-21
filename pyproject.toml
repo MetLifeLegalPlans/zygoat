@@ -8,6 +8,7 @@ authors = ["Bequest, Inc. <oss@willing.com>"]
 python = "^3.6"
 click = "^7.0"
 colorama = "^0.4.3"
+"ruamel.yaml" = "^0.16.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
