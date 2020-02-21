@@ -17,3 +17,6 @@ flake8 = "^3.7"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+zg = 'zygoat.cli:cli'

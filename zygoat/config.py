@@ -1,10 +1,11 @@
 from ruamel.yaml import YAML
+import logging
 
 from . import __version__
-from click import secho, echo
 
 
 yaml = YAML(typ='safe')
+log = logging.getLogger()
 
 
 class Config:
@@ -12,10 +13,10 @@ class Config:
         [setattr(self, k, v) for k, v in initial_values.items()]
 
         if getattr(self, 'version', None) is not None and self.version != __version__:
-            secho('WARNING: ', fg='yellow', bold=True, nl=False)
-            echo('This project was made with a different version of zygoat. It may be incompatible.')
+            log.warning('This project was made with a different version of zygoat. It may be incompatible.')
 
     @classmethod
     def load_file(cls, file_name):
         # Because YAML is a truly terrible format, as of v1.2 all JSON is *also* YAML
-        return cls(initial_values=yaml.load(file_name))
+        with open(file_name) as f:
+            return cls(initial_values=yaml.load(f.read()))
