@@ -16,6 +16,6 @@ class Config:
             echo('This project was made with a different version of zygoat. It may be incompatible.')
 
     @classmethod
-    def from_yaml(cls, file_name):
-        # Because YAML is a truly terrible format, as of 1.2 all JSON is *also* YAML
+    def load_file(cls, file_name):
+        # Because YAML is a truly terrible format, as of v1.2 all JSON is *also* YAML
         return cls(initial_values=yaml.load(file_name))
