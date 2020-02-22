@@ -4,24 +4,25 @@ import logging
 init()
 
 color_mappings = {
-    'DEBUG': Fore.WHITE,
-    'INFO': Fore.CYAN,
-    'WARNING': Fore.YELLOW,
-    'ERROR': Fore.RED,
-    'CRITICAL': Fore.RED,
+    logging.DEBUG: Fore.WHITE,
+    logging.INFO: Fore.CYAN,
+    logging.WARNING: Fore.YELLOW,
+    logging.ERROR: Fore.RED,
+    logging.CRITICAL: Fore.RED,
 }
 
 
 class Formatter(logging.Formatter):
     def format(self, record):
         return ' '.join([
-            Style.BRIGHT + color_mappings[record.levelname] + record.levelname,
+            Style.BRIGHT + color_mappings[record.levelno] + record.levelname,
             Fore.RESET + '=>' + Style.RESET_ALL,
             record.msg,
         ])
 
 
 log = logging.getLogger()
+log.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setFormatter(Formatter(''))
 log.addHandler(ch)

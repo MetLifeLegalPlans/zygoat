@@ -1,22 +1,26 @@
+import os
+
+from box import Box
 from ruamel.yaml import YAML
 import logging
 
 from . import __version__
+from .utils.files import find_nearest
 
 
 yaml = YAML(typ='safe')
+yaml.default_flow_style = False
 log = logging.getLogger()
 
 
 class Config:
-    def __init__(self, initial_values={}):
-        [setattr(self, k, v) for k, v in initial_values.items()]
-
-        if getattr(self, 'version', None) is not None and self.version != __version__:
-            log.warning('This project was made with a different version of zygoat. It may be incompatible.')
+    def __init__(self):
+        pass
 
     @classmethod
-    def load_file(cls, file_name):
-        # Because YAML is a truly terrible format, as of v1.2 all JSON is *also* YAML
-        with open(file_name) as f:
-            return cls(initial_values=yaml.load(f.read()))
+    def load(cls):
+        """
+        Locates the nearest zygoat_settings.yaml file and loads it
+        """
+        with open(find_nearest('zygoat_settings.yaml')) as f:
+            return Box(yaml.load(f.read()))
