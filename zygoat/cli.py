@@ -1,18 +1,17 @@
 import click
 import logging
 
-from .config import Config
-from . import __version__
-
 log = logging.getLogger()
 
 
 @click.group()
-def cli():
-    pass
+@click.option('--verbose', '-v', is_flag=True)
+def cli(verbose):
+    if verbose:
+        log.setLevel(logging.DEBUG)
 
 
 @cli.command()
 @click.argument('project_name')
 def new(project_name):
-    log.info('Testing!')
+    log.debug(f'Attempting creation of {click.style(project_name, bold=True)}')
