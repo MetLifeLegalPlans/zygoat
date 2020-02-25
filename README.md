@@ -1,5 +1,7 @@
 # zygoat
 
+<img src="https://user-images.githubusercontent.com/640862/75250233-e287ea80-57a5-11ea-9d9f-553662a17706.jpeg" />
+
 ## What is zygoat?
 
 `zygoat` is a command line tool used to bootstrap and configure a React/Django/Postgres stack web application.
