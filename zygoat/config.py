@@ -20,6 +20,11 @@ log = logging.getLogger()
 
 class Config(object):
     def __new__(self, initial_data={}):
+        """
+        Allows us to create a new Config instance that loads itself and returns a box
+
+        :param initial_data: When creating a new config file, add this to the file
+        """
         try:
             return Config.load()
         except FileNotFoundError:
@@ -32,7 +37,7 @@ class Config(object):
                 pass
         except FileNotFoundError:
             log.critical('Zygoat must be run inside a git repository')
-            log.info('Run ' + style('git init', fg='green', bold=True) + ' to initialize a git repository')
+            log.critical('Run ' + style('git init', fg='green', bold=True) + ' to initialize a git repository')
             sys.exit(1)
 
         data = {'version': __version__}

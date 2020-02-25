@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 import os
 import logging
 
@@ -40,3 +41,31 @@ def find_nearest(file_name):
                 return target
     except FileNotFoundError:
         raise FileNotFoundError(f'Unable to locate {file_name} in current or any parent directory')
+
+
+@contextmanager
+def use_dir(path):
+    """
+    A context manager for switching into an arbitrary directory for a block
+
+    :param path: A valid directory path
+    """
+    owd = os.getcwd()
+
+    try:
+        os.chdir(path)
+        yield
+    finally:
+        os.chdir(owd)
+
+
+@contextmanager
+def repository_root():
+    """
+    A shortcut for locating the nearest repository root and doing a use_dir with it
+    """
+
+    root = os.path.dirname(find_nearest('.git'))
+
+    with use_dir(root):
+        yield
