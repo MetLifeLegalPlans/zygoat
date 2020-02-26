@@ -1,8 +1,9 @@
 import click
 import logging
 
-from .components import backend
+from .components import components
 from .config import Config
+from .constants import Phases, config_file_name
 
 log = logging.getLogger()
 
@@ -16,13 +17,13 @@ def cli(verbose):
     Config()
 
 
-@cli.command()
+@cli.command(help='Creates a new zygoat settings file and exits')
 def init():
-    # Handled by the CLI constructor creating a new Config object
-    log.info('Initialized zygoat_settings.yaml')
+    #  Handled by the CLI constructor creating a new Config object
+    log.info(f'Initialized {config_file_name}')
 
 
-@cli.command()
+@cli.command(help='Runs the create phase of all included build components')
 @click.argument('project_name')
 def new(project_name):
     log.debug(f'Attempting creation of {click.style(project_name, bold=True)}')
@@ -31,4 +32,11 @@ def new(project_name):
     config.name = project_name
     Config.dump(config)
 
-    backend.call_phase('create')
+    for component in components:
+        component.call_phase(Phases.CREATE)
+
+
+@cli.command(help='Lists all of the running phase names')
+def list():
+    for component in components:
+        component.call_phase(Phases.LIST)

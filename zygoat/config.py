@@ -9,8 +9,7 @@ import logging
 
 from . import __version__
 from .utils.files import find_nearest
-
-config_file_name = 'zygoat_settings.yml'
+from .constants import config_file_name
 
 
 yaml = YAML(typ='safe')

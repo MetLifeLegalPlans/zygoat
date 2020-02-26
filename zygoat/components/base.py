@@ -1,20 +1,23 @@
 import logging
 
+from click import style
+
 from zygoat.utils.files import repository_root
 from zygoat.config import Config
+from zygoat.constants import Phases
 
 log = logging.getLogger()
 
 
 class Component:
     def __init__(self, parent=None, sub_components=[]):
-        self.config = Config()
-        self.parent = parent
-
         self.sub_components = []
 
+        self.reload()
+        self.parent = parent
+
         for component in sub_components:
-            component.parent = self.name
+            component.parent = self.identifier
             self.sub_components.append(component)
 
     @property
@@ -34,7 +37,7 @@ class Component:
         if self.parent is None:
             return self.name
 
-        return '{self.parent}__{self.name}'
+        return f'{self.parent}__{self.name}'
 
     @property
     def exclude(self):
@@ -53,7 +56,7 @@ class Component:
         """
         return not self.exclude
 
-    def call_phase(self, phase):
+    def call_phase(self, phase, force_create=False):
         """
         Calls a phase (e.g. create, update, delete) on self + all sub components
         """
@@ -61,15 +64,45 @@ class Component:
             log.debug(f'Skipping {self.identifier} as it was found in the exclude list')
             return
 
-        log_string = 'Calling phase {} for {}'
+        self.reload()
 
+        log_string = 'Calling phase {} for {}'
         phase_func = getattr(self, phase, None)
+
+        is_create = phase == Phases.CREATE
 
         if phase_func is not None:
             with repository_root():
-                log.info(log_string.format(phase, self.__class__.__name__))
-                phase_func()
+                if is_create and self.installed and not force_create:
+                    styled_name = style(self.identifier, bold=True, fg='cyan')
+                    log.warning(f'Component {styled_name} is already installed, skipping')
+                else:
+                    log.debug(log_string.format(phase, self.__class__.__name__))
+                    phase_func()
 
         for component in self.sub_components:
-            log.info(log_string.format(phase, component.__class__.__name__))
-            component.call_phase(phase)
+            log.debug(log_string.format(phase, component.__class__.__name__))
+            component.call_phase(phase, force_create=force_create)
+
+    @property
+    def installed(self):
+        """
+        Halts the create phase if True
+        """
+        return False
+
+    def list(self):
+        """
+        Prints the identifier of this component for exclusion filtering
+        """
+        if self.include:
+            print(self.identifier)
+
+    def reload(self):
+        """
+        Reloads the configuration file
+        """
+        self.config = Config()
+
+        for component in self.sub_components:
+            component.parent = self.identifier

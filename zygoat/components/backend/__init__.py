@@ -1,8 +1,12 @@
 import logging
+import os
 
 from .. import Component
 from zygoat.utils.files import use_dir
 from zygoat.utils.shell import run
+from zygoat.constants import Projects
+
+from .dockerfile import dockerfile
 
 import virtualenv
 
@@ -15,9 +19,9 @@ class Backend(Component):
         run(['pip', 'install', '--user', '--upgrade', 'django'])
 
         log.info('Creating the django project')
-        run(['django-admin', 'startproject', 'backend'])
+        run(['django-admin', 'startproject', Projects.BACKEND])
 
-        with use_dir('backend'):
+        with use_dir(Projects.BACKEND):
             log.info('Creating and activating a virtualenv for the project')
             virtualenv.cli_run(['venv'])
 
@@ -54,8 +58,9 @@ class Backend(Component):
     def deploy(self):
         pass
 
+    @property
+    def installed(self):
+        return os.path.exists(Projects.BACKEND)
 
-backend = Backend()
 
-
-__all__ = [backend]
+backend = Backend(sub_components=[dockerfile])
