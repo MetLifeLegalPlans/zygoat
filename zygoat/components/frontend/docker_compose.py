@@ -34,9 +34,8 @@ class DockerCompose(Component):
     def delete(self):
         config = self._load_config()
 
-        log.info('Removing backend and DB services from config')
-        del config['services'][Projects.BACKEND]
-        del config['services']['db']
+        log.info('Removing fronted service from config')
+        del config['services'][Projects.FRONTEND]
 
         log.info('Dumping updated docker-compose config')
         self._dump_config(config)
@@ -45,7 +44,7 @@ class DockerCompose(Component):
     def installed(self):
         services = self._load_config()['services']
 
-        return Projects.BACKEND in services and 'db' in services
+        return Projects.FRONTEND in services
 
 
 docker_compose = DockerCompose()

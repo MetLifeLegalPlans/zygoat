@@ -1,3 +1,4 @@
+from functools import partial
 import logging
 
 from click import style
@@ -66,9 +67,22 @@ class Component:
 
         self.reload()
 
-        log_string = 'Calling phase {} for {}'
-        phase_func = getattr(self, phase, None)
+        run_self = partial(self._run_self, phase, force_create=force_create)
+        run_children = partial(self._run_children, phase, force_create=force_create)
 
+        if phase == Phases.DELETE:
+            run_children()
+            run_self()
+        else:
+            run_self()
+            run_children()
+
+    @property
+    def _log_string(self):
+        return 'Calling phase {} for {}'
+
+    def _run_self(self, phase, force_create=False):
+        phase_func = getattr(self, phase, None)
         is_create = phase == Phases.CREATE
 
         if phase_func is not None:
@@ -77,11 +91,12 @@ class Component:
                     styled_name = style(self.identifier, bold=True, fg='cyan')
                     log.warning(f'Component {styled_name} is already installed, skipping')
                 else:
-                    log.debug(log_string.format(phase, self.__class__.__name__))
+                    log.debug(self._log_string.format(phase, self.__class__.__name__))
                     phase_func()
 
+    def _run_children(self, phase, force_create=False):
         for component in self.sub_components:
-            log.debug(log_string.format(phase, component.__class__.__name__))
+            log.debug(self._log_string.format(phase, component.__class__.__name__))
             component.call_phase(phase, force_create=force_create)
 
     @property

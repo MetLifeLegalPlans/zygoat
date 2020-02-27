@@ -14,12 +14,10 @@ def cli(verbose):
     if verbose:
         log.setLevel(logging.DEBUG)
 
-    Config()
-
 
 @cli.command(help='Creates a new zygoat settings file and exits')
 def init():
-    #  Handled by the CLI constructor creating a new Config object
+    Config()
     log.info(f'Initialized {config_file_name}')
 
 
