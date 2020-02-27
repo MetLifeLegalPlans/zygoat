@@ -9,6 +9,6 @@ from .frontend import frontend
 components = [
     editorconfig,
     docker_compose,
-    frontend,
     backend,
+    frontend,
 ]
