@@ -1,24 +1,25 @@
+from importlib import resources as il_resources
+
 import logging
 import os
 
-from . import Component
+from zygoat.components import Component
+from zygoat.constants import Phases
 from . import resources
 
-from importlib import resources as il_resources
-
 log = logging.getLogger()
-file_name = 'docker-compose.yml'
+file_name = '.editorconfig'
 
 
-class DockerCompose(Component):
+class EditorConfig(Component):
     def create(self):
-        log.info('Creating an empty docker-compose.yml file')
+        log.info(f'Creating {file_name}')
 
-        # All phases and checks run from the repository root
         with open(file_name, 'w') as f:
             f.write(il_resources.read_text(resources, file_name))
 
-        log.info(f'Created {file_name} successfully')
+    def update(self):
+        self.call_phase(Phases.CREATE, force_create=True)
 
     def delete(self):
         log.warning(f'Deleting {file_name}')
@@ -29,4 +30,4 @@ class DockerCompose(Component):
         return os.path.exists(file_name)
 
 
-docker_compose = DockerCompose()
+editorconfig = EditorConfig()

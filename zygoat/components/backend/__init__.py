@@ -1,5 +1,6 @@
 import logging
 import os
+import shutil
 
 from .. import Component
 from zygoat.utils.files import use_dir
@@ -7,8 +8,8 @@ from zygoat.utils.shell import run
 from zygoat.constants import Projects
 
 from .dockerfile import dockerfile
-
-import virtualenv
+from .wait_command import wait_command
+from .settings import settings
 
 log = logging.getLogger()
 
@@ -23,15 +24,15 @@ class Backend(Component):
 
         with use_dir(Projects.BACKEND):
             log.info('Creating and activating a virtualenv for the project')
-            virtualenv.cli_run(['venv'])
-
-            # Programmatically activate the virtualenv in the current session
-            venv_file = 'venv/bin/activate_this.py'
-            exec(open(venv_file).read(), {'__file__': venv_file})
+            run([
+                'virtualenv',
+                'venv',
+            ])
 
             log.info('Installing project dependencies and creating a requirements file')
+            pip = os.path.join('venv', 'bin', 'pip')
             run([
-                'pip',
+                pip,
                 'install',
                 '--upgrade',
                 'django',
@@ -42,7 +43,7 @@ class Backend(Component):
             ])
 
             freeze_result = run([
-                'pip',
+                pip,
                 'freeze',
             ], capture_output=True)
 
@@ -53,7 +54,8 @@ class Backend(Component):
         pass
 
     def delete(self):
-        pass
+        log.warning(f'Deleting the {Projects.BACKEND} project')
+        shutil.rmtree(Projects.BACKEND)
 
     def deploy(self):
         pass
@@ -63,4 +65,4 @@ class Backend(Component):
         return os.path.exists(Projects.BACKEND)
 
 
-backend = Backend(sub_components=[dockerfile])
+backend = Backend(sub_components=[settings, dockerfile, wait_command])

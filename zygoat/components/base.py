@@ -84,15 +84,20 @@ class Component:
     def _run_self(self, phase, force_create=False):
         phase_func = getattr(self, phase, None)
         is_create = phase == Phases.CREATE
+        styled_name = style(self.identifier, bold=True, fg='cyan')
 
         if phase_func is not None:
             with repository_root():
+                if not is_create and not self.installed:
+                    log.warning(f'Component {styled_name} is not installed, skipping')
+                    return
+
                 if is_create and self.installed and not force_create:
-                    styled_name = style(self.identifier, bold=True, fg='cyan')
                     log.warning(f'Component {styled_name} is already installed, skipping')
-                else:
-                    log.debug(self._log_string.format(phase, self.__class__.__name__))
-                    phase_func()
+                    return
+
+                log.debug(self._log_string.format(phase, self.__class__.__name__))
+                phase_func()
 
     def _run_children(self, phase, force_create=False):
         for component in self.sub_components:
