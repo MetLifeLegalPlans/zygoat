@@ -5,3 +5,4 @@ frontend:
   volumes:
     - ./frontend:/code
     - /code/node_modules
+    - /code/.next

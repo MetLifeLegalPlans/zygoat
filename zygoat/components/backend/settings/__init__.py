@@ -5,6 +5,8 @@ from zygoat.components import SettingsComponent
 from .secret_key import secret_key
 from .database_config import database_config
 from .debug_config import debug_config
+from .installed_apps import installed_apps
+from .allowed_hosts import allowed_hosts
 
 log = logging.getLogger()
 
@@ -29,4 +31,4 @@ class Settings(SettingsComponent):
         return red.find('name', value='environ') is not None
 
 
-settings = Settings(sub_components=[secret_key, database_config, debug_config])
+settings = Settings(sub_components=[secret_key, database_config, debug_config, installed_apps, allowed_hosts])
