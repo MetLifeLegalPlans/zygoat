@@ -1,9 +1,8 @@
-from zygoat.components import FileComponent, resources
+from zygoat.components import FileComponent
 
 
 class EditorConfig(FileComponent):
     filename = '.editorconfig'
-    resource_pkg = resources
 
 
 editorconfig = EditorConfig()
