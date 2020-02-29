@@ -8,6 +8,7 @@ from zygoat.utils.shell import run
 
 from .dockerfile import dockerfile
 from .gitignore import gitignore
+from .prettier import prettier
 
 log = logging.getLogger()
 
@@ -40,4 +41,4 @@ class Frontend(Component):
         return os.path.exists(Projects.FRONTEND)
 
 
-frontend = Frontend(sub_components=[dockerfile, gitignore])
+frontend = Frontend(sub_components=[dockerfile, gitignore, prettier])

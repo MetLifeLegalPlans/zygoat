@@ -1,5 +1,5 @@
 from .base import Component  # noqa
-from .file_component import FileComponent # noqa
+from .file_component import FileComponent  # noqa
 from .settings_component import SettingsComponent  # noqa
 
 from .editorconfig import editorconfig
