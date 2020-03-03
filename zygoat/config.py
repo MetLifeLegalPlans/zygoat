@@ -65,3 +65,7 @@ class Config(object):
     def dump(cls, data):
         with cls.settings_file(mode='w') as f:
             yaml.dump(data.to_dict(), f)
+
+    @classmethod
+    def delete(cls):
+        os.remove(find_nearest(config_file_name))
