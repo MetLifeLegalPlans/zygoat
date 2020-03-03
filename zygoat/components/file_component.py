@@ -33,7 +33,7 @@ class FileComponent(Component):
     @check_setup
     def create(self):
         log.info(f'Creating {self.path}')
-
+        os.makedirs(self.base_path, exist_ok=True)
         with open(self.path, 'w') as f:
             f.write(il_resources.read_text(self.resource_pkg, self.filename))
 
@@ -45,6 +45,11 @@ class FileComponent(Component):
     def delete(self):
         log.warning(f'Deleting {self.path}')
         os.remove(self.path)
+        try:
+            os.rmdir(self.base_path)
+            log.warning(f'Deleting {self.base_path}')
+        except OSError:
+            log.warning(f'Skipping {self.base_path}')
 
     @property
     @check_setup
