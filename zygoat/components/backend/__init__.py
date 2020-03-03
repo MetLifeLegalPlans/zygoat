@@ -12,6 +12,7 @@ from .wait_command import wait_command
 from .settings import settings
 from .gitignore import gitignore
 from .black import black
+from .flake8 import flake8
 from .banditrc import banditrc
 from .dependencies import dependencies
 
@@ -54,5 +55,6 @@ backend = Backend(
         gitignore,
         black,
         banditrc,
+        flake8,
     ]
 )
