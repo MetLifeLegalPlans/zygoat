@@ -34,7 +34,7 @@ class DockerCompose(Component):
     def delete(self):
         config = self._load_config()
 
-        log.info('Removing fronted service from config')
+        log.info('Removing frontend service from config')
         del config['services'][Projects.FRONTEND]
 
         log.info('Dumping updated docker-compose config')
