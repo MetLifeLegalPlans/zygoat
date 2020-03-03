@@ -1,4 +1,5 @@
 import logging
+import os
 
 from zygoat.components import SettingsComponent
 
@@ -11,11 +12,30 @@ from .cookies import cookies
 
 log = logging.getLogger()
 
+zygoat_settings_comment = """\"\"\"
+This settings file is generated and updated by Zygoat and should not be edited
+manually. Instead, update settings via this package's __init__.py.
+\"\"\""""
+
 
 class Settings(SettingsComponent):
     def create(self):
+        log.info('Making python package for Django settings')
+        os.mkdir(self.settings_directory)
+
+        log.info('Moving the django settings into the settings package')
+        os.rename(self.initial_settings_file_path, self.settings_file_path)
+
+        log.info('Creating import for zygoat settings in __init__.py')
+        with open(os.path.join(self.settings_directory, '__init__.py'), 'a') as f:
+            f.write(f'from .{SettingsComponent.MODULE_NAME} import *  # noqa\n')
+
         red = self.parse()
-        first_import_index = red.index(red.find("importnode"))
+
+        log.info('Adding comment to Zygoat settings file')
+        red[0].value = zygoat_settings_comment
+
+        first_import_index = red.index(red.find('importnode'))
 
         log.info("Inserting environ import into django settings")
         red.insert(first_import_index + 1, "import environ")
@@ -28,8 +48,7 @@ class Settings(SettingsComponent):
 
     @property
     def installed(self):
-        red = self.parse()
-        return red.find("name", value="environ") is not None
+        return os.path.exists(self.settings_file_path)
 
 
 settings_sub_components = [
