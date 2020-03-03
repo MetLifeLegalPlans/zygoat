@@ -53,6 +53,9 @@ def delete():
     for component in reversed(components):
         component.call_phase(Phases.DELETE)
 
+    # remove zygoat settings file
+    Config.delete()
+
 
 @cli.command(help='Calls the update phase on all included build components')
 def update():
