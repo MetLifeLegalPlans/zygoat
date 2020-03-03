@@ -1,6 +1,7 @@
-from .base import Component  # noqa
-from .file_component import FileComponent  # noqa
-from .settings_component import SettingsComponent  # noqa
+from .base import Component
+from .file_component import FileComponent
+from .settings_component import SettingsComponent
+from . import resources
 
 from .editorconfig import editorconfig
 from .precommit import precommitconfig
@@ -14,4 +15,12 @@ components = [
     docker_compose,
     backend,
     frontend,
+]
+
+__all__ = [
+    Component,
+    FileComponent,
+    SettingsComponent,
+    components,
+    resources,
 ]
