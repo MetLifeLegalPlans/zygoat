@@ -12,7 +12,32 @@ Linting, test configuration, boilerplate, and development environment are automa
 
 ## How do I use it?
 
-We'll get to that when we get to it. Right now, it's under active development, so check back frequently!
+Make a new git repository somewhere, we'll call it test-zg
+
+```bash
+mkdir test-zg && cd test-zg
+git init
+```
+
+Install the zygoat package locally
+
+```bash
+pip install --user --upgrade ~/Projects/zygoat  # Or wherever you have it
+```
+
+If you're using the asdf version manager, reshim
+
+```bash
+asdf reshim python
+```
+
+Run zg commands, see if they fail
+
+```bash
+zg new test
+zg update
+zg delete
+```
 
 ---
 
