@@ -20,22 +20,22 @@ manually. Instead, update settings via this package's __init__.py.
 
 class Settings(SettingsComponent):
     def create(self):
-        log.info('Making python package for Django settings')
+        log.info("Making python package for Django settings")
         os.mkdir(self.settings_directory)
 
-        log.info('Moving the django settings into the settings package')
+        log.info("Moving the django settings into the settings package")
         os.rename(self.initial_settings_file_path, self.settings_file_path)
 
-        log.info('Creating import for zygoat settings in __init__.py')
-        with open(os.path.join(self.settings_directory, '__init__.py'), 'a') as f:
-            f.write(f'from .{SettingsComponent.MODULE_NAME} import *  # noqa\n')
+        log.info("Creating import for zygoat settings in __init__.py")
+        with open(os.path.join(self.settings_directory, "__init__.py"), "a") as f:
+            f.write(f"from .{SettingsComponent.MODULE_NAME} import *  # noqa\n")
 
         red = self.parse()
 
-        log.info('Adding comment to Zygoat settings file')
+        log.info("Adding comment to Zygoat settings file")
         red[0].value = zygoat_settings_comment
 
-        first_import_index = red.index(red.find('importnode'))
+        first_import_index = red.index(red.find("importnode"))
 
         log.info("Inserting environ import into django settings")
         red.insert(first_import_index + 1, "import environ")
