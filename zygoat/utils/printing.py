@@ -14,16 +14,18 @@ color_mappings = {
 
 class Formatter(logging.Formatter):
     def format(self, record):
-        return ' '.join([
-            Style.BRIGHT + color_mappings[record.levelno] + record.levelname,
-            Fore.RESET + '=>' + Style.RESET_ALL,
-            record.msg,
-        ])
+        return " ".join(
+            [
+                Style.BRIGHT + color_mappings[record.levelno] + record.levelname,
+                Fore.RESET + "=>" + Style.RESET_ALL,
+                record.msg,
+            ]
+        )
 
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 ch = logging.StreamHandler()
-ch.setFormatter(Formatter(''))
+ch.setFormatter(Formatter(""))
 ch.setLevel(logging.INFO)
 log.addHandler(ch)

@@ -38,14 +38,14 @@ class Component:
         if self.parent is None:
             return self.name
 
-        return f'{self.parent}__{self.name}'
+        return f"{self.parent}__{self.name}"
 
     @property
     def exclude(self):
         """
         Whether or not this sub-component should be used in the project
         """
-        if self.config.get('exclude', None) is None:
+        if self.config.get("exclude", None) is None:
             return False
 
         return self.identifier in self.config.exclude
@@ -62,7 +62,7 @@ class Component:
         Calls a phase (e.g. create, update, delete) on self + all sub components
         """
         if self.exclude:
-            log.debug(f'Skipping {self.identifier} as it was found in the exclude list')
+            log.debug(f"Skipping {self.identifier} as it was found in the exclude list")
             return
 
         self.reload()
@@ -79,21 +79,21 @@ class Component:
 
     @property
     def _log_string(self):
-        return 'Calling phase {} for {}'
+        return "Calling phase {} for {}"
 
     def _run_self(self, phase, force_create=False):
         phase_func = getattr(self, phase, None)
         is_create = phase == Phases.CREATE
-        styled_name = style(self.identifier, bold=True, fg='cyan')
+        styled_name = style(self.identifier, bold=True, fg="cyan")
 
         if phase_func is not None:
             with repository_root():
                 if not is_create and not self.installed:
-                    log.warning(f'Component {styled_name} is not installed, skipping')
+                    log.warning(f"Component {styled_name} is not installed, skipping")
                     return
 
                 if is_create and self.installed and not force_create:
-                    log.warning(f'Component {styled_name} is already installed, skipping')
+                    log.warning(f"Component {styled_name} is already installed, skipping")
                     return
 
                 log.debug(self._log_string.format(phase, self.__class__.__name__))

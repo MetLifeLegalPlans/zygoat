@@ -12,7 +12,7 @@ from .utils.files import find_nearest
 from .constants import config_file_name
 
 
-yaml = YAML(typ='safe')
+yaml = YAML(typ="safe")
 yaml.default_flow_style = False
 log = logging.getLogger()
 
@@ -27,19 +27,23 @@ class Config(object):
         try:
             return Config.load()
         except FileNotFoundError:
-            log.debug('Config file not found, creating a new one')
+            log.debug("Config file not found, creating a new one")
 
         try:
-            repo_root = os.path.dirname(find_nearest('.git'))
+            repo_root = os.path.dirname(find_nearest(".git"))
 
-            with open(os.path.join(repo_root, config_file_name), 'w'):
+            with open(os.path.join(repo_root, config_file_name), "w"):
                 pass
         except FileNotFoundError:
-            log.critical('Zygoat must be run inside a git repository')
-            log.critical('Run ' + style('git init', fg='green', bold=True) + ' to initialize a git repository')
+            log.critical("Zygoat must be run inside a git repository")
+            log.critical(
+                "Run "
+                + style("git init", fg="green", bold=True)
+                + " to initialize a git repository"
+            )
             sys.exit(1)
 
-        data = {'version': __version__}
+        data = {"version": __version__}
         data.update(initial_data)
 
         Config.dump(Box(data))
@@ -48,7 +52,7 @@ class Config(object):
 
     @classmethod
     @contextmanager
-    def settings_file(cls, mode='r'):
+    def settings_file(cls, mode="r"):
         f = open(find_nearest(config_file_name), mode)
 
         try:
@@ -63,7 +67,7 @@ class Config(object):
 
     @classmethod
     def dump(cls, data):
-        with cls.settings_file(mode='w') as f:
+        with cls.settings_file(mode="w") as f:
             yaml.dump(data.to_dict(), f)
 
     @classmethod

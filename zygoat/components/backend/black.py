@@ -5,7 +5,7 @@ from . import resources
 
 
 class Black(FileComponent):
-    file_name = 'pyproject.toml'
+    file_name = "pyproject.toml"
     resource_pkg = resources
     base_path = Projects.BACKEND
 

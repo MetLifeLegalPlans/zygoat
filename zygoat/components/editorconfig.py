@@ -2,7 +2,7 @@ from zygoat.components import FileComponent
 
 
 class EditorConfig(FileComponent):
-    filename = '.editorconfig'
+    filename = ".editorconfig"
 
 
 editorconfig = EditorConfig()
