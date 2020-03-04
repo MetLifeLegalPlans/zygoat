@@ -11,6 +11,7 @@ from .dockerfile import dockerfile
 from .wait_command import wait_command
 from .settings import settings
 from .gitignore import gitignore
+from .black import black
 
 log = logging.getLogger()
 
@@ -66,4 +67,4 @@ class Backend(Component):
         return os.path.exists(Projects.BACKEND)
 
 
-backend = Backend(sub_components=[settings, dockerfile, wait_command, gitignore])
+backend = Backend(sub_components=[settings, dockerfile, wait_command, gitignore, black])
