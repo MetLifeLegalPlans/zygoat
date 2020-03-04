@@ -13,9 +13,7 @@ class PrettyQuick(Component):
     def create(self):
         with use_dir(Projects.FRONTEND):
             log.info("Installing pretty-quick into frontend project")
-            run(
-                ["yarn", "add", "--dev", "pretty-quick",]
-            )
+            run(["yarn", "add", "--dev", "pretty-quick"])
 
             log.info("Adding pretty-quick lint command")
             with open("package.json") as f:
