@@ -16,10 +16,10 @@ def walk_up():
     path = os.getcwd()
 
     while True:
-        log.debug(f'Searching {style(path, bold=True)}')
+        log.debug(f"Searching {style(path, bold=True)}")
         yield path
 
-        if path == '/':
+        if path == "/":
             raise FileNotFoundError
 
         path = os.path.dirname(path)
@@ -37,10 +37,12 @@ def find_nearest(file_name):
 
             # If the file is not found, walk_up() will error out
             if os.path.exists(target):
-                log.debug(f'Found {file_name} in {os.path.dirname(target)}')
+                log.debug(f"Found {file_name} in {os.path.dirname(target)}")
                 return target
     except FileNotFoundError:
-        raise FileNotFoundError(f'Unable to locate {file_name} in current or any parent directory')
+        raise FileNotFoundError(
+            f"Unable to locate {file_name} in current or any parent directory"
+        )
 
 
 @contextmanager
@@ -65,7 +67,7 @@ def repository_root():
     A shortcut for locating the nearest repository root and doing a use_dir with it
     """
 
-    root = os.path.dirname(find_nearest('.git'))
+    root = os.path.dirname(find_nearest(".git"))
 
     with use_dir(root):
         yield

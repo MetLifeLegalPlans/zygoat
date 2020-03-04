@@ -15,25 +15,18 @@ log = logging.getLogger()
 
 class Frontend(Component):
     def create(self):
-        log.info('Installing/upgrading yarn through npm')
-        run([
-            'npm',
-            'install',
-            '-g',
-            '--upgrade',
-            'yarn',
-        ])
+        log.info("Installing/upgrading yarn through npm")
+        run(
+            ["npm", "install", "-g", "--upgrade", "yarn",]
+        )
 
-        log.info('Running create-next-app')
-        run([
-            'yarn',
-            'create',
-            'next-app',
-            Projects.FRONTEND,
-        ])
+        log.info("Running create-next-app")
+        run(
+            ["yarn", "create", "next-app", Projects.FRONTEND,]
+        )
 
     def delete(self):
-        log.warning(f'Deleting the {Projects.FRONTEND} project')
+        log.warning(f"Deleting the {Projects.FRONTEND} project")
         shutil.rmtree(Projects.FRONTEND)
 
     @property

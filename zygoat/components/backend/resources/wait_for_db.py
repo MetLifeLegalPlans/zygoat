@@ -11,7 +11,7 @@ class Command(BaseCommand):
             sleep(0.5)
             try:
                 with connection.temporary_connection():
-                    self.stdout.write(self.style.SUCCESS('Connected to db.'))
+                    self.stdout.write(self.style.SUCCESS("Connected to db."))
                     break
             except OperationalError:
-                self.stdout.write(self.style.WARNING('Still waiting for db...'))
+                self.stdout.write(self.style.WARNING("Still waiting for db..."))

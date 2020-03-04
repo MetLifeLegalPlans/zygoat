@@ -15,21 +15,21 @@ log = logging.getLogger()
 class Settings(SettingsComponent):
     def create(self):
         red = self.parse()
-        first_import_index = red.index(red.find('importnode'))
+        first_import_index = red.index(red.find("importnode"))
 
-        log.info('Inserting environ import into django settings')
-        red.insert(first_import_index + 1, 'import environ')
+        log.info("Inserting environ import into django settings")
+        red.insert(first_import_index + 1, "import environ")
 
-        log.info('Inserting environ constructor')
-        red.insert(first_import_index + 2, 'env = environ.Env()')
+        log.info("Inserting environ constructor")
+        red.insert(first_import_index + 2, "env = environ.Env()")
 
-        log.info('Dumping django settings file')
+        log.info("Dumping django settings file")
         self.dump(red)
 
     @property
     def installed(self):
         red = self.parse()
-        return red.find('name', value='environ') is not None
+        return red.find("name", value="environ") is not None
 
 
 settings_sub_components = [

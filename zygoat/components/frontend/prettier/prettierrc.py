@@ -5,7 +5,7 @@ from . import resources
 
 
 class PrettierRc(FileComponent):
-    filename = '.prettierrc'
+    filename = ".prettierrc"
     resource_pkg = resources
     base_path = Projects.FRONTEND
 

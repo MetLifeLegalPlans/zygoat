@@ -16,13 +16,10 @@ log = logging.getLogger()
 class Prettier(Component):
     def create(self):
         with use_dir(Projects.FRONTEND):
-            log.info('Installing prettier dev dependency into the frontend project')
-            run([
-                'yarn',
-                'add',
-                '--dev',
-                'prettier',
-            ])
+            log.info("Installing prettier dev dependency into the frontend project")
+            run(
+                ["yarn", "add", "--dev", "prettier",]
+            )
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
@@ -30,8 +27,8 @@ class Prettier(Component):
     @property
     def installed(self):
         with use_dir(Projects.FRONTEND):
-            with open('package.json') as f:
-                return 'prettier' in json.load(f).get('devDependencies', {})
+            with open("package.json") as f:
+                return "prettier" in json.load(f).get("devDependencies", {})
 
 
 prettier = Prettier(sub_components=[prettierrc, be_pretty, pretty_quick])

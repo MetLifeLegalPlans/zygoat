@@ -18,6 +18,7 @@ class FileComponent(Component):
     Note that this file must exist in zygoat's path here:
     'zygoat/components/resources/'.
     """
+
     resource_pkg = resources
     base_path = "./"
 
@@ -25,16 +26,16 @@ class FileComponent(Component):
         @wraps(f)
         def wrapper(self, *args, **kwargs):
             if not self.filename:
-                raise NotImplementedError(
-                        'You must specify cls.filename!')
+                raise NotImplementedError("You must specify cls.filename!")
             return f(self, *args, **kwargs)
+
         return wrapper
 
     @check_setup
     def create(self):
-        log.info(f'Creating {self.path}')
+        log.info(f"Creating {self.path}")
         os.makedirs(self.base_path, exist_ok=True)
-        with open(self.path, 'w') as f:
+        with open(self.path, "w") as f:
             f.write(il_resources.read_text(self.resource_pkg, self.filename))
 
     @check_setup
@@ -43,13 +44,13 @@ class FileComponent(Component):
 
     @check_setup
     def delete(self):
-        log.warning(f'Deleting {self.path}')
+        log.warning(f"Deleting {self.path}")
         os.remove(self.path)
         try:
             os.rmdir(self.base_path)
-            log.warning(f'Deleting {self.base_path}')
+            log.warning(f"Deleting {self.base_path}")
         except OSError:
-            log.warning(f'Skipping {self.base_path}')
+            log.warning(f"Skipping {self.base_path}")
 
     @property
     @check_setup
