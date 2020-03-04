@@ -26,9 +26,7 @@ class Backend(Component):
 
         with use_dir(Projects.BACKEND):
             log.info("Creating and activating a virtualenv for the project")
-            run(
-                ["virtualenv", "venv",]
-            )
+            run(["virtualenv", "venv"])
 
             log.info("Installing project dependencies and creating a requirements file")
             pip = os.path.join("venv", "bin", "pip")
@@ -45,7 +43,7 @@ class Backend(Component):
                 ]
             )
 
-            freeze_result = run([pip, "freeze",], capture_output=True)
+            freeze_result = run([pip, "freeze"], capture_output=True)
 
             with open("requirements.txt", "w") as f:
                 f.write(freeze_result.stdout.decode())

@@ -17,9 +17,7 @@ class Prettier(Component):
     def create(self):
         with use_dir(Projects.FRONTEND):
             log.info("Installing prettier dev dependency into the frontend project")
-            run(
-                ["yarn", "add", "--dev", "prettier",]
-            )
+            run(["yarn", "add", "--dev", "prettier"])
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
