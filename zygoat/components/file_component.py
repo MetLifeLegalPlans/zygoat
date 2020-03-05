@@ -21,6 +21,7 @@ class FileComponent(Component):
 
     resource_pkg = resources
     base_path = "./"
+    overwrite = True
 
     def check_setup(f):
         @wraps(f)
@@ -40,6 +41,9 @@ class FileComponent(Component):
 
     @check_setup
     def update(self):
+        if not self.overwrite:
+            return
+
         self.call_phase(Phases.CREATE, force_create=True)
 
     @check_setup

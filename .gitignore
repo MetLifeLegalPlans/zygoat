@@ -114,3 +114,4 @@ dmypy.json
 
 # Swap files
 *.swp
+.tern-port
