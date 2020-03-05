@@ -10,6 +10,7 @@ phases:
   build:
     commands:
       - docker-compose exec -T backend python manage.py wait_for_db
+      - docker-compose exec -T backend bandit -r . -ll -iii -c tests/.banditrc
   post_build:
     commands:
       - docker-compose down -t 0
