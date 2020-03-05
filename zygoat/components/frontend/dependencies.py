@@ -18,7 +18,7 @@ class Dependencies(Component):
         "mobx-react",
         "axios",
     ]
-    dev_dependencies = ["jest"]
+    dev_dependencies = ["jest", "@testing-library/dom", "@testing-library/react"]
 
     def create(self):
         with use_dir(Projects.FRONTEND):
