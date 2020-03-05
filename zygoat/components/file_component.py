@@ -41,10 +41,7 @@ class FileComponent(Component):
 
     @check_setup
     def update(self):
-        if not self.overwrite:
-            return
-
-        self.call_phase(Phases.CREATE, force_create=True)
+        self.call_phase(Phases.CREATE, force_create=self.overwrite)
 
     @check_setup
     def delete(self):

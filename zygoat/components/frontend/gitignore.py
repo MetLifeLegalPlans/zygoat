@@ -16,7 +16,8 @@ class GitIgnore(Component):
             res = requests.get("https://gitignore.io/api/node")
             res.raise_for_status()
 
-            f.write(res.text)
+            f.write(res.text + "\n")
+            f.write(".tern-port")
 
     @property
     def installed(self):
