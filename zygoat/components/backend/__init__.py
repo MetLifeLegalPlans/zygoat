@@ -12,6 +12,7 @@ from .wait_command import wait_command
 from .settings import settings
 from .gitignore import gitignore
 from .black import black
+from .banditrc import banditrc
 
 log = logging.getLogger()
 
@@ -63,4 +64,6 @@ class Backend(Component):
         return os.path.exists(Projects.BACKEND)
 
 
-backend = Backend(sub_components=[settings, dockerfile, wait_command, gitignore, black])
+backend = Backend(
+    sub_components=[settings, dockerfile, wait_command, gitignore, black, banditrc]
+)

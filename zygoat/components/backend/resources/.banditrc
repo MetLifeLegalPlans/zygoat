@@ -1,0 +1,10 @@
+# (optional) list included tests here:
+# tests: []
+
+# (optional) list skipped tests here:
+# B108: Ignore test for insecure usage of tmp file/directory
+# B404: Ignore warnings about importing subprocess
+# B603: Ignore warnings about calling subprocess.Popen without shell=True
+# B607: Ignore warnings about calling subprocess.Popen without a full path to executable
+# B703: Ignore warnings about django's `mark_safe` function (duplicated with B308)
+skips: ['B108', 'B404', 'B603', 'B607', 'B703']
