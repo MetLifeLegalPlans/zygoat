@@ -10,6 +10,7 @@ from .dockerfile import dockerfile
 from .gitignore import gitignore
 from .prettier import prettier
 from .eslint import eslint
+from .cypress import cypress
 
 log = logging.getLogger()
 
@@ -31,4 +32,4 @@ class Frontend(Component):
         return os.path.exists(Projects.FRONTEND)
 
 
-frontend = Frontend(sub_components=[dockerfile, gitignore, prettier, eslint])
+frontend = Frontend(sub_components=[dockerfile, gitignore, prettier, eslint, cypress])
