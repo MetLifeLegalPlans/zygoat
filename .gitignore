@@ -111,3 +111,6 @@ dmypy.json
 
 # IntelliJ editors
 .idea/
+
+# Swap files
+*.swp
