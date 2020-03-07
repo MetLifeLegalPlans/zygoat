@@ -16,6 +16,7 @@ from .flake8 import flake8
 from .banditrc import banditrc
 from .dependencies import dependencies
 from .reformat import reformat
+from .backend_deployment import backend_deployment
 
 log = logging.getLogger()
 
@@ -39,9 +40,6 @@ class Backend(Component):
         log.warning(f"Deleting the {Projects.BACKEND} project")
         shutil.rmtree(Projects.BACKEND)
 
-    def deploy(self):
-        pass
-
     @property
     def installed(self):
         return os.path.exists(Projects.BACKEND)
@@ -57,6 +55,7 @@ backend = Backend(
         black,
         banditrc,
         flake8,
+        backend_deployment,
         # It is important that this comes last, so all relevant items can be reformatted
         reformat,
     ]

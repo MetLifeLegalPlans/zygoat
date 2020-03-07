@@ -1,18 +1,19 @@
 import click
 import logging
+from datetime import datetime
 
 from .components import components
 from .config import Config
-from .constants import Phases, config_file_name
+from .constants import Phases, config_file_name, deploy_options
 
 log = logging.getLogger()
 
 
-def _call_phase(phase, reverse=False):
+def _call_phase(phase, reverse=False, **kwargs):
     component_list = reversed(components) if reverse else components
 
     for component in component_list:
-        component.call_phase(phase)
+        component.call_phase(phase, **kwargs)
 
 
 @click.group()
@@ -37,6 +38,14 @@ def new(project_name):
 
     config = Config()
     config.name = project_name
+    config.has_deployed = False
+    if click.confirm(
+        "Do you want to add in a domain name now? (Note: if you do not "
+        "enter a name now, you will have to later before deploying)"
+    ):
+        dn = click.prompt("Domain name")
+        if click.confirm(f"Just to check, the domain name will be {dn}, ok?"):
+            config.domain_name = dn
     Config.dump(config)
 
     _call_phase(Phases.CREATE)
@@ -71,3 +80,13 @@ def delete():
 @cli.command(help="Calls the update phase on all included build components")
 def update():
     _call_phase(Phases.UPDATE)
+
+
+@cli.command(help="Deploys all of the included build components")
+@click.argument("environment", type=click.Choice(deploy_options))
+def deploy(environment):
+    start = datetime.now()
+    _call_phase(Phases.DEPLOY, env=environment)
+    end = datetime.now()
+    minutes, seconds = divmod((end - start).seconds, 60)
+    log.info(f"Deployment took {minutes}m {seconds}s")

@@ -37,7 +37,7 @@ class Component:
 
         for component in sub_components:
             component.parent = self.identifier
-            self.sub_components.append(component)
+            self.sub_components.add(component)
 
     @property
     def name(self):
@@ -75,7 +75,7 @@ class Component:
         """
         return not self.exclude
 
-    def call_phase(self, phase, force_create=False):
+    def call_phase(self, phase, force_create=False, **kwargs):
         """
         Calls a phase function on self + all sub-components.
 
@@ -93,8 +93,8 @@ class Component:
 
         self.reload()
 
-        run_self = partial(self._run_self, phase, force_create=force_create)
-        run_children = partial(self._run_children, phase, force_create=force_create)
+        run_self = partial(self._run_self, phase, force_create=force_create, **kwargs)
+        run_children = partial(self._run_children, phase, force_create=force_create, **kwargs)
 
         if phase == Phases.DELETE:
             run_children()
@@ -107,7 +107,7 @@ class Component:
     def _log_string(self):
         return "Calling phase {} for {}"
 
-    def _run_self(self, phase, force_create=False):
+    def _run_self(self, phase, force_create=False, **kwargs):
         phase_func = getattr(self, phase, None)
         is_create = phase == Phases.CREATE
         styled_name = style(self.identifier, bold=True, fg="cyan")
@@ -123,12 +123,12 @@ class Component:
                     return
 
                 log.debug(self._log_string.format(phase, self.__class__.__name__))
-                phase_func()
+                phase_func(**kwargs)
 
-    def _run_children(self, phase, force_create=False):
+    def _run_children(self, phase, force_create=False, **kwargs):
         for component in self.sub_components:
             log.debug(self._log_string.format(phase, component.__class__.__name__))
-            component.call_phase(phase, force_create=force_create)
+            component.call_phase(phase, force_create=force_create, **kwargs)
 
     @property
     def installed(self):
