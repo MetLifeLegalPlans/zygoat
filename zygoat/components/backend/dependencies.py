@@ -23,7 +23,7 @@ class Dependencies(Component):
         log.info("Installing production dependencies")
         install_dependencies(*dependencies)
 
-        log.info("Installing dev depencies")
+        log.info("Installing dev dependencies")
         install_dependencies(*dev_dependencies, dev=True)
 
     def update(self):
