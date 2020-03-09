@@ -20,7 +20,8 @@ class GitIgnore(Component):
             f.write("\n# IntelliJ editors\n.idea/")
             # End with a newline since js-specific stuff will go into the
             # file next.
-            f.write("\n# Swap files\n*.swp\n")
+            f.write("\n\n# Swap files\n*.swp\n")
+            f.write("\n\n# Virtual Environments\nvenv/")
 
     @property
     def installed(self):
