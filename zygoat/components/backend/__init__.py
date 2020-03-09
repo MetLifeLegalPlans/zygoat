@@ -5,7 +5,7 @@ import shutil
 from .. import Component
 from zygoat.utils.files import use_dir
 from zygoat.utils.shell import run
-from zygoat.constants import Projects
+from zygoat.constants import Projects, VENV
 
 from .dockerfile import dockerfile
 from .wait_command import wait_command
@@ -28,7 +28,7 @@ class Backend(Component):
 
         with use_dir(Projects.BACKEND):
             log.info("Creating a virtualenv for the project")
-            run(["virtualenv", "venv"])
+            run(["virtualenv", VENV])
 
     def update(self):
         pass

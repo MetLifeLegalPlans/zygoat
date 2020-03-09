@@ -17,3 +17,5 @@ project_dir_names = [
 
 Phases = Box([(t.upper(), t) for t in phase_function_names])
 Projects = Box([(t.upper(), t) for t in project_dir_names])
+
+VENV = "venv"

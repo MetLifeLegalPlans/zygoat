@@ -9,6 +9,7 @@ from .debug_config import debug_config
 from .installed_apps import installed_apps
 from .allowed_hosts import allowed_hosts
 from .cookies import cookies
+from .drf_camelize import drf_camelize
 
 log = logging.getLogger()
 
@@ -58,6 +59,7 @@ settings_sub_components = [
     installed_apps,
     allowed_hosts,
     cookies,
+    drf_camelize,
 ]
 
 settings = Settings(sub_components=settings_sub_components)

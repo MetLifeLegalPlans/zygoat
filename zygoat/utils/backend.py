@@ -2,9 +2,9 @@ import os
 
 from .shell import run
 from .files import use_dir, repository_root
-from zygoat.constants import Projects
+from zygoat.constants import Projects, VENV
 
-pip = os.path.join("venv", "bin", "pip")
+pip = os.path.join(VENV, "bin", "pip")
 dev_file_name = "requirements.dev.txt"
 prod_file_name = "requirements.txt"
 
@@ -43,7 +43,7 @@ def dump_dependencies(package_map, dev=False):
                     f.write(f"{version}\n")
 
 
-def install_dependency(*args, dev=False):
+def install_dependencies(*args, dev=False):
     initialize_files()
     file_name = dev_file_name if dev else prod_file_name
     with repository_root():
