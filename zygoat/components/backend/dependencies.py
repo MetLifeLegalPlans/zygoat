@@ -2,7 +2,7 @@ import logging
 
 from zygoat.components import Component
 from zygoat.constants import Phases
-from zygoat.utils.backend import install_dependency
+from zygoat.utils.backend import install_dependencies
 
 log = logging.getLogger()
 
@@ -15,15 +15,16 @@ class Dependencies(Component):
             "django-cors-headers",
             "djangorestframework",
             "django-environ",
+            "djangorestframework-camel-case",
         ]
 
         dev_dependencies = ["django-anymail", "pytz", "factory-boy"]
 
         log.info("Installing production dependencies")
-        install_dependency(*dependencies)
+        install_dependencies(*dependencies)
 
         log.info("Installing dev depencies")
-        install_dependency(*dev_dependencies, dev=True)
+        install_dependencies(*dev_dependencies, dev=True)
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)

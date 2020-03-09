@@ -8,6 +8,13 @@ from .constants import Phases, config_file_name
 log = logging.getLogger()
 
 
+def _call_phase(phase, reverse=False):
+    component_list = reversed(components) if reverse else components
+
+    for component in component_list:
+        component.call_phase(phase)
+
+
 @click.group()
 @click.option("--verbose", "-v", is_flag=True)
 def cli(verbose):
@@ -32,8 +39,7 @@ def new(project_name):
     config.name = project_name
     Config.dump(config)
 
-    for component in components:
-        component.call_phase(Phases.CREATE)
+    _call_phase(Phases.CREATE)
 
     log.info("Done!")
     log.info(
@@ -46,20 +52,17 @@ def new(project_name):
 
 @cli.command(help="Create components without initializing a new project")
 def create():
-    for component in components:
-        component.call_phase(Phases.CREATE)
+    _call_phase(Phases.CREATE)
 
 
 @cli.command(help="Lists all of the running phase names")
 def list():
-    for component in components:
-        component.call_phase(Phases.LIST)
+    _call_phase(Phases.LIST)
 
 
 @cli.command(help="Calls the delete phase on all included build components")
 def delete():
-    for component in reversed(components):
-        component.call_phase(Phases.DELETE)
+    _call_phase(Phases.DELETE, reverse=True)
 
     # remove zygoat settings file
     Config.delete()
@@ -67,5 +70,4 @@ def delete():
 
 @cli.command(help="Calls the update phase on all included build components")
 def update():
-    for component in components:
-        component.call_phase(Phases.UPDATE)
+    _call_phase(Phases.UPDATE)
