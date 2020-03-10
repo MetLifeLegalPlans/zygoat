@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "zygoat"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Bequest, Inc. <oss@willing.com>"]
 readme = "README.md"
+documentation = "https://zygoat.readthedocs.io/en/latest/"
 
 [tool.poetry.dependencies]
 python = "^3.7"
