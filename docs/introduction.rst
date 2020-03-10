@@ -5,7 +5,7 @@ Getting Started
 What is Zygoat?
 ---------------
 
-``zygoat`` is a tool for creating ``NextJS``/``Django``/``PostgreSQL`` applications. It comes preloaded with a set of project components for spawning a fully functional application, including the deployment stack and docker development configuration.
+``zygoat`` is an opinionated tool for creating ``NextJS``/``Django``/``PostgreSQL`` applications. It comes preloaded with a set of project components for spawning a fully functional application, including the deployment stack and docker development configuration.
 
 ``zygoat`` can also be used to create your own project generation tools, using a set of well-defined and arbitrarily nested components.
 
