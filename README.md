@@ -50,3 +50,9 @@ zg delete
 ## Contributing
 
 `zygoat` is developed using the [Poetry](https://python-poetry.org/docs/) packaging framework for Python projects to make development as simple and portable as possible.
+
+---
+
+## Documentation
+
+[Available on ReadTheDocs](https://zygoat.readthedocs.io/en/latest/)
