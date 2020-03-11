@@ -45,6 +45,10 @@ module.exports = {
       }
     ],
 
+    // There are many situations where libraries expect you to modify the
+    //   properties of a parameter passed to a function.
+    'no-param-reassign': ['error', { props: false }],
+
     // We want to keep spacing consistent even for the children, which is not
     //   enabled by default, but should be.
     "react/jsx-curly-spacing": [
@@ -57,11 +61,13 @@ module.exports = {
     ]
   },
 
-  "import/resolver": {
-    "babel-module": {
-      root: ["./src"],
-      alias: {
-        "@wui": "@bequestinc/wui"
+  settings: {
+    "import/resolver": {
+      "babel-module": {
+        alias: {
+          "@wui": "@bequestinc/wui",
+          "@@": "/"
+        }
       }
     }
   }
