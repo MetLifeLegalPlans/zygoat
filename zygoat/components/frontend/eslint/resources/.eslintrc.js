@@ -45,6 +45,10 @@ module.exports = {
       }
     ],
 
+    // There are many situations where libraries expect you to modify the
+    //   properties of a parameter passed to a function.
+    'no-param-reassign': ['error', { props: false }],
+
     // We want to keep spacing consistent even for the children, which is not
     //   enabled by default, but should be.
     "react/jsx-curly-spacing": [
@@ -55,13 +59,27 @@ module.exports = {
         allowMultiline: true
       }
     ]
+
+    'no-restricted-syntax': ['off'],
+    'react/jsx-filename-extension': ['off'],
+    'prettier/prettier': 'error',
+    'react/jsx-props-no-spreading': ['off'],
+    'react/forbid-prop-types': ['off'],
+    'react/no-unescaped-entities': ['off'],
+    'react/no-array-index-key': ['off'],
+    'jsx-a11y/no-static-element-interactions': ['off'],
+
+    // For components that appear more than once, this is impossible
+    'jsx-a11y/click-events-have-key-events': ['off'],
   },
 
-  "import/resolver": {
-    "babel-module": {
-      root: ["./src"],
-      alias: {
-        "@wui": "@bequestinc/wui"
+  settings: {
+    "import/resolver": {
+      "babel-module": {
+        alias: {
+          "@wui": "@bequestinc/wui",
+          "@@": "./"
+        }
       }
     }
   }
