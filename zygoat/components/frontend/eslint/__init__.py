@@ -15,6 +15,7 @@ class Eslint(Component):
     dependencies = [
         "eslint",
         "babel-eslint",
+        "babel-plugin-module-resolver",
         "eslint-import-resolver-babel-module",
     ]
 
@@ -35,6 +36,15 @@ class Eslint(Component):
 
             log.info("Installing eslint configs to frontend")
             run(["yarn", "add", "--dev", *self.configs])
+
+            log.info("Adding eslint command")
+            with open("package.json") as f:
+                data = json.load(f)
+                data["scripts"]["eslint"] = "node_modules/.bin/eslint --ext .js,.jsx ."
+
+            log.info("Dumping new frontend package file")
+            with open("package.json", "w") as f:
+                json.dump(data, f)
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
