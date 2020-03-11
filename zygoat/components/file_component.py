@@ -14,9 +14,18 @@ log = logging.getLogger()
 class FileComponent(Component):
     """
     Use this when you want to create a file component that
-    tracks the contents of the file that 'filename' points to.
-    Note that this file must exist in zygoat's path here:
-    'zygoat/components/resources/'.
+    tracks the contents of the file that ``filename`` points to.
+    Note that this file must exist in in the supplied resource package.
+
+    Several class properties are available to configure this component:
+
+    :param filename: Name of the file inside of the resource package to copy
+    :type filename: str
+    :param resource_pkg: The python package that contains the static file to read.
+    :param base_path: A path to prepend to the output filename, i.e. ``frontend/static/``
+    :type base_path: str, optional
+    :param overwrite: If the update phase should recreate the file, defaults to True
+    :type overwrite: bool, optional
     """
 
     resource_pkg = resources
