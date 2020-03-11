@@ -32,12 +32,12 @@ class Component:
         """
         self.sub_components = []
 
-        self.reload()
         self.parent = parent
+        self.reload()
 
         for component in sub_components:
             component.parent = self.identifier
-            self.sub_components.add(component)
+            self.sub_components.append(component)
 
     @property
     def name(self):

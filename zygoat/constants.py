@@ -17,8 +17,6 @@ project_dir_names = [
 
 production = "production"
 
-deploy_options = ("staging", "qa", "dev", production)
-
 Phases = Box([(t.upper(), t) for t in phase_function_names])
 Projects = Box([(t.upper(), t) for t in project_dir_names])
 

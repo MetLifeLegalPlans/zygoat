@@ -11,14 +11,14 @@ from zygoat.components.base_deployment import BaseDeployment
 from zygoat.components.backend.zappa_settings import ZappaSettings
 
 
-logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 
 class BackendDeployment(BaseDeployment):
-    def installed(self):
+    def is_installed(self, env):
+        # TODO make this environment-specific?
         settings = ZappaSettings()
-        if not settings.installed:
+        if not settings.get(env):
             msg = "Zappa settings aren't installed!"
             styled = style(msg, bold=True, fg="red")
             log.error(styled)
@@ -26,23 +26,24 @@ class BackendDeployment(BaseDeployment):
         return True
 
     def deployment_actions(self, env):
-        func_name = f"backend-{env}"
+        project_name = self.config.name
 
-        config = Config()
-        project_name = config.name
+        func_name = f"{project_name}-backend-{env}"
 
         client = boto3.client("lambda")
 
         log.info("Retrieving current environment configuration")
         environment = client.get_function_configuration(FunctionName=func_name)[
             "Environment"
-        ].get("variables", {})
+        ].get("Variables", {})
 
         log.info("Updating environment configuration")
-        environment[f"{project_name}_GIT_COMMIT_HASH"] = self.commit_hash
-        environment[f"{project_name}_ENVIRONMENT"] = env
+        environment[f"DJANGO_GIT_COMMIT_HASH"] = self.commit_hash
+        environment[f"DJANGO_ENVIRONMENT"] = env
 
         log.info("Posting environment configuration to the endpoint")
+        # TODO "when updating the aws region configuration make sure this takes
+        # that into account.
         client.update_function_configuration(
             FunctionName=func_name, Environment={"Variables": environment}
         )
@@ -50,24 +51,24 @@ class BackendDeployment(BaseDeployment):
         with use_dir(Projects.BACKEND):
             log.info(f"Deploying {env} with zappa")
 
-            if not config.has_deployed:
+            if env not in self.config.deployed_environments:
                 # We haven't deployed this app before so we need to use
                 # `zappa deploy`.
                 cmd = "deploy"
-                config.has_deployed = True
-                Config.dump(config)
+                self.config.deployed_environments.append(env)
+                Config.dump(self.config)
             else:
                 # We're using the same underlying routes so can just call
                 # `zappa update` to update the code running.
                 cmd = "update"
-            run(f"zappa {cmd} {env}")
+            run(["zappa", cmd, env])
 
             try:
                 log.info(f"Running migrations for {self.environment}")
-                run(f"zappa manage {env} migrate")
+                run(["zappa", "manage", env, "migrate"])
             except Exception:
                 log.error("Migrations failed, rolling back deployment")
-                run(f"zappa rollback {env} -n 1")
+                run(["zappa", "rollback", env, "-n 1"])
 
                 raise
 
