@@ -18,9 +18,8 @@ const fetcher = async (req, res) => {
     response = await axios[req.method.toLowerCase()](url, data, config);
   }
 
-  for (const [name, value] of Object.entries(response.headers)) {
-    res.setHeader(name, value);
-  }
+  const setHeader = ([name, value]) => res.setHeader(name, value)
+  Object.entries(response.headers).forEach(setHeader);
 
   res.status(response.status);
   res.json(response.data);
