@@ -11,7 +11,25 @@ log = logging.getLogger()
 
 
 class Component:
+    """
+    The basic unit of project generation in Zygoat.
+
+    Defines lifecycle hooks and handling for configuration + sub-components.
+    """
+
     def __init__(self, parent=None, sub_components=[]):
+        """
+        Initializes a new component, loads the configuration, and sets the identifier for sub-components.
+
+        :param sub_components:
+            Smaller components that make up individual units of this, for organizational distinction.
+        :type sub_components: list, optional
+        :param parent:
+            The "Django ORM"-esque string that identifies the parent component. Usually ``parent.identifier``.
+
+            Set automatically on ``reload`` - **do not manually specify this**.
+        :type parent: str, optional
+        """
         self.sub_components = []
 
         self.reload()
@@ -33,7 +51,7 @@ class Component:
         """
         The component's path in the tree, using django notation
 
-        (i.e. Backend__Linting, Backend__Dockerfile, Frontend__Tests, etc.)
+        (i.e. ``Backend__Linting``, ``Backend__Dockerfile``, ``Frontend__Tests``, etc.)
         """
         if self.parent is None:
             return self.name
@@ -59,7 +77,15 @@ class Component:
 
     def call_phase(self, phase, force_create=False):
         """
-        Calls a phase (e.g. create, update, delete) on self + all sub components
+        Calls a phase function on self + all sub-components.
+
+        If a component does not have the requested phase, it still executes all sub-components.
+
+        :param phase: The phase to run, from ``zygoat.constants.Phases``
+        :type phase: str
+
+        :param force_create: Re-run the ``create`` phase even if the component is installed
+        :type force_create: bool, optional
         """
         if self.exclude:
             log.debug(f"Skipping {self.identifier} as it was found in the exclude list")

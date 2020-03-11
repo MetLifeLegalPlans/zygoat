@@ -11,3 +11,4 @@ Zygoat Documentation
 
    introduction
    configuration
+   advanced/index

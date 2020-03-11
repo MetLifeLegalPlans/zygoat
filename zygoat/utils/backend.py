@@ -44,6 +44,15 @@ def dump_dependencies(package_map, dev=False):
 
 
 def install_dependencies(*args, dev=False):
+    """
+    Installs/upgrades Python dependencies for the backend, and places them in
+    the appropriate production or dev requirements files.
+
+    :param args: The packages to install
+    :type args: str
+    :param dev: Specifies if this is a development or production dependency
+    :type dev: bool, optional
+    """
     initialize_files()
     file_name = dev_file_name if dev else prod_file_name
     with repository_root():
