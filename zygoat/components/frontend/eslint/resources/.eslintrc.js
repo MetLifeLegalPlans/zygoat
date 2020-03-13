@@ -58,7 +58,7 @@ module.exports = {
         children: true,
         allowMultiline: true
       }
-    ]
+    ],
 
     'no-restricted-syntax': ['off'],
     'react/jsx-filename-extension': ['off'],
