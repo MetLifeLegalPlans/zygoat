@@ -15,6 +15,7 @@ from .black import black
 from .flake8 import flake8
 from .banditrc import banditrc
 from .dependencies import dependencies
+from .reformat import reformat
 
 log = logging.getLogger()
 
@@ -56,5 +57,7 @@ backend = Backend(
         black,
         banditrc,
         flake8,
+        # It is important that this comes last, so all relevant items can be reformatted
+        reformat,
     ]
 )
