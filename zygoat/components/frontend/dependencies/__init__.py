@@ -11,11 +11,7 @@ log = logging.getLogger()
 
 class Dependencies(Component):
     dependencies = [
-        "material-ui",
-        "@bequestinc/wui",
         "prop-types",
-        "mobx",
-        "mobx-react",
         "axios",
     ]
     dev_dependencies = ["jest", "@testing-library/dom", "@testing-library/react"]
