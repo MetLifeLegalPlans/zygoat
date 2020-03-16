@@ -1,0 +1,31 @@
+name: Test Output
+
+'on': pull_request
+
+jobs:
+  test-output:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+          architecture: 'x64'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - name: Append path
+        run: echo "::add-path::$HOME/.local/bin"
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install
+          pip install --user .
+      - name: Create new zygoat project
+        run: zg new test
+      - name: Spin up containers
+        run: scripts/ci-start.sh
+      - name: Backend linting
+        run: docker-compose exec -T backend flake8
+      - name: Frontend linting
+        run: docker-compose exec -T frontend yarn eslint
