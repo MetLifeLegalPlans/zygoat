@@ -7,6 +7,7 @@ class Script(FileComponent):
 
 class CiStart(Script):
     filename = "ci-start.sh"
+    executable = True
 
 
 cistart = CiStart()
