@@ -31,6 +31,7 @@ class FileComponent(Component):
     resource_pkg = resources
     base_path = "./"
     overwrite = True
+    executable = False
 
     def check_setup(f):
         @wraps(f)
@@ -47,6 +48,9 @@ class FileComponent(Component):
         os.makedirs(self.base_path, exist_ok=True)
         with open(self.path, "w") as f:
             f.write(il_resources.read_text(self.resource_pkg, self.filename))
+
+        if self.executable:
+            os.chmod(self.path, 0o755)
 
     @check_setup
     def update(self):
