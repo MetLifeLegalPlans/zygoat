@@ -14,7 +14,7 @@ from zygoat.components.backend.zappa_settings import ZappaSettings
 log = logging.getLogger()
 
 
-class BackendDeployment(BaseDeployment):
+class ZappaDeployment(BaseDeployment):
     def is_installed(self, env):
         # TODO make this environment-specific?
         settings = ZappaSettings()
@@ -73,4 +73,4 @@ class BackendDeployment(BaseDeployment):
                 raise
 
 
-backend_deployment = BackendDeployment()
+zappa_deployment = ZappaDeployment()

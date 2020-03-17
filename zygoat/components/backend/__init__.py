@@ -16,7 +16,7 @@ from .flake8 import flake8
 from .banditrc import banditrc
 from .dependencies import dependencies
 from .reformat import reformat
-from .backend_deployment import backend_deployment
+from .zappa_deployment import zappa_deployment
 
 log = logging.getLogger()
 
@@ -55,7 +55,7 @@ backend = Backend(
         black,
         banditrc,
         flake8,
-        backend_deployment,
+        zappa_deployment,
         # It is important that this comes last, so all relevant items can be reformatted
         reformat,
     ]
