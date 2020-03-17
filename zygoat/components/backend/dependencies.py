@@ -18,7 +18,7 @@ class Dependencies(Component):
             "djangorestframework-camel-case",
         ]
 
-        dev_dependencies = ["django-anymail", "pytz", "factory-boy", "flake8-black"]
+        dev_dependencies = ["django-anymail", "pytz", "factory-boy", "flake8-black", "bandit"]
 
         log.info("Installing production dependencies")
         install_dependencies(*dependencies)
