@@ -55,3 +55,14 @@ class ZappaSettings:
                     return json.load(f)
             except FileNotFoundError:
                 return {}
+
+    def get_env_settings(self, env):
+        current = self.load()
+        env_data = current.get(env, {})
+        if "extends" in env_data:
+            # Make sure to include any settings this env might extend, but don't
+            # overwrite the custom settings.
+            base_data = current[env_data["extends"]]
+            base_data.update(env_data)
+            return base_data
+        return env_data
