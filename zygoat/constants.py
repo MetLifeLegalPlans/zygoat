@@ -7,7 +7,6 @@ phase_function_names = [
     "create",
     "update",
     "delete",
-    "deploy",
     "list",
 ]
 project_dir_names = [

@@ -15,8 +15,6 @@ A component is any well structured Python object that implements any out of a se
  - ``create`` - installs the component from a completely blank state
  - ``update`` - if the component has been changed in the generator since the project was created, this hook will bring it up to date
  - ``delete`` - removes the component from the project
- - ``deploy`` - what needs to be done to send this component to production
-   - Typically this is only implemented on the top level components like ``Frontend`` and ``Backend``, but is available recursively
  - ``list`` - prints out the component's unique identifier, for excluding in the config file
 
 A component also contains a method with signature ``call_phase(phase, force_create=False)`` which will run the phase on this component and all sub components. If the phase is not defined, it moves on to the sub components instead.
