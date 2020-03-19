@@ -39,9 +39,6 @@ class Backend(Component):
         log.warning(f"Deleting the {Projects.BACKEND} project")
         shutil.rmtree(Projects.BACKEND)
 
-    def deploy(self):
-        pass
-
     @property
     def installed(self):
         return os.path.exists(Projects.BACKEND)
