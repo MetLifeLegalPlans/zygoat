@@ -6,6 +6,8 @@ from zygoat.components import Component
 from zygoat.utils.shell import run
 from zygoat.utils.files import use_dir
 
+from .mui import mui
+
 log = logging.getLogger()
 
 
@@ -50,4 +52,4 @@ class Dependencies(Component):
                 return True
 
 
-dependencies = Dependencies()
+dependencies = Dependencies(sub_components=[mui])
