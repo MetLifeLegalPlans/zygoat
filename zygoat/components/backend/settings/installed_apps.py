@@ -10,6 +10,9 @@ class InstalledApps(SettingsComponent):
         red = self.parse()
         apps_list = red.find("name", value="INSTALLED_APPS").parent.value
 
+        log.info("Adding DRF to installed apps")
+        apps_list.append("'rest_framework'")
+
         log.info("Adding backend app to installed apps")
         apps_list.append("'backend'")
 

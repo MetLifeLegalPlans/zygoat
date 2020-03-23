@@ -10,6 +10,7 @@ from .installed_apps import installed_apps
 from .allowed_hosts import allowed_hosts
 from .cookies import cookies
 from .drf_camelize import drf_camelize
+from .reverse_proxy import reverse_proxy
 
 log = logging.getLogger()
 
@@ -60,6 +61,7 @@ settings_sub_components = [
     allowed_hosts,
     cookies,
     drf_camelize,
+    reverse_proxy,
 ]
 
 settings = Settings(sub_components=settings_sub_components)
