@@ -9,6 +9,7 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
       - id: flake8
+        args: [--config=backend/.flake8]
       - id: check-json
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.1.0
