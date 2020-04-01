@@ -94,14 +94,17 @@ class Component:
         self.reload()
 
         run_self = partial(self._run_self, phase, force_create=force_create)
-        run_children = partial(self._run_children, phase, force_create=force_create)
+        run_children = partial(self._run_children, phase)
 
         if phase == Phases.DELETE:
             run_children()
             run_self()
         else:
             run_self()
-            run_children()
+
+            # Don't echo force_create events down the tree
+            if not force_create:
+                run_children()
 
     @property
     def _log_string(self):
@@ -125,10 +128,10 @@ class Component:
                 log.debug(self._log_string.format(phase, self.__class__.__name__))
                 phase_func()
 
-    def _run_children(self, phase, force_create=False):
+    def _run_children(self, phase):
         for component in self.sub_components:
             log.debug(self._log_string.format(phase, component.__class__.__name__))
-            component.call_phase(phase, force_create=force_create)
+            component.call_phase(phase)
 
     @property
     def installed(self):
