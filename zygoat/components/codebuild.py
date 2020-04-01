@@ -18,8 +18,8 @@ class Linting(CodeBuildFile):
     filename = "linting.yml"
 
 
-class Testing(CodeBuildFile):
-    filename = "testing.yml"
+class BackendTesting(CodeBuildFile):
+    filename = "backend-testing.yml"
 
 
-codebuild = CodeBuild(sub_components=[Security(), Linting(), Testing()])
+codebuild = CodeBuild(sub_components=[Security(), Linting(), BackendTesting()])
