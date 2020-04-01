@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+  pre_build:
+    commands:
+      - scripts/ci-start.sh
+  build:
+    commands:
+      - docker-compose exec -T backend flake8
+      - docker-compose exec -T frontend yarn eslint
+  post_build:
+    commands:
+      - docker-compose down -t 0

@@ -1,12 +1,25 @@
-from zygoat.components import FileComponent
+from zygoat.components import FileComponent, Component
 
 
-class CodeBuild(FileComponent):
+class CodeBuild(Component):
+    pass
+
+
+class CodeBuildFile(FileComponent):
     base_path = "codebuild"
+    overwrite = False
 
 
-class CodeBuildDefault(CodeBuild):
-    filename = "codebuild.yml"
+class Security(CodeBuildFile):
+    filename = "security.yml"
 
 
-codebuild = CodeBuildDefault()
+class Linting(CodeBuildFile):
+    filename = "linting.yml"
+
+
+class Testing(CodeBuildFile):
+    filename = "testing.yml"
+
+
+codebuild = CodeBuild(sub_components=[Security(), Linting(), Testing()])
