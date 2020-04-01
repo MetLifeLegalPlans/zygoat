@@ -9,6 +9,7 @@ phases:
       - scripts/ci-start.sh
   build:
     commands:
+      - docker-compose exec -T backend python manage.py wait_for_db
       - docker-compose exec -T backend python manage.py test
   post_build:
     commands:
