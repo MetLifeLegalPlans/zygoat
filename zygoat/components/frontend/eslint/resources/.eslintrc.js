@@ -60,6 +60,20 @@ module.exports = {
       }
     ],
 
+    // NextJS Link components want to contain an anchor tag without an href as
+    //   a child component (the Link component clones and includes the href).
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+        aspects: ['invalidHref', 'preferButton'],
+      },
+    ],
+
+    // This rule doesn't play nicely with our default aliases.
+    'import/no-extraneous-dependencies': ['off'],
+
     'no-restricted-syntax': ['off'],
     'react/jsx-filename-extension': ['off'],
     'prettier/prettier': 'error',
