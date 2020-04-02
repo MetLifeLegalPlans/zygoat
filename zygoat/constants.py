@@ -1,3 +1,5 @@
+import importlib
+
 from box import Box
 
 
@@ -18,3 +20,5 @@ Phases = Box([(t.upper(), t) for t in phase_function_names])
 Projects = Box([(t.upper(), t) for t in project_dir_names])
 
 VENV = "venv"
+
+__version__ = importlib.metadata.version("zygoat")

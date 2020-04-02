@@ -7,9 +7,8 @@ from click import style
 from ruamel.yaml import YAML
 import logging
 
-from . import __version__
 from .utils.files import find_nearest
-from .constants import config_file_name
+from .constants import config_file_name, __version__
 
 
 yaml = YAML(typ="safe")
