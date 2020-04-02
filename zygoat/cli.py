@@ -3,7 +3,7 @@ import logging
 
 from .components import components
 from .config import Config
-from .constants import Phases, config_file_name
+from .constants import Phases, config_file_name, __version__
 
 log = logging.getLogger()
 
@@ -50,11 +50,6 @@ def new(project_name):
     )
 
 
-@cli.command(help="Create components without initializing a new project")
-def create():
-    _call_phase(Phases.CREATE)
-
-
 @cli.command(help="Lists all of the running phase names")
 def list():
     _call_phase(Phases.LIST)
@@ -71,3 +66,8 @@ def delete():
 @cli.command(help="Calls the update phase on all included build components")
 def update():
     _call_phase(Phases.UPDATE)
+
+
+@cli.command(help="Prints the version and exits")
+def version():
+    log.info(f"Running zygoat v{__version__}")

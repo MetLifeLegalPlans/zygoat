@@ -93,6 +93,12 @@ class Component:
 
         self.reload()
 
+        if phase == Phases.UPDATE and not self.installed:
+            log.info(
+                "Update phase called for a non-installed component, running the create phase instead"
+            )
+            return self.call_phase(Phases.CREATE)
+
         run_self = partial(self._run_self, phase, force_create=force_create)
         run_children = partial(self._run_children, phase)
 
