@@ -3,9 +3,8 @@ import os
 import shutil
 
 from .. import Component
-from zygoat.utils.files import use_dir
 from zygoat.utils.shell import run
-from zygoat.constants import Projects, VENV
+from zygoat.constants import Projects
 
 from .dockerfile import dockerfile
 from .wait_command import wait_command
@@ -27,13 +26,6 @@ class Backend(Component):
 
         log.info("Creating the django project")
         run(["django-admin", "startproject", Projects.BACKEND])
-
-        with use_dir(Projects.BACKEND):
-            log.info("Creating a virtualenv for the project")
-            run(["virtualenv", VENV])
-
-    def update(self):
-        pass
 
     def delete(self):
         log.warning(f"Deleting the {Projects.BACKEND} project")

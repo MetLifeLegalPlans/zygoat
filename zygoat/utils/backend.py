@@ -1,10 +1,11 @@
 import os
+from shutil import which
 
 from .shell import run
 from .files import use_dir, repository_root
-from zygoat.constants import Projects, VENV
+from zygoat.constants import Projects
 
-pip = os.path.join(VENV, "bin", "pip")
+pip = which("pip")
 dev_file_name = "requirements.dev.txt"
 prod_file_name = "requirements.txt"
 
