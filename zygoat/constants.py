@@ -1,4 +1,4 @@
-import importlib
+from importlib_metadata import version
 
 from box import Box
 
@@ -21,4 +21,4 @@ Projects = Box([(t.upper(), t) for t in project_dir_names])
 
 VENV = "venv"
 
-__version__ = importlib.metadata.version("zygoat")
+__version__ = version("zygoat")
