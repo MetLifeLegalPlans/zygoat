@@ -1,4 +1,5 @@
 import click
+from importlib import import_module
 import logging
 
 from .components import components
@@ -9,7 +10,14 @@ log = logging.getLogger()
 
 
 def _call_phase(phase, reverse=False):
-    component_list = reversed(components) if reverse else components
+    component_list = reversed(components) if reverse else [*components]
+    config = Config()
+
+    for extra in config.get("extras", []):
+        module, attr = extra.split(":")
+
+        log.info(f"Adding {extra} to the component tree")
+        component_list.append(getattr(import_module(module), attr))
 
     for component in component_list:
         component.call_phase(phase)
