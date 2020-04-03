@@ -23,6 +23,12 @@ def _call_phase(phase, reverse=False):
         component.call_phase(phase)
 
 
+def _name_project(project_name):
+    config = Config()
+    config.name = project_name
+    Config.dump(config)
+
+
 @click.group()
 @click.option("--verbose", "-v", is_flag=True)
 def cli(verbose):
@@ -33,8 +39,10 @@ def cli(verbose):
 
 
 @cli.command(help="Creates a new zygoat settings file and exits")
-def init():
-    Config()
+@click.argument("project_name")
+def init(project_name):
+    _name_project(project_name)
+
     log.info(f"Initialized {config_file_name}")
 
 
@@ -43,9 +51,7 @@ def init():
 def new(project_name):
     log.debug(f"Attempting creation of {click.style(project_name, bold=True)}")
 
-    config = Config()
-    config.name = project_name
-    Config.dump(config)
+    _name_project(project_name)
 
     _call_phase(Phases.CREATE)
 
