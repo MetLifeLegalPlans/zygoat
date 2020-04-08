@@ -14,7 +14,7 @@ class SecretKey(SettingsComponent):
         default_key = key_node.value.to_python()
 
         log.info("Relocating default secret key")
-        key_node.value = f"env.str('DJANGO_SECRET_KEY', default='{default_key}')"
+        key_node.value = f"prod_required_env('DJANGO_SECRET_KEY', default='{default_key}')"
 
         log.info("Dumping secret key node")
         self.dump(red)

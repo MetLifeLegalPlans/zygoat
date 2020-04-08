@@ -11,6 +11,7 @@ from .allowed_hosts import allowed_hosts
 from .cookies import cookies
 from .drf_camelize import drf_camelize
 from .reverse_proxy import reverse_proxy
+from .env import env
 
 log = logging.getLogger()
 
@@ -37,14 +38,6 @@ class Settings(SettingsComponent):
         log.info("Adding comment to Zygoat settings file")
         red[0].value = zygoat_settings_comment
 
-        first_import_index = red.index(red.find("importnode"))
-
-        log.info("Inserting environ import into django settings")
-        red.insert(first_import_index + 1, "import environ")
-
-        log.info("Inserting environ constructor")
-        red.insert(first_import_index + 2, "env = environ.Env()")
-
         log.info("Dumping django settings file")
         self.dump(red)
 
@@ -62,6 +55,7 @@ settings_sub_components = [
     cookies,
     drf_camelize,
     reverse_proxy,
+    env,
 ]
 
 settings = Settings(sub_components=settings_sub_components)
