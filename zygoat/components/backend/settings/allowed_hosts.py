@@ -11,7 +11,7 @@ class AllowedHosts(SettingsComponent):
         host_list = red.find("name", value="ALLOWED_HOSTS").parent.value
 
         log.info("Adding allowed host environment config")
-        host_list.append("env('DJANGO_ALLOWED_HOST', default='*')")
+        host_list.append("prod_required_env('DJANGO_ALLOWED_HOST', default='*')")
 
         log.info("Dumping installed apps node")
         self.dump(red)
