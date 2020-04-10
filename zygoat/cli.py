@@ -25,6 +25,10 @@ def _call_phase(phase, reverse=False):
 
 def _name_project(project_name):
     config = Config()
+
+    if project_name == "" and getattr(config, "name", None) is not None:
+        return
+
     config.name = project_name
     Config.dump(config)
 
@@ -47,7 +51,7 @@ def init(project_name):
 
 
 @cli.command(help="Creates a new settings file and all components")
-@click.argument("project_name")
+@click.argument("project_name", default="")
 def new(project_name):
     log.debug(f"Attempting creation of {click.style(project_name, bold=True)}")
 
