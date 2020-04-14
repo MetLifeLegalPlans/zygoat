@@ -15,7 +15,8 @@ class Dependencies(Component):
     dependencies = [
         "prop-types",
         "axios",
-        'next-compose-plugins',
+        "next-compose-plugins",
+        "next-svgr",
     ]
     dev_dependencies = ["jest", "@testing-library/dom", "@testing-library/react"]
 

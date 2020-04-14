@@ -2,13 +2,15 @@
 // be edited manually. To extend or overwrite these settings, edit
 // next.config.js
 
+const withSvgr = require('next-svgr');
+
 const prod = process.env.NODE_ENV === 'production';
 
 const config = {
-  webpack: config => {
-    config.resolve.alias['@@'] = __dirname;
-    config.resolve.alias['@wui'] = '@bequestinc/wui';
-    return config;
+  webpack: webpackConfig => {
+    webpackConfig.resolve.alias['@@'] = __dirname;
+    webpackConfig.resolve.alias['@wui'] = '@bequestinc/wui';
+    return webpackConfig;
   },
   env: {
     PROD: prod,
@@ -16,6 +18,6 @@ const config = {
   },
 };
 
-const plugins = [];
+const plugins = [withSvgr];
 
 module.exports = { plugins, config };
