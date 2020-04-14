@@ -22,7 +22,9 @@ class SecretKey(SettingsComponent):
     @property
     def installed(self):
         red = self.parse()
-        return "env.str(" in red.find("name", value="SECRET_KEY").parent.value.dumps()
+        return (
+            "prod_required_env(" in red.find("name", value="SECRET_KEY").parent.value.dumps()
+        )
 
 
 secret_key = SecretKey()
