@@ -3,6 +3,7 @@
 // next.config.js
 
 const withSvgr = require('next-svgr');
+const withImages = require('next-images');
 
 const prod = process.env.NODE_ENV === 'production';
 
@@ -18,6 +19,6 @@ const config = {
   },
 };
 
-const plugins = [withSvgr];
+const plugins = [withImages, withSvgr];
 
 module.exports = { plugins, config };

@@ -12,12 +12,7 @@ log = logging.getLogger()
 
 
 class Dependencies(Component):
-    dependencies = [
-        "prop-types",
-        "axios",
-        "next-compose-plugins",
-        "next-svgr",
-    ]
+    dependencies = ["prop-types", "axios", "next-compose-plugins", "next-svgr", "next-images"]
     dev_dependencies = ["jest", "@testing-library/dom", "@testing-library/react"]
 
     def create(self):
