@@ -12,6 +12,7 @@ from .cookies import cookies
 from .drf_camelize import drf_camelize
 from .reverse_proxy import reverse_proxy
 from .env import env
+from .security import security
 
 log = logging.getLogger()
 
@@ -53,6 +54,7 @@ settings_sub_components = [
     installed_apps,
     allowed_hosts,
     cookies,
+    security,
     drf_camelize,
     reverse_proxy,
     env,
