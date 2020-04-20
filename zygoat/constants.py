@@ -1,3 +1,5 @@
+import os
+
 from importlib_metadata import version
 
 from box import Box
@@ -18,5 +20,7 @@ project_dir_names = [
 
 Phases = Box([(t.upper(), t) for t in phase_function_names])
 Projects = Box([(t.upper(), t) for t in project_dir_names])
+
+FrontendUtils = os.path.join(Projects.FRONTEND, "zg_utils")
 
 __version__ = version("zygoat")
