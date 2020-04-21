@@ -13,6 +13,7 @@ from .gitignore import gitignore
 from .black import black
 from .flake8 import flake8
 from .banditrc import banditrc
+from .pytest import pytest
 from .dependencies import dependencies
 from .reformat import reformat
 
@@ -46,6 +47,7 @@ backend = Backend(
         black,
         banditrc,
         flake8,
+        pytest,
         # It is important that this comes last, so all relevant items can be reformatted
         reformat,
     ]
