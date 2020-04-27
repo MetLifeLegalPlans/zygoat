@@ -17,12 +17,15 @@ class Component:
     Defines lifecycle hooks and handling for configuration + sub-components.
     """
 
-    def __init__(self, parent=None, sub_components=[]):
+    def __init__(self, parent=None, sub_components=[], peer_dependencies=None):
         """
         Initializes a new component, loads the configuration, and sets the identifier for sub-components.
 
         :param sub_components:
             Smaller components that make up individual units of this, for organizational distinction.
+        :type sub_components: list, optional
+        :param peer_dependencies:
+            A list of other components that must be installed for this component to function.
         :type sub_components: list, optional
         :param parent:
             The "Django ORM"-esque string that identifies the parent component. Usually ``parent.identifier``.
@@ -31,6 +34,7 @@ class Component:
         :type parent: str, optional
         """
         self.sub_components = []
+        self.peer_dependencies = peer_dependencies or []
 
         self.reload()
         self.parent = parent
@@ -59,14 +63,28 @@ class Component:
         return f"{self.parent}__{self.name}"
 
     @property
+    def styled_identifier(self):
+        return style(self.identifier, bold=True, fg="cyan")
+
+    @property
     def exclude(self):
         """
         Whether or not this sub-component should be used in the project
         """
-        if self.config.get("exclude", None) is None:
-            return False
 
-        return self.identifier in self.config.exclude
+        exclude = self.identifier in self.config.get("exclude", [])
+
+        excluded_dependencies = [pd for pd in self.peer_dependencies if pd.exclude]
+
+        if not exclude and excluded_dependencies:
+            dependency_list = ", ".join(pd.styled_identifier for pd in excluded_dependencies)
+            log.warning(
+                f"Excluding {self.styled_identifier} because the following peer dependencies"
+                f" are excluded: {dependency_list}"
+            )
+            return True
+
+        return exclude
 
     @property
     def include(self):
@@ -119,16 +137,19 @@ class Component:
     def _run_self(self, phase, force_create=False):
         phase_func = getattr(self, phase, None)
         is_create = phase == Phases.CREATE
-        styled_name = style(self.identifier, bold=True, fg="cyan")
 
         if phase_func is not None:
             with repository_root():
                 if not is_create and not self.installed:
-                    log.warning(f"Component {styled_name} is not installed, skipping")
+                    log.warning(
+                        f"Component {self.styled_identifier} is not installed, skipping"
+                    )
                     return
 
                 if is_create and self.installed and not force_create:
-                    log.warning(f"Component {styled_name} is already installed, skipping")
+                    log.warning(
+                        f"Component {self.styled_identifier} is already installed, skipping"
+                    )
                     return
 
                 log.debug(self._log_string.format(phase, self.__class__.__name__))
