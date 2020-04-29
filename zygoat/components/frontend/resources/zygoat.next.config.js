@@ -19,6 +19,6 @@ const config = {
   },
 };
 
-const plugins = [withImages, withSvgr];
+const plugins = [withSvgr, withImages];
 
 module.exports = { plugins, config };
