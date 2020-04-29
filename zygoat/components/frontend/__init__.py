@@ -29,6 +29,9 @@ class Frontend(Component):
         log.info("Deleting a poorly formatted index page")
         open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
 
+        log.info("Deleting the default api directory")
+        shutil.rmtree(os.path.join(Projects.FRONTEND, "pages", "api"))
+
     def delete(self):
         log.warning(f"Deleting the {Projects.FRONTEND} project")
         shutil.rmtree(Projects.FRONTEND)
