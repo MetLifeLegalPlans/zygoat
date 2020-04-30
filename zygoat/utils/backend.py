@@ -20,6 +20,8 @@ def packages_to_map(arr):
     for package_line in arr:
         # Ignore `-r requirements.txt` and other non-package related lines
         if "=" not in package_line:
+            if "git://" in package_line:
+                result[package_line] = package_line
             continue
         package = package_line.split("=")[0]
         result[package] = package_line
