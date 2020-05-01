@@ -10,7 +10,7 @@ log = logging.getLogger()
 
 
 def _call_phase(phase, reverse=False):
-    component_list = reversed(components) if reverse else [*components]
+    component_list = [*components]
     config = Config()
 
     for extra in config.get("extras", []):
@@ -18,6 +18,9 @@ def _call_phase(phase, reverse=False):
 
         log.info(f"Adding {extra} to the component tree")
         component_list.append(getattr(import_module(module), attr))
+
+    if reverse:
+        component_list.reverse()
 
     for component in component_list:
         component.call_phase(phase)
