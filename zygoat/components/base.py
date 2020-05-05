@@ -111,7 +111,7 @@ class Component:
 
         self.reload()
 
-        if phase == Phases.UPDATE and not self.installed:
+        if phase == Phases.UPDATE and self.installed is False:
             log.info(
                 "Update phase called for a non-installed component, running the create phase instead"
             )
@@ -165,7 +165,7 @@ class Component:
         """
         Halts the create phase if True
         """
-        return False
+        return None
 
     def list(self):
         """
