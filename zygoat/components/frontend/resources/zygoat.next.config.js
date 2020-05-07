@@ -19,6 +19,10 @@ const config = {
   },
 };
 
-const plugins = [withSvgr, withImages];
+const withImagesConfig = {
+  exclude: /\.svg$/,
+};
+
+const plugins = [withSvgr, [withImages, withImagesConfig]];
 
 module.exports = { plugins, config };
