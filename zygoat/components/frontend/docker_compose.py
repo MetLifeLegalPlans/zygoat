@@ -1,7 +1,7 @@
 import importlib
 import logging
 
-from zygoat.constants import Phases, Projects
+from zygoat.constants import Projects
 from zygoat.components import Component
 from zygoat.config import yaml
 from . import resources
@@ -29,9 +29,6 @@ class DockerCompose(Component):
 
         log.info("Dumping updated docker-compose config")
         self._dump_config(config)
-
-    def update(self):
-        self.call_phase(Phases.CREATE, force_create=True)
 
     def delete(self):
         config = self._load_config()
