@@ -3,7 +3,7 @@ import logging
 import os
 
 from zygoat.components import Component
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects
 from zygoat.utils.files import use_dir
 
 from .docker_compose import docker_compose
@@ -19,9 +19,6 @@ class Dockerfile(Component):
             with open(file_name, "w") as f:
                 log.info("Writing frontend Dockerfile")
                 f.write(il_resources.read_text(resources, file_name))
-
-    def update(self):
-        self.call_phase(Phases.CREATE, force_create=True)
 
     @property
     def installed(self):
