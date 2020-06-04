@@ -1,6 +1,8 @@
 [flake8]
 max-line-length = 95
 exclude = .git, __pycache, .pycharm_helpers, */migrations/*, node_modules, bower_components, venv
-per-file-ignores = backend/backend/settings/__init__.py:F405
+per-file-ignores =
+    backend/backend/settings/__init__.py:F405
+    backend/settings/__init__.py:F405
 extend-ignore = E126,B003,Q001,A003,E203,E501,Q000,C812,E231,C819
 # See https://github.com/PyCQA/pycodestyle/issues/373
