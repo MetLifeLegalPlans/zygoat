@@ -16,6 +16,7 @@ const config = {
   env: {
     PROD: prod,
     BACKEND_URL: prod ? process.env.BACKEND_URL : 'http://backend:3001',
+    PORTUNUS_URL: process.env.PORTUNUS_URL,
   },
 };
 
