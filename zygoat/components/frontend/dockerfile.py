@@ -10,14 +10,14 @@ from .docker_compose import docker_compose
 from . import resources
 
 log = logging.getLogger()
-file_name = "Dockerfile"
+file_name = "Dockerfile.local"
 
 
 class Dockerfile(Component):
     def create(self):
         with use_dir(Projects.FRONTEND):
             with open(file_name, "w") as f:
-                log.info("Writing frontend Dockerfile")
+                log.info("Writing frontend Dockerfile for local")
                 f.write(il_resources.read_text(resources, file_name))
 
     @property
