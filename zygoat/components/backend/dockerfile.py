@@ -11,13 +11,13 @@ from zygoat.constants import Projects
 from .docker_compose import docker_compose
 
 log = logging.getLogger()
-file_name = "Dockerfile"
+file_name = "Dockerfile.local"
 
 
 class Dockerfile(Component):
     def create(self):
         with use_dir(Projects.BACKEND):
-            log.info(f"Installing Dockerfile for project {Projects.BACKEND}")
+            log.info(f"Installing Local Dockerfile for project {Projects.BACKEND}")
             with open(file_name, "w") as f:
                 f.write(importlib.resources.read_text(resources, file_name))
 
