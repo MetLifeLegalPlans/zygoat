@@ -10,8 +10,6 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-X_FRAME_OPTIONS = 'DENY'
 """
 
 
@@ -22,7 +20,14 @@ class Security(SettingsComponent):
         log.info("Adding security headers")
 
         red.extend(
-            ["\n", "# Set security headers", "\n", security_headers,]
+            [
+                "\n",
+                "# Set security headers",
+                "\n",
+                "X_FRAME_OPTIONS = 'DENY'",
+                "\n",
+                security_headers,
+            ]
         )
         self.dump(red)
 
