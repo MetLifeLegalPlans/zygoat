@@ -40,7 +40,7 @@ class Component:
         self.parent = parent
 
         for component in sub_components:
-            component.parent = self.identifier
+            component.parent = self
             self.sub_components.append(component)
 
     @property
@@ -60,7 +60,7 @@ class Component:
         if self.parent is None:
             return self.name
 
-        return f"{self.parent}__{self.name}"
+        return f"{self.parent.identifier}__{self.name}"
 
     @property
     def styled_identifier(self):
@@ -181,4 +181,4 @@ class Component:
         self.config = Config()
 
         for component in self.sub_components:
-            component.parent = self.identifier
+            component.parent = self
