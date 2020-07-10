@@ -13,41 +13,34 @@ from .drf_camelize import drf_camelize
 from .reverse_proxy import reverse_proxy
 from .env import env
 from .security import security
+from .settings_file import settings_file
 
 log = logging.getLogger()
-
-zygoat_settings_comment = """\"\"\"
-This settings file is generated and updated by Zygoat and should not be edited
-manually. Instead, update settings via this package's __init__.py.
-\"\"\""""
 
 
 class Settings(SettingsComponent):
     def create(self):
         log.info("Making python package for Django settings")
-        os.mkdir(self.settings_directory)
-
-        log.info("Moving the django settings into the settings package")
-        os.rename(self.initial_settings_file_path, self.settings_file_path)
+        os.makedirs(self.settings_directory, exist_ok=True)
 
         log.info("Creating import for zygoat settings in __init__.py")
         with open(os.path.join(self.settings_directory, "__init__.py"), "a") as f:
             f.write(f"from .{SettingsComponent.MODULE_NAME} import *  # noqa\n")
 
-        red = self.parse()
-
-        log.info("Adding comment to Zygoat settings file")
-        red[0].value = zygoat_settings_comment
-
-        log.info("Dumping django settings file")
-        self.dump(red)
-
     @property
     def installed(self):
-        return os.path.exists(self.settings_file_path)
+        return os.path.exists(self.settings_directory)
+
+    def update(self):
+        red = self.parse()
+        key_node = red.find("name", value="SECRET_KEY").parent
+        log.info("Retrieving existing secret key")
+        default_key = key_node.value
+        self.existing_secret_key = default_key
 
 
 settings_sub_components = [
+    settings_file,
     secret_key,
     database_config,
     debug_config,
