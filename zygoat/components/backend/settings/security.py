@@ -20,7 +20,14 @@ class Security(SettingsComponent):
         log.info("Adding security headers")
 
         red.extend(
-            ["\n", "# Set security headers", "\n", security_headers,]
+            [
+                "\n",
+                "# Set security headers",
+                "\n",
+                "X_FRAME_OPTIONS = 'DENY'",
+                "\n",
+                security_headers,
+            ]
         )
         self.dump(red)
 
