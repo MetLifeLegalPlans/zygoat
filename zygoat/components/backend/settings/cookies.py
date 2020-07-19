@@ -5,13 +5,6 @@ from zygoat.components import SettingsComponent
 log = logging.getLogger()
 
 
-secure_cookie_string = """\
-if not DEBUG:
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-"""
-
-
 class Cookies(SettingsComponent):
     def create(self):
         red = self.parse()
@@ -23,20 +16,15 @@ class Cookies(SettingsComponent):
                 "\n",
                 "\n",
                 "# Cookies",
-                "\n",
                 "SHARED_DOMAIN = prod_required_env('DJANGO_SHARED_DOMAIN', default=None)",
-                "\n",
                 "CSRF_COOKIE_DOMAIN = SHARED_DOMAIN",
-                "\n",
                 "CSRF_TRUSTED_ORIGINS = SHARED_DOMAIN and [f'.{SHARED_DOMAIN}']",
-                "\n",
                 "SESSION_COOKIE_DOMAIN = SHARED_DOMAIN",
-                "\n",
                 "SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'",
+                "SESSION_COOKIE_AGE = 3600  # One hour in seconds",
+                "SESSION_COOKIE_SECURE = True",
+                "CSRF_COOKIE_SECURE = True",
                 "\n",
-                "SESSION_COOKIE_AGE = 604800  # One week in seconds",
-                "\n",
-                secure_cookie_string,
             ]
         )
 
