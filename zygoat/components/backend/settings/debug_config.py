@@ -19,7 +19,7 @@ class DebugConfig(SettingsComponent):
         debug_node = red.find("name", value="DEBUG").parent
 
         log.info("Disabling debug in production")
-        debug_node.value = "not PRODUCTION"
+        debug_node.value = "False if PRODUCTION else env.bool('DJANGO_DEBUG', default=True)"
 
         log.info("Dumping debug configuration node")
         self.dump(red)
