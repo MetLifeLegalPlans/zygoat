@@ -22,8 +22,8 @@ class Cookies(SettingsComponent):
                 "SESSION_COOKIE_DOMAIN = SHARED_DOMAIN",
                 "SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'",
                 "SESSION_COOKIE_AGE = 3600  # One hour in seconds",
-                "SESSION_COOKIE_SECURE = True",
-                "CSRF_COOKIE_SECURE = True",
+                "SESSION_COOKIE_SECURE = not DEBUG",
+                "CSRF_COOKIE_SECURE = not DEBUG",
                 "\n",
             ]
         )
