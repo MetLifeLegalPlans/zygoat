@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - docker-compose exec -T backend flake8
-      - docker-compose exec -T frontend yarn eslint
+      - docker-compose exec -T frontend yarn lint
   post_build:
     commands:
       - docker-compose down -t 0
