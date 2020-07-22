@@ -12,7 +12,6 @@ from .prettier import prettier
 from .eslint import eslint
 from .cypress import cypress
 from .next_config import next_config
-from .proxy import proxy
 from .dependencies import dependencies
 
 log = logging.getLogger()
@@ -50,6 +49,5 @@ frontend = Frontend(
         eslint,
         cypress,
         next_config,
-        proxy,
     ]
 )

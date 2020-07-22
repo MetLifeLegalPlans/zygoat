@@ -10,6 +10,7 @@ from .precommit import precommitconfig
 from .docker_compose import docker_compose
 from .backend import backend
 from .frontend import frontend
+from .proxy import reverse_proxy
 
 components = [
     editorconfig,
@@ -17,6 +18,7 @@ components = [
     docker_compose,
     backend,
     frontend,
+    reverse_proxy,
     codebuild,
     cistart,
 ]

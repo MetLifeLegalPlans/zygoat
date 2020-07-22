@@ -16,6 +16,8 @@ virtualenv = "^20.0"
 redbaron = "^0.9.2"
 requests = "^2.23.0"
 rtd-poetry = "^0.1.0"
+importlib_metadata = "^1.7.0"
+importlib-metadata = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
