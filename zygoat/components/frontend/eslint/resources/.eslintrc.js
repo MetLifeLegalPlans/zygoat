@@ -85,6 +85,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       'babel-module': {
+        root: './',
         alias: {
           '@wui': '@bequestinc/wui',
           '@@': './',
