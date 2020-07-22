@@ -2,8 +2,6 @@ frontend:
   build:
     context: frontend
     dockerfile: Dockerfile.local
-  ports:
-    - "3000:3000"
   volumes:
     - ./frontend:/code
     - /code/node_modules

@@ -40,7 +40,8 @@ class Eslint(Component):
             log.info("Adding eslint command")
             with open("package.json") as f:
                 data = json.load(f)
-                data["scripts"]["eslint"] = "node_modules/.bin/eslint --ext .js,.jsx ."
+                data["scripts"]["lint"] = "eslint --ext .js,.jsx ."
+                data["scripts"]["fix"] = "yarn lint --fix"
 
             log.info("Dumping new frontend package file")
             with open("package.json", "w") as f:

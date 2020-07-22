@@ -8,8 +8,6 @@ backend:
     build:
         context: backend
         dockerfile: Dockerfile.local
-    ports:
-        - "3001:3001"
     volumes:
         - ./backend:/code
     depends_on:
