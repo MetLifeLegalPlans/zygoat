@@ -28,10 +28,20 @@ class WaitCommand(CommandComponent):
     filename = "wait_for_db.py"
 
 
+class FlushCommand(CommandComponent):
+    filename = "flush_cache.py"
+
+
 class StaffCommand(CommandComponent):
     filename = "set_staff.py"
 
 
 management_command = ManagementCommand(
-    sub_components=[ManagementInit(), CommandInit(), WaitCommand(), StaffCommand()]
+    sub_components=[
+        ManagementInit(),
+        CommandInit(),
+        WaitCommand(),
+        FlushCommand(),
+        StaffCommand(),
+    ]
 )
