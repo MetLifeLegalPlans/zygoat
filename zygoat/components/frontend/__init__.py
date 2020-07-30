@@ -24,7 +24,7 @@ class Frontend(Component):
         run(["npm", "install", "-g", "--upgrade", "yarn"])
 
         log.info("Running create-next-app")
-        run(["yarn", "create", "next-app", Projects.FRONTEND, "-e"])
+        run(["yarn", "create", "next-app", Projects.FRONTEND])
 
         log.info("Deleting a poorly formatted index page")
         open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
