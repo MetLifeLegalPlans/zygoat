@@ -80,6 +80,11 @@ module.exports = {
 
     // For components that appear more than once, this is impossible
     'jsx-a11y/click-events-have-key-events': ['off'],
+
+    // ...why would anybody ever use this rule?
+    'no-plusplus': ['off'],
+
+    'func-names': ['off'],
   },
 
   settings: {
