@@ -8,7 +8,6 @@ log = logging.getLogger()
 settings_string = """REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
-        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
     ),
     "DEFAULT_PARSER_CLASSES": (
         "djangorestframework_camel_case.parser.CamelCaseFormParser",
@@ -17,12 +16,17 @@ settings_string = """REST_FRAMEWORK = {
     ),
 }"""
 
+browsable_api_settings_string = """if DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] += (
+        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+    )"""
+
 
 class DRF_Camelize(SettingsComponent):
     def create(self):
         red = self.parse()
 
-        red.extend(["\n", settings_string])
+        red.extend(["\n", settings_string, "\n", browsable_api_settings_string])
 
         log.info("Dumping DRF camelize configuration")
         self.dump(red)
