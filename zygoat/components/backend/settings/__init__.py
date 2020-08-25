@@ -14,6 +14,7 @@ from .reverse_proxy import reverse_proxy
 from .env import env
 from .security import security
 from .settings_file import settings_file
+from .logs import logs
 
 log = logging.getLogger()
 
@@ -51,6 +52,7 @@ settings_sub_components = [
     drf_camelize,
     reverse_proxy,
     env,
+    logs,
 ]
 
 settings = Settings(sub_components=settings_sub_components)
