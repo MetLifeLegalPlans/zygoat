@@ -21,7 +21,7 @@ repos:
       - id: bandit
         args: [--recursive, -ll, -iii, -c, backend/tests/.banditrc]
   - repo: https://github.com/ambv/black
-    rev: stable
+    rev: 20.8b1
     hooks:
       - id: black
         args: [--config, backend/pyproject.toml]
