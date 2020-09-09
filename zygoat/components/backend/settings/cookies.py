@@ -25,6 +25,7 @@ class Cookies(SettingsComponent):
                 "CSRF_COOKIE_AGE = SESSION_COOKIE_AGE",
                 "SESSION_COOKIE_SECURE = not DEBUG",
                 "CSRF_COOKIE_SECURE = not DEBUG",
+                "SESSION_EXPIRE_AT_BROWSER_CLOSE = True",
                 "\n",
             ]
         )
