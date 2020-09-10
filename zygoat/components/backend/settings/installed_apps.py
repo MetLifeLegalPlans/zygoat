@@ -14,7 +14,7 @@ class InstalledApps(SettingsComponent):
         apps_list.append("'rest_framework'")
 
         log.info("Adding backend app to installed apps")
-        apps_list.append("'backend'")
+        apps_list.append("'zygoat_django'")
 
         log.info("Dumping installed apps node")
         self.dump(red)
@@ -22,7 +22,10 @@ class InstalledApps(SettingsComponent):
     @property
     def installed(self):
         red = self.parse()
-        return "backend" in red.find("name", value="INSTALLED_APPS").parent.value.to_python()
+        return (
+            "zygoat_django"
+            in red.find("name", value="INSTALLED_APPS").parent.value.to_python()
+        )
 
 
 installed_apps = InstalledApps()
