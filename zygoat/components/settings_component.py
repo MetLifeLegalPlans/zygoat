@@ -8,16 +8,12 @@ from . import Component
 
 
 class SettingsComponent(Component):
-    ORIGINAL_FILE_NAME = "settings.py"
+    FILE_NAME = "settings.py"
     DIRECTORY_NAME = "settings"
-    MODULE_NAME = "zygoat_settings"
-    FILE_NAME = f"{MODULE_NAME}.py"
 
     @property
     def initial_settings_file_path(self):
-        return os.path.join(
-            Projects.BACKEND, Projects.BACKEND, SettingsComponent.ORIGINAL_FILE_NAME
-        )
+        return os.path.join(Projects.BACKEND, Projects.BACKEND, SettingsComponent.FILE_NAME)
 
     @property
     def settings_directory(self):
@@ -27,7 +23,12 @@ class SettingsComponent(Component):
 
     @property
     def settings_file_path(self):
-        return os.path.join(self.settings_directory, SettingsComponent.FILE_NAME,)
+        # The project leaves it as settings.py
+        if os.path.exists(self.initial_settings_file_path):
+            return self.initial_settings_file_path
+
+        # The project splits it into a module
+        return os.path.join(self.settings_directory, "__init__.py")
 
     def parse(self):
         with repository_root():

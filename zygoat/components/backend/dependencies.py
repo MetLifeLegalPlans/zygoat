@@ -17,6 +17,7 @@ class Dependencies(Component):
             "django-environ",
             "djangorestframework-camel-case",
             "django-anymail",
+            "zygoat-django",
         ]
 
         dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit"]
