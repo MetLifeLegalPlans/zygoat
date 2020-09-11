@@ -1,6 +1,7 @@
 import logging
 
 from zygoat.components import SettingsComponent
+from redbaron import RedBaron
 
 from .installed_apps import installed_apps
 
@@ -9,12 +10,21 @@ log = logging.getLogger()
 
 class Settings(SettingsComponent):
     def create(self):
-        red = self.parse()
+        # RedBaron has a *really* obtuse bug where it will not insert end of line comments
+        # but it will preserve them in an output dump - so we just insert the raw string here
+        lines = self.parse().dumps().split("\n")
 
-        first_import_index = red.index(red.find("importnode"))
+        for idx, line in enumerate(lines):
+            if "import" in line:
+                first_import_index = idx
+                break
 
-        log.info("Creating import for zygoat-django settings in __init__.py")
-        red.insert(first_import_index + 1, "from zygoat_django.settings import *")
+        log.info("Creating import for zygoat-django settings")
+        lines.insert(first_import_index, "from zygoat_django.settings import *  # noqa")
+
+        # We run it through RedBaron again to make sure we've generated valid source code
+        red = RedBaron("\n".join(lines))
+        self.dump(red)
 
     @property
     def installed(self):
