@@ -19,5 +19,9 @@ class Reformat(Component):
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
 
+    @property
+    def installed(self):
+        return False  # Always run this, no matter what
+
 
 reformat = Reformat()
