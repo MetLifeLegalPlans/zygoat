@@ -7,7 +7,6 @@ from zygoat.utils.shell import run
 from zygoat.constants import Projects
 
 from .dockerfile import dockerfile
-from .command_component import management_command
 from .settings import settings
 from .gitignore import gitignore
 from .black import black
@@ -42,7 +41,6 @@ backend = Backend(
         settings,
         dockerfile,
         dependencies,
-        management_command,
         gitignore,
         black,
         banditrc,
