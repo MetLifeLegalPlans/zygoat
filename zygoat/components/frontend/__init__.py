@@ -3,8 +3,9 @@ import os
 import shutil
 
 from zygoat.components import Component
-from zygoat.constants import Projects
+from zygoat.constants import Projects, Phases
 from zygoat.utils.shell import run
+from zygoat.utils.files import use_dir
 
 from .dockerfile import dockerfile
 from .gitignore import gitignore
@@ -41,6 +42,22 @@ class Frontend(Component):
         return os.path.exists(Projects.FRONTEND)
 
 
+class Reformat(Component):
+    def create(self):
+        log.info("Formatting package.json with prettier")
+        with use_dir(Projects.FRONTEND):
+            run(["yarn", "prettier", "-w", "package.json"])
+
+    def update(self):
+        self.call_phase(Phases.CREATE, force_create=True)
+
+    @property
+    def installed(self):
+        # json.dump does not do a good job of preserving formatting
+        with open(os.path.join(Projects.FRONTEND, "package.json")) as f:
+            return "\n" in f.read()
+
+
 frontend = Frontend(
     sub_components=[
         dockerfile,
@@ -51,5 +68,6 @@ frontend = Frontend(
         cypress,
         next_config,
         js_config,
+        Reformat(),
     ]
 )

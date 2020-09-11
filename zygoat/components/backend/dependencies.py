@@ -1,8 +1,9 @@
 import logging
+import os
 
 from zygoat.components import Component
-from zygoat.constants import Phases
-from zygoat.utils.backend import install_dependencies
+from zygoat.constants import Phases, Projects
+from zygoat.utils.backend import install_dependencies, dev_file_name, prod_file_name
 
 log = logging.getLogger()
 
@@ -30,6 +31,16 @@ class Dependencies(Component):
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
+
+    @property
+    def installed(self):
+        paths = [os.path.join(Projects.BACKEND, p) for p in [prod_file_name, dev_file_name]]
+
+        for path in paths:
+            if not os.path.exists(path):
+                return False
+
+        return True
 
 
 dependencies = Dependencies()
