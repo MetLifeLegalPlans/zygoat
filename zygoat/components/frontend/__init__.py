@@ -27,8 +27,11 @@ class Frontend(Component):
         log.info("Running create-next-app")
         run(["yarn", "create", "next-app", Projects.FRONTEND])
 
-        log.info("Deleting a poorly formatted index page")
+        log.info("Emptying a poorly formatted index.js file")
         open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
+
+        log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
+        os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
 
         log.info("Deleting the default api directory")
         shutil.rmtree(os.path.join(Projects.FRONTEND, "pages", "api"))
