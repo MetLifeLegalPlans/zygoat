@@ -7,6 +7,8 @@ from zygoat.utils.shell import run
 from zygoat.utils.files import use_dir
 
 from .mui import mui
+from .jest_config import jest_config
+from .jest_setup import jest_setup
 
 log = logging.getLogger()
 
@@ -22,6 +24,16 @@ class Dependencies(Component):
 
             log.info("Installing frontend dev dependencies")
             run(["yarn", "add", "--dev", *self.dev_dependencies])
+
+            log.info("Adding jest test commands")
+            with open("package.json") as f:
+                data = json.load(f)
+                data["scripts"]["test"] = "jest"
+                data["scripts"]["test-coverage"] = "jest --coverage"
+
+            log.info("Dumping new frontend package file")
+            with open("package.json", "w") as f:
+                json.dump(data, f)
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
@@ -49,4 +61,4 @@ class Dependencies(Component):
                 return True
 
 
-dependencies = Dependencies(sub_components=[mui])
+dependencies = Dependencies(sub_components=[mui, jest_config, jest_setup])
