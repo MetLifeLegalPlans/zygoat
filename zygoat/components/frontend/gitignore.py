@@ -13,7 +13,7 @@ class GitIgnore(Component):
     def create(self):
         with open(file_name, "a") as f:
             log.info("Retrieving node gitignore info")
-            res = requests.get("https://gitignore.io/api/node")
+            res = requests.get("https://www.toptal.com/developers/gitignore/api/node")
             res.raise_for_status()
 
             f.write(res.text + "\n")
