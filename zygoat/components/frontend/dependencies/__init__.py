@@ -15,7 +15,14 @@ log = logging.getLogger()
 
 class Dependencies(Component):
     dependencies = ["prop-types", "axios", "next-compose-plugins", "next-svgr", "next-images"]
-    dev_dependencies = ["jest", "react-axe", "@testing-library/dom", "@testing-library/react"]
+    dev_dependencies = [
+        "jest",
+        "react-axe",
+        "@testing-library/dom",
+        "@testing-library/react",
+        "@testing-library/jest-dom",
+        "css-mediaquery",
+    ]
 
     def create(self):
         with use_dir(Projects.FRONTEND):
