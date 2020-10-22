@@ -46,7 +46,7 @@ def dump_dependencies(package_map, dev=False):
                     f.write(f"{version}\n")
 
 
-def install_dependencies(*args, dev=False):
+def install_dependencies(*args, dev=False, extras={}):
     """
     Installs/upgrades Python dependencies for the backend, and places them in
     the appropriate production or dev requirements files.
@@ -60,7 +60,15 @@ def install_dependencies(*args, dev=False):
     file_name = dev_file_name if dev else prod_file_name
     with repository_root():
         with use_dir(Projects.BACKEND):
-            run([pip, "install", "--upgrade", *args])
+            pip_args = [
+                "{}{}".format(
+                    arg,
+                    "[{}]".format(",".join(extras.get(arg))) if extras.get(arg) else "",
+                )
+                for arg in args
+            ]
+
+            run([pip, "install", "--upgrade", *pip_args])
             freeze_map = packages_to_map(freeze())
 
             with open(file_name) as f:
