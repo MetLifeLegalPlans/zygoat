@@ -1,28 +1,26 @@
-from importlib import resources as il_resources
-import logging
-import os
-
-from zygoat.components import Component
+from zygoat.components import Component, FileComponent
 from zygoat.constants import Projects
-from zygoat.utils.files import use_dir
 
 from .docker_compose import docker_compose
 from . import resources
 
-log = logging.getLogger()
-file_name = "Dockerfile.local"
-
 
 class Dockerfile(Component):
-    def create(self):
-        with use_dir(Projects.FRONTEND):
-            with open(file_name, "w") as f:
-                log.info("Writing frontend Dockerfile for local")
-                f.write(il_resources.read_text(resources, file_name))
-
-    @property
-    def installed(self):
-        return os.path.exists(os.path.join(Projects.FRONTEND, file_name))
+    pass
 
 
-dockerfile = Dockerfile(sub_components=[docker_compose])
+class Prod(FileComponent):
+    resource_pkg = resources
+    base_path = Projects.FRONTEND
+    filename = "Dockerfile"
+    overwrite = False
+
+
+class Local(FileComponent):
+    resource_pkg = resources
+    base_path = Projects.FRONTEND
+    filename = "Dockerfile.local"
+    overwrite = False
+
+
+dockerfile = Dockerfile(sub_components=[docker_compose, Prod(), Local()])

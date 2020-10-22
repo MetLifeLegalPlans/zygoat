@@ -19,15 +19,16 @@ class Dependencies(Component):
             "djangorestframework-camel-case",
             "django-anymail",
             "zygoat-django",
+            "gunicorn",
         ]
 
-        dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit"]
+        dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit", "uvicorn"]
 
         log.info("Installing production dependencies")
         install_dependencies(*dependencies)
 
         log.info("Installing dev dependencies")
-        install_dependencies(*dev_dependencies, dev=True)
+        install_dependencies(*dev_dependencies, dev=True, extras={"uvicorn": ["common"]})
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
