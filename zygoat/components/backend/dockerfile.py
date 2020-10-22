@@ -1,16 +1,9 @@
-import logging
-import os
-
 from zygoat.components import Component, FileComponent
 from . import resources
 
-from zygoat.utils.files import use_dir
 from zygoat.constants import Projects
 
 from .docker_compose import docker_compose
-
-log = logging.getLogger()
-file_name = "Dockerfile.local"
 
 
 class Dockerfile(Component):
