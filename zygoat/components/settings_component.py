@@ -18,7 +18,9 @@ class SettingsComponent(Component):
     @property
     def settings_directory(self):
         return os.path.join(
-            Projects.BACKEND, Projects.BACKEND, SettingsComponent.DIRECTORY_NAME,
+            Projects.BACKEND,
+            Projects.BACKEND,
+            SettingsComponent.DIRECTORY_NAME,
         )
 
     @property

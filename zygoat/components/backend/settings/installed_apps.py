@@ -7,6 +7,8 @@ log = logging.getLogger()
 
 class InstalledApps(SettingsComponent):
     def create(self):
+        exported_values = ["ALLOWED_HOSTS", "DATABASES"]
+
         red = self.parse()
         apps_list = red.find("name", value="INSTALLED_APPS").parent.value
 
@@ -15,6 +17,15 @@ class InstalledApps(SettingsComponent):
 
         log.info("Adding backend app to installed apps")
         apps_list.append("'zygoat_django'")
+
+        log.info("Removing default components exported by zygoat_django")
+
+        for value in exported_values:
+            index = red.find("name", value=value).parent.index_on_parent
+
+            # Delete the blank line following it as well
+            del red[index]
+            del red[index]
 
         log.info("Dumping installed apps node")
         self.dump(red)
