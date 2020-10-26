@@ -16,6 +16,7 @@ phase_function_names = [
 project_dir_names = [
     "backend",
     "frontend",
+    "cache",
 ]
 
 Phases = Box([(t.upper(), t) for t in phase_function_names])
