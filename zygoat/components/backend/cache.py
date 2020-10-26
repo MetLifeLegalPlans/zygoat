@@ -42,8 +42,8 @@ class Cache(Component):
 
         backend_depends = config["services"][Projects.BACKEND].get("depends_on", [])
 
-        if Projects.CACHE in config["services"][Projects.BACKEND].get("depends_on", []):
-            del backend_depends[backend_depends.index(Projects.CACHE)]
+        if Projects.CACHE in backend_depends:
+            backend_depends.remove(Projects.CACHE)
 
         config["services"][Projects.BACKEND]["depends_on"] = backend_depends
 
