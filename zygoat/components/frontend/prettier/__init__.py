@@ -9,6 +9,7 @@ from zygoat.utils.files import use_dir
 from .prettierrc import prettierrc
 from .be_pretty import be_pretty
 from .pretty_quick import pretty_quick
+from .prettierignore import prettierignore
 
 log = logging.getLogger()
 
@@ -29,4 +30,4 @@ class Prettier(Component):
                 return "prettier" in json.load(f).get("devDependencies", {})
 
 
-prettier = Prettier(sub_components=[prettierrc, be_pretty, pretty_quick])
+prettier = Prettier(sub_components=[prettierrc, be_pretty, pretty_quick, prettierignore])
