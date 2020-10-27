@@ -1,0 +1,2 @@
+# Ignore all html files in the backend dir as they'll be django templates.
+backend/**/*.html
