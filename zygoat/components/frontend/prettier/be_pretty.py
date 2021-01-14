@@ -13,7 +13,7 @@ class BePretty(Component):
     def create(self):
         with use_dir(Projects.FRONTEND):
             log.info("Installing be-pretty into frontend project")
-            run(["yarn", "add", "--dev", "be-pretty"])
+            run(["yarn", "add", "--dev", "be-pretty@0.9.5"])
 
             log.info("Configuring be-pretty to use the correct RC file")
             run(["yarn", "run", "be-pretty", "setDefault"])
