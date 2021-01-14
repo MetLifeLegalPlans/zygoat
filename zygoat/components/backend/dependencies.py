@@ -20,15 +20,16 @@ class Dependencies(Component):
             "django-anymail",
             "zygoat-django",
             "gunicorn",
+            "uvicorn",
         ]
 
-        dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit", "uvicorn"]
+        dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit"]
 
         log.info("Installing production dependencies")
-        install_dependencies(*dependencies)
+        install_dependencies(*dependencies, extras={"uvicorn": ["standard"]})
 
         log.info("Installing dev dependencies")
-        install_dependencies(*dev_dependencies, dev=True, extras={"uvicorn": ["common"]})
+        install_dependencies(*dev_dependencies, dev=True)
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
