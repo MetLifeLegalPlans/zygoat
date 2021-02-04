@@ -18,16 +18,14 @@ const config = {
   },
   headers: async () => [
     {
-      source: '*',
+      source: '/:path*',
       headers: [
-        {
-          'X-FRAME-Options': 'DENY',
-          'Content-Security-Policy': "frame-ancestors 'none'",
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-          'Cache-Control': 'no-cache, no-store',
-          'X-Content-Type-Options': 'nosniff',
-          'X-XSS-Protection': '1; mode=block',
-        },
+        { key: 'X-FRAME-Options', value: 'DENY' },
+        { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+        { key: 'Strict-Transport-Security', value: 'max-age:31536000; includeSubDomains' },
+        { key: 'Cache-Control', value: 'no-cache, no-store' },
+        { key: 'X-Content-Type-Options', value: 'nosniff' },
+        { key: 'X-XSS-Protection', value: '1; mode=block' },
       ],
     },
   ],
