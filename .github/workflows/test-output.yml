@@ -28,4 +28,4 @@ jobs:
       - name: Backend linting
         run: docker-compose exec -T backend flake8
       - name: Frontend linting
-        run: docker-compose exec -T frontend yarn eslint
+        run: docker-compose exec -T frontend yarn lint
