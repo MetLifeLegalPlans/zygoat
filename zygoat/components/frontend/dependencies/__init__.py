@@ -14,7 +14,14 @@ log = logging.getLogger()
 
 
 class Dependencies(Component):
-    dependencies = ["prop-types", "axios", "next-compose-plugins", "next-svgr", "next-images"]
+    dependencies = [
+        "prop-types",
+        "axios",
+        "next-compose-plugins",
+        "next-svgr",
+        "next-images",
+        "window-or-global",
+    ]
     dev_dependencies = [
         "jest",
         "react-axe",
