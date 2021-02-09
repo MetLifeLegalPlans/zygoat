@@ -8,7 +8,7 @@ const withImages = require('next-images');
 const prod = process.env.NODE_ENV === 'production';
 
 const config = {
-  webpack: (webpackConfig) => {
+  webpack: webpackConfig => {
     webpackConfig.resolve.alias['@@'] = __dirname;
     webpackConfig.resolve.alias['@wui'] = '@bequestinc/wui';
     return webpackConfig;
