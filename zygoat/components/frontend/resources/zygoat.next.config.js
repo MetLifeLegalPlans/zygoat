@@ -28,10 +28,13 @@ const config = {
   headers: async () => [
     {
       source: '/:path*',
+      // This file does not get compiled
+      // eslint-disable-next-line object-shorthand
       headers: headers,
     },
     {
       source: '/',
+      // eslint-disable-next-line object-shorthand
       headers: headers,
     },
   ],
