@@ -18,8 +18,17 @@ class ZygoatNextConfigFile(FileComponent):
     overwrite = True
 
 
+class BabelConfigFile(FileComponent):
+    resource_pkg = resources
+    base_path = Projects.FRONTEND
+    filename = ".babelrc"
+    overwrite = False
+
+
 class NextConfig(Component):
     pass
 
 
-next_config = NextConfig(sub_components=[NextConfigFile(), ZygoatNextConfigFile()])
+next_config = NextConfig(
+    sub_components=[NextConfigFile(), ZygoatNextConfigFile(), BabelConfigFile()]
+)

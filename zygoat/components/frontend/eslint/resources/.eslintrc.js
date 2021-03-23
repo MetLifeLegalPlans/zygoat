@@ -1,7 +1,7 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
 
-  extends: ['airbnb', 'plugin:jest/recommended', 'prettier', 'prettier/react'],
+  extends: ['airbnb', 'plugin:jest/recommended', 'prettier'],
 
   plugins: ['react', 'react-hooks', 'prettier'],
 
