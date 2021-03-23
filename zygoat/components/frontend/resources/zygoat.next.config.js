@@ -17,7 +17,7 @@ const headers = [
 ];
 
 const config = {
-  webpack: (webpackConfig) => {
+  webpack: webpackConfig => {
     webpackConfig.resolve.alias['@@'] = __dirname;
     webpackConfig.resolve.alias['@wui'] = '@bequestinc/wui';
     return webpackConfig;
