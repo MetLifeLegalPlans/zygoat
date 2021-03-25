@@ -16,7 +16,23 @@ Linting, test configuration, boilerplate, and development environment are automa
 
 For instance, for the python backend, we want to include `black`, which is a tool for automatically formatting python code in a standard way to make it pep8 compliant. To install `black` in for the python backend part of the project, we create a `Component` for it, specifically a `FileComponent`, which defines how we treat files that we need in projects. Then we register the `Black` component (defined in [black.py](https://github.com/bequest/zygoat/blob/master/zygoat/components/backend/black.py)) with the `Backend` component (defined in [backend/\_\_init\_\_.py](https://github.com/bequest/zygoat/blob/master/zygoat/components/backend/__init__.py)) as a sub component. This way, whenever you create or update (or delete) a project with the `Backend` component, you'll do the same 'phase' to the `Black` component.
 
-## How do I use it?
+## Installation
+
+```bash
+pip install --upgrade zygoat
+```
+
+## Usage
+
+```bash
+mkdir my-cool-new-app && cd my-cool-new-app
+git init
+zg new my-cool-new-app
+```
+
+For more customization and configuration, [check out the official documentation](https://zygoat.readthedocs.io/en/latest/).
+
+## How do I develop changes for it?
 
 Make a new git repository somewhere, we'll call it test-zg
 
