@@ -29,6 +29,7 @@ class Dependencies(Component):
         "@testing-library/react",
         "@testing-library/jest-dom",
         "css-mediaquery",
+        "esbuild-loader",
     ]
 
     def create(self):
