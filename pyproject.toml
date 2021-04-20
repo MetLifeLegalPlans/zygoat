@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zygoat"
-version = "1.9.2"
+version = "1.9.3"
 description = ""
 authors = ["Bequest, Inc. <oss@willing.com>"]
 readme = "README.md"
