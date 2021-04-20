@@ -77,6 +77,10 @@ def install_dependencies(*args, dev=False, extras={}):
             for name in args:
                 file_map[name] = freeze_map[name]
 
+                if extras.get(name):
+                    ver = file_map[name].replace(name, "{}[{}]".format(name, ','.join(extras.get(name))))
+                    file_map[name] = ver
+
             dump_dependencies(file_map, dev=dev)
 
 
