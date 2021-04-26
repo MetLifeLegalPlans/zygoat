@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zygoat"
-version = "1.9.3"
+version = "1.9.4"
 description = ""
 authors = ["Bequest, Inc. <oss@willing.com>"]
 readme = "README.md"
@@ -17,6 +17,7 @@ redbaron = "^0.9.2"
 requests = "^2.23.0"
 rtd-poetry = "^0.1.0"
 importlib_metadata = "^1.7.0"
+semver = "^2.13.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.0"
