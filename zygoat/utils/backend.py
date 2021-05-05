@@ -23,7 +23,10 @@ def packages_to_map(arr):
             if "git://" in package_line:
                 result[package_line] = package_line
             continue
-        package = package_line.split("=")[0]
+        if "[" in package_line:
+            package = package_line.split("[")[0]
+        else:
+            package = package_line.split("=")[0]
         result[package] = package_line
 
     return result
