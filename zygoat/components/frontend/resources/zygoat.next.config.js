@@ -72,6 +72,7 @@ const config = {
       headers: headers,
     },
   ],
+  productionBrowserSourceMaps: true,
 };
 
 const withImagesConfig = {
