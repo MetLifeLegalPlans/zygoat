@@ -33,6 +33,9 @@ class Frontend(Component):
         log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
         os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
 
+        log.info("Deleting default next.config.js (added in create-next-app v11)")
+        os.remove(os.path.join(Projects.FRONTEND, "next.config.js"))
+
         log.info("Deleting the default api directory")
         shutil.rmtree(os.path.join(Projects.FRONTEND, "pages", "api"))
 
