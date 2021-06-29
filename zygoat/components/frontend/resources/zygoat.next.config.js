@@ -2,8 +2,6 @@
 // be edited manually. To extend or overwrite these settings, edit
 // next.config.js
 
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
-
 const withSvgr = require('next-svgr');
 const withImages = require('next-images');
 
@@ -18,25 +16,8 @@ const headers = [
   { key: 'X-XSS-Protection', value: '1; mode=block' },
 ];
 
-function useEsbuildMinify(config, options) {
-  const terserIndex = config.optimization.minimizer.findIndex(
-    minimizer => minimizer.constructor.name === 'TerserPlugin',
-  );
-  if (terserIndex > -1) {
-    config.optimization.minimizer.splice(terserIndex, 1, new ESBuildMinifyPlugin(options));
-  }
-}
-
-function useEsbuildLoader(config, options) {
-  const jsLoader = config.module.rules.find(rule => rule.test && rule.test.test('.js'));
-
-  if (jsLoader) {
-    jsLoader.use.loader = 'esbuild-loader';
-    jsLoader.use.options = options;
-  }
-}
-
 const config = {
+  webpack5: true,
   webpack: (webpackConfig, { webpack }) => {
     webpackConfig.resolve.alias['@@'] = __dirname;
     webpackConfig.resolve.alias['@wui'] = '@bequestinc/wui';
@@ -46,13 +27,6 @@ const config = {
         React: 'react',
       }),
     );
-
-    useEsbuildMinify(webpackConfig);
-
-    useEsbuildLoader(webpackConfig, {
-      loader: 'jsx',
-      target: 'es2015',
-    });
 
     return webpackConfig;
   },
