@@ -10,11 +10,5 @@ jobs:
       - uses: MetLifeLegalPlans/update-poetry-dependencies@v1
         with:
           latest: true
-      - name: Checkout a new branch
-        run: git checkout -b dependencies-$GITHUB_RUN_ID
-      - name: Commit changes
-        run: |
-          git add .
-          git commit -am "Update dependency constraints"
-      - name: Push branch
-        run: git push --set-upstream origin dependencies-$GITHUB_RUN_ID
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v3
