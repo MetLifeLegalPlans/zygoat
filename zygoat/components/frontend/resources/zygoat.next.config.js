@@ -47,6 +47,7 @@ const config = {
     },
   ],
   productionBrowserSourceMaps: true,
+  poweredByHeader: false,
 };
 
 const withImagesConfig = {
