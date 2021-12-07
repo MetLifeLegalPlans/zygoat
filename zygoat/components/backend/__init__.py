@@ -3,8 +3,8 @@ import os
 import shutil
 
 from .. import Component
-from zygoat.utils.shell import run
-from zygoat.constants import Projects
+from zygoat.utils.shell import multi_docker_run
+from zygoat.constants import Projects, Images
 
 from .dockerfile import dockerfile
 from .settings import settings
@@ -21,11 +21,24 @@ log = logging.getLogger()
 
 class Backend(Component):
     def create(self):
-        log.info("Installing django at a user level to generate the project")
-        run(["pip", "install", "--user", "--upgrade", "django"])
-
-        log.info("Creating the django project")
-        run(["django-admin", "startproject", Projects.BACKEND])
+        log.info("Generating the django project")
+        multi_docker_run(
+            [
+                [
+                    "pip",
+                    "install",
+                    "--upgrade",
+                    "django",
+                ],
+                [
+                    "django-admin",
+                    "startproject",
+                    Projects.BACKEND,
+                ],
+            ],
+            Images.PYTHON,
+            ".",
+        )
 
     def delete(self):
         log.warning(f"Deleting the {Projects.BACKEND} project")

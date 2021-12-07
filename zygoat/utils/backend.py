@@ -1,17 +1,11 @@
 import os
-from shutil import which
 
-from .shell import run
+from .shell import multi_docker_run
 from .files import use_dir, repository_root
-from zygoat.constants import Projects
+from zygoat.constants import Projects, Images
 
-pip = which("pip")
 dev_file_name = "requirements.dev.txt"
 prod_file_name = "requirements.txt"
-
-
-def freeze():
-    return run([pip, "freeze"], capture_output=True).stdout.decode().split("\n")
 
 
 def packages_to_map(arr):
@@ -71,8 +65,20 @@ def install_dependencies(*args, dev=False, extras={}):
                 for arg in args
             ]
 
-            run([pip, "install", "--upgrade", *pip_args])
-            freeze_map = packages_to_map(freeze())
+            freeze_out = (
+                multi_docker_run(
+                    [
+                        ["pip", "install", "-q", "--upgrade", *pip_args],
+                        ["pip", "freeze"],
+                    ],
+                    Images.PYTHON,
+                    ".",
+                    capture_output=True,
+                )
+                .stdout.decode()
+                .split("\n")
+            )
+            freeze_map = packages_to_map(freeze_out)
 
             with open(file_name) as f:
                 file_map = packages_to_map(f.read().split("\n"))
