@@ -1,5 +1,6 @@
 import shlex
 import subprocess
+import os
 
 
 def run(cmd, *args, **kwargs):
@@ -15,3 +16,15 @@ def run(cmd, *args, **kwargs):
         check=True,
         **kwargs,
     )
+
+
+def docker_run(cmd, image, vol, chown=True):
+    vol_directory = os.path.join(os.getcwd(), vol)
+    prelude = ["docker", "run", "-v", f"{vol_directory}:/data", "-w", "/data", image]
+    run(prelude + cmd)
+
+    if chown:
+        uid = os.getuid()
+        gid = os.getuid()
+
+        run(prelude + ["chown", "-R", f"{uid}:{gid}", "/data"])

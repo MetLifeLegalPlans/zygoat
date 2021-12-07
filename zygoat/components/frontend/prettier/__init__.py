@@ -2,8 +2,8 @@ import json
 import logging
 
 from zygoat.components import Component
-from zygoat.constants import Projects, Phases
-from zygoat.utils.shell import run
+from zygoat.constants import Projects, Phases, Images
+from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
 from .prettierrc import prettierrc
@@ -16,9 +16,8 @@ log = logging.getLogger()
 
 class Prettier(Component):
     def create(self):
-        with use_dir(Projects.FRONTEND):
-            log.info("Installing prettier dev dependency into the frontend project")
-            run(["yarn", "add", "--dev", "prettier"])
+        log.info("Installing prettier dev dependency into the frontend project")
+        docker_run(["yarn", "add", "--dev", "prettier"], Images.NODE, Projects.FRONTEND)
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)

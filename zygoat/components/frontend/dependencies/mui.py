@@ -2,9 +2,8 @@ import logging
 import os
 
 from zygoat.components import Component, FileComponent
-from zygoat.constants import Projects
-from zygoat.utils.files import use_dir
-from zygoat.utils.shell import run
+from zygoat.constants import Projects, Images
+from zygoat.utils.shell import docker_run
 
 from . import resources
 
@@ -27,9 +26,12 @@ class Document(MuiFile):
 
 class Mui(Component):
     def create(self):
-        with use_dir(Projects.FRONTEND):
-            log.info("Installing material-ui core and icons")
-            run(["yarn", "add", "@material-ui/core", "@material-ui/icons"])
+        log.info("Installing material-ui core and icons")
+        docker_run(
+            ["yarn", "add", "@material-ui/core", "@material-ui/icons"],
+            Images.NODE,
+            Projects.FRONTEND,
+        )
 
 
 mui = Mui(sub_components=[App(), Document()])
