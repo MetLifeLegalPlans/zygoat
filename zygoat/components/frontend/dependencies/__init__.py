@@ -1,9 +1,9 @@
 import json
 import logging
 
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.components import Component
-from zygoat.utils.shell import run
+from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
 from .mui import mui
@@ -32,13 +32,15 @@ class Dependencies(Component):
     ]
 
     def create(self):
+        log.info("Installing frontend production dependencies")
+        docker_run(["yarn", "add", *self.dependencies], Images.NODE, Projects.FRONTEND)
+
+        log.info("Installing frontend dev dependencies")
+        docker_run(
+            ["yarn", "add", "--dev", *self.dev_dependencies], Images.NODE, Projects.FRONTEND
+        )
+
         with use_dir(Projects.FRONTEND):
-            log.info("Installing frontend production dependencies")
-            run(["yarn", "add", *self.dependencies])
-
-            log.info("Installing frontend dev dependencies")
-            run(["yarn", "add", "--dev", *self.dev_dependencies])
-
             log.info("Adding jest test commands")
             with open("package.json") as f:
                 data = json.load(f)
@@ -51,9 +53,8 @@ class Dependencies(Component):
 
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
-        with use_dir(Projects.FRONTEND):
-            log.info("Upgrading frontend dependencies")
-            run(["yarn", "upgrade"])
+        log.info("Upgrading frontend dependencies")
+        docker_run(["yarn", "upgrade"], Images.NODE, Projects.FRONTEND)
 
     @property
     def installed(self):

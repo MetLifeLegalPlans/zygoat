@@ -1,9 +1,9 @@
 import json
 import logging
 
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.components import Component
-from zygoat.utils.shell import run
+from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
 from .eslintrc import eslintrc
@@ -27,16 +27,28 @@ class Eslint(Component):
     configs = [f"eslint-config-{name}" for name in ["airbnb", "prettier"]]
 
     def create(self):
+        log.info("Installing eslint dev dependencies to frontend")
+        docker_run(
+            ["yarn", "add", "--dev", *self.dependencies],
+            Images.NODE,
+            Projects.FRONTEND,
+        )
+
+        log.info("Installing eslint plugins to frontend")
+        docker_run(
+            ["yarn", "add", "--dev", *self.plugins],
+            Images.NODE,
+            Projects.FRONTEND,
+        )
+
+        log.info("Installing eslint configs to frontend")
+        docker_run(
+            ["yarn", "add", "--dev", *self.configs],
+            Images.NODE,
+            Projects.FRONTEND,
+        )
+
         with use_dir(Projects.FRONTEND):
-            log.info("Installing eslint dev dependencies to frontend")
-            run(["yarn", "add", "--dev", *self.dependencies])
-
-            log.info("Installing eslint plugins to frontend")
-            run(["yarn", "add", "--dev", *self.plugins])
-
-            log.info("Installing eslint configs to frontend")
-            run(["yarn", "add", "--dev", *self.configs])
-
             log.info("Adding eslint command")
             with open("package.json") as f:
                 data = json.load(f)
