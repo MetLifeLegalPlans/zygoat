@@ -34,5 +34,4 @@ def docker_run(cmd, image, vol, chown=True, *args, **kwargs):
 
 def multi_docker_run(cmds, *args, **kwargs):
     cmd = "".join([shlex.join(c) + ";" for c in cmds])
-    print(cmd)
     return docker_run(["/bin/bash", "-c", cmd], *args, **kwargs)
