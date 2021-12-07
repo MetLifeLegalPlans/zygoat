@@ -26,7 +26,10 @@ beforeEach(() => {
     pathname: '',
     query: '',
     asPath: '',
+    // eslint-disable-next-line no-promise-executor-return
     push: jest.fn(() => new Promise(r => r())),
   };
+
+  // eslint-disable-next-line no-import-assign
   nextRouter.useRouter = () => window.mockedRouter;
 });

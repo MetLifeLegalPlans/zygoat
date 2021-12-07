@@ -1,5 +1,7 @@
 module.exports = {
-  parser: '@babel/eslint-parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+  },
 
   extends: ['airbnb', 'plugin:jest/recommended', 'plugin:prettier/recommended'],
 
@@ -84,17 +86,15 @@ module.exports = {
     // ...why would anybody ever use this rule?
     'no-plusplus': ['off'],
 
+    // the function keyword has some unexpected scoping issues
     'func-names': ['off'],
+    'react/function-component-definition': ['off'],
   },
 
   settings: {
     'import/resolver': {
-      'babel-module': {
-        root: './',
-        alias: {
-          '@wui': '@bequestinc/wui',
-          '@@': './',
-        },
+      node: {
+        paths: './',
       },
     },
   },
