@@ -1,34 +1,24 @@
-import { useEffect } from "react";
-import PropTypes from "prop-types";
-import Head from "next/head";
-import CssBaseline from "@mui/material/CssBaseline";
-import { configure } from "mobx";
-import { observer, enableStaticRendering } from "mobx-react";
+import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Head from 'next/head';
+import CssBaseline from '@mui/material/CssBaseline';;
 
-import { ThemeProvider } from "@mui/material/styles";
-import { CacheProvider } from "@emotion/react";
-import createCache from "@emotion/cache";
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
-import Nav from "components/Nav";
-import GlobalContextProvider from "global-context";
-import AuthWatcher from "components/AuthWatcher";
 
-import { theme } from "@bequestinc/wui";
-
-import "global.css";
-
-configure({ enforceActions: "never" });
-enableStaticRendering(typeof window === "undefined");
+configure({ enforceActions: 'never' });
+enableStaticRendering(typeof window === 'undefined');
 
 const muiCache = createCache({
-  key: "mui",
+  key: 'mui',
   prepend: true,
 });
 
 const App = ({ Component, pageProps }) => {
   useEffect(() => {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
+    const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
@@ -36,24 +26,19 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <CacheProvider value={muiCache}>
-      <GlobalContextProvider>
-        <Head>
-          <title>Online Wills &amp; Estate Planning</title>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-          />
-        </Head>
+       <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
 
-        <CssBaseline />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
+       </Head>
 
-        <ThemeProvider theme={theme}>
-          <Nav />
-          <AuthWatcher disabled={Component.public}>
-            <Component {...pageProps} />
-          </AuthWatcher>
-        </ThemeProvider>
-      </GlobalContextProvider>
+      <CssBaseline />
     </CacheProvider>
   );
 };
