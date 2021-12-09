@@ -14,9 +14,6 @@ log = logging.getLogger()
 class Eslint(Component):
     dependencies = [
         "eslint",
-        "@babel/eslint-parser",
-        "babel-plugin-module-resolver",
-        "eslint-import-resolver-babel-module",
     ]
 
     plugins = [
