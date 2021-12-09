@@ -28,7 +28,15 @@ class Mui(Component):
     def create(self):
         log.info("Installing material-ui core and icons")
         docker_run(
-            ["yarn", "add", "@material-ui/core", "@material-ui/icons"],
+            [
+                "yarn",
+                "add",
+                "@mui/material",
+                "@mui/icons-material",
+                "@emotion/cache",
+                "@emotion/react",
+                "@emotion/server",
+            ],
             Images.NODE,
             Projects.FRONTEND,
         )
