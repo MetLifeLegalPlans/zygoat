@@ -1,21 +1,16 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import CssBaseline from '@mui/material/CssBaseline';;
-
+import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
-
-
-configure({ enforceActions: 'never' });
-enableStaticRendering(typeof window === 'undefined');
 
 const muiCache = createCache({
   key: 'mui',
   prepend: true,
 });
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, emotionCache, pageProps }) => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -25,20 +20,16 @@ const App = ({ Component, pageProps }) => {
   });
 
   return (
-    <CacheProvider value={muiCache}>
+    <CacheProvider value={emotionCache}>
        <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
-
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
        </Head>
 
       <CssBaseline />
+      <Component {...pageProps}/>
     </CacheProvider>
   );
 };
@@ -46,10 +37,12 @@ const App = ({ Component, pageProps }) => {
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object,
+  emotionCache: PropTypes.object
 };
 
 App.defaultProps = {
   pageProps: {},
+  emotionCache: muiCache
 };
 
-export default observer(App);
+export default App;
