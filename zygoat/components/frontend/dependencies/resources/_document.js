@@ -10,8 +10,8 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link
-            rel='stylesheet'
-            href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
         </Head>
         <body>
@@ -76,8 +76,8 @@ MyDocument.getInitialProps = async ctx => {
     ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
     styles: [
-      ...React.Children.toArray(initialProps.styles),
-      ...emotionStyleTags,
+    ...React.Children.toArray(initialProps.styles),
+    ...emotionStyleTags,
     ],
   };
 };
