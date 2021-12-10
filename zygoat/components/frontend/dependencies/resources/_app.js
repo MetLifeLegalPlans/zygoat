@@ -21,15 +21,15 @@ const App = ({ Component, emotionCache, pageProps }) => {
 
   return (
     <CacheProvider value={emotionCache}>
-       <Head>
+      <Head>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
-       </Head>
+      </Head>
 
       <CssBaseline />
-      <Component {...pageProps}/>
+      <Component {...pageProps} />
     </CacheProvider>
   );
 };
@@ -37,12 +37,12 @@ const App = ({ Component, emotionCache, pageProps }) => {
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object,
-  emotionCache: PropTypes.object
+  emotionCache: PropTypes.object,
 };
 
 App.defaultProps = {
   pageProps: {},
-  emotionCache: muiCache
+  emotionCache: muiCache,
 };
 
 export default App;
