@@ -2,6 +2,8 @@ import shlex
 import subprocess
 import os
 
+pulled_images = set()
+
 
 def run(cmd, *args, **kwargs):
     """
@@ -19,6 +21,10 @@ def run(cmd, *args, **kwargs):
 
 
 def docker_run(cmd, image, vol, chown=True, *args, **kwargs):
+    if image not in pulled_images:
+        run(["docker", "pull", image])
+        pulled_images.add(image)
+
     vol_directory = os.path.join(os.getcwd(), vol)
     prelude = ["docker", "run", "-v", f"{vol_directory}:/data", "-w", "/data", image]
     ret = run(prelude + cmd, *args, **kwargs)
