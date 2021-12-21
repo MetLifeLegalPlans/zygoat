@@ -36,6 +36,7 @@ class Mui(Component):
                 "@emotion/cache",
                 "@emotion/react",
                 "@emotion/server",
+                "@emotion/styled",
             ],
             Images.NODE,
             Projects.FRONTEND,
