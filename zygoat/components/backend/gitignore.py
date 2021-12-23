@@ -15,8 +15,12 @@ class GitIgnore(Component):
             log.info("Retrieving python gitignore info")
             res = requests.get("https://www.toptal.com/developers/gitignore/api/python")
             res.raise_for_status()
+            lines = res.text.split("\n")
 
-            f.write(res.text)
+            # remove env/ from ignore because we use env/ directories in some projects
+            lines = filter(lambda line: line != "env/", lines)
+
+            f.write("\n".join(lines))
             f.write("\n# IntelliJ editors\n.idea/")
             # End with a newline since js-specific stuff will go into the
             # file next.
