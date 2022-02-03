@@ -1,49 +1,9 @@
-import os
-
 from .shell import multi_docker_run
-from .files import use_dir, repository_root
-from zygoat.constants import Projects, Images
-
-dev_file_name = "requirements.dev.txt"
-prod_file_name = "requirements.txt"
+from .files import repository_root
+from zygoat.constants import Images, Projects
 
 
-def packages_to_map(arr):
-    result = {}
-
-    for package_line in arr:
-        # Ignore `-r requirements.txt` and other non-package related lines
-        if "=" not in package_line:
-            if "git://" in package_line:
-                result[package_line] = package_line
-            continue
-        if "[" in package_line:
-            package = package_line.split("[")[0]
-        else:
-            package = package_line.split("=")[0]
-        result[package] = package_line
-
-    return result
-
-
-def dump_dependencies(package_map, dev=False):
-    file_name = dev_file_name if dev else prod_file_name
-
-    with repository_root():
-        with use_dir(Projects.BACKEND):
-            with open(file_name, "w") as f:
-                if dev:
-                    f.write(f"-r {prod_file_name}\n")
-
-                for name, version in package_map.items():
-                    # Arbitrary vertical whitespace comes out at as emptystring, so ignore it
-                    if name == "":
-                        continue
-
-                    f.write(f"{version}\n")
-
-
-def install_dependencies(*args, dev=False, extras={}):
+def install_dependencies(*args, dev=False):
     """
     Installs/upgrades Python dependencies for the backend, and places them in
     the appropriate production or dev requirements files.
@@ -53,53 +13,22 @@ def install_dependencies(*args, dev=False, extras={}):
     :param dev: Specifies if this is a development or production dependency
     :type dev: bool, optional
     """
-    initialize_files()
-    file_name = dev_file_name if dev else prod_file_name
     with repository_root():
-        with use_dir(Projects.BACKEND):
-            pip_args = [
-                "{}{}".format(
-                    arg,
-                    "[{}]".format(",".join(extras.get(arg))) if extras.get(arg) else "",
-                )
-                for arg in args
-            ]
+        add_command = ["poetry", "add"]
+        if dev:
+            add_command.append("--dev")
 
-            freeze_out = (
-                multi_docker_run(
-                    [
-                        ["pip", "install", "-q", "--upgrade", *pip_args],
-                        ["pip", "freeze"],
-                    ],
-                    Images.PYTHON,
-                    ".",
-                    capture_output=True,
-                )
-                .stdout.decode()
-                .split("\n")
-            )
-            freeze_map = packages_to_map(freeze_out)
-
-            with open(file_name) as f:
-                file_map = packages_to_map(f.read().split("\n"))
-
-            for name in args:
-                file_map[name] = freeze_map[name]
-
-                if extras.get(name):
-                    ver = file_map[name].replace(
-                        name, "{}[{}]".format(name, ",".join(extras.get(name)))
-                    )
-                    file_map[name] = ver
-
-            dump_dependencies(file_map, dev=dev)
-
-
-def initialize_files():
-    with repository_root():
-        with use_dir(Projects.BACKEND):
-            if not os.path.exists(prod_file_name):
-                open(prod_file_name, "w").close()
-
-            if not os.path.exists(dev_file_name):
-                open(dev_file_name, "w").close()
+        multi_docker_run(
+            [
+                [
+                    "pip",
+                    "install",
+                    "--upgrade",
+                    "pip",
+                    "poetry",
+                ],
+                add_command + list(args),  # args is a tuple and those can't be concatenated
+            ],
+            Images.PYTHON,
+            Projects.BACKEND,
+        )

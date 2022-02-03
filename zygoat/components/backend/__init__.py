@@ -40,6 +40,21 @@ class Backend(Component):
             ".",
         )
 
+        multi_docker_run(
+            [
+                [
+                    "pip",
+                    "install",
+                    "--upgrade",
+                    "pip",
+                    "poetry",
+                ],
+                ["poetry", "init", "-n", "--name", "backend"],
+            ],
+            Images.PYTHON,
+            Projects.BACKEND,
+        )
+
     def delete(self):
         log.warning(f"Deleting the {Projects.BACKEND} project")
         shutil.rmtree(Projects.BACKEND)

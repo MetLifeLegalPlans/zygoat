@@ -18,6 +18,7 @@ requests = "^2.26.0"
 rtd-poetry = "^0.1.0"
 importlib_metadata = "^1.7.0"
 semver = "^2.13.0"
+toml = "^0.10.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
