@@ -1,10 +1,12 @@
 FROM python:latest
 
+RUN pip install --upgrade pip poetry
+
 RUN mkdir /code
 WORKDIR /code
 
-ADD requirements.txt /code/
-ADD requirements.dev.txt /code/
-RUN pip install -r requirements.dev.txt
+ADD pyproject.toml /code/
+ADD poetry.lock /code/
+RUN poetry install
 
-CMD ./manage.py wait_for_db && ./manage.py migrate && ./manage.py createcachetable && uvicorn --host 0.0.0.0 --port 3001 --reload backend.asgi:application
+CMD poetry run ./manage.py wait_for_db && poetry run ./manage.py migrate && poetry run ./manage.py createcachetable && poetry run uvicorn --host 0.0.0.0 --port 3001 --reload backend.asgi:application
