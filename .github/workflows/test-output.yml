@@ -21,6 +21,6 @@ jobs:
       - name: Create new zygoat project
         run: zg new test
       - name: Backend linting
-        run: docker-compose run --rm -T backend flake8
+        run: docker-compose run --rm -T backend poetry run flake8
       - name: Frontend linting
         run: docker-compose run --rm -T frontend yarn lint
