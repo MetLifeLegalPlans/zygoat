@@ -3,6 +3,7 @@ FROM node:latest
 RUN mkdir /code
 WORKDIR /code
 ADD package.json /code/
+ADD yarn.lock /code/
 RUN yarn install
 
 CMD yarn dev -p 3000
