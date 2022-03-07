@@ -21,7 +21,7 @@ class Eslint(Component):
         for name in ["import", "jest", "jsx-a11y", "prettier", "react", "react-hooks"]
     ]
 
-    configs = [f"eslint-config-{name}" for name in ["airbnb", "prettier"]]
+    configs = [f"eslint-config-{name}" for name in ["airbnb", "prettier", "next"]]
 
     def create(self):
         log.info("Installing eslint dev dependencies to frontend")
