@@ -6,6 +6,4 @@ WORKDIR /code
 COPY package.json yarn.lock /code/
 RUN yarn install
 
-COPY . .
-
 CMD yarn dev -p 3000
