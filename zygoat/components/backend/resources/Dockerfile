@@ -6,7 +6,7 @@ RUN mkdir /code
 WORKDIR /code
 
 COPY poetry.lock pyproject.toml /code/
-RUN poetry install
+RUN poetry install --no-dev
 
 COPY . .
 
