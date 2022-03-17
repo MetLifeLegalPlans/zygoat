@@ -1,6 +1,7 @@
 from .shell import multi_docker_run
 from .files import repository_root
-from zygoat.constants import Images, Projects
+from zygoat.constants import Projects, ConfigDefaults
+from zygoat.config import Config
 
 
 def install_dependencies(*args, dev=False):
@@ -13,6 +14,12 @@ def install_dependencies(*args, dev=False):
     :param dev: Specifies if this is a development or production dependency
     :type dev: bool, optional
     """
+
+    try:
+        image = Config().images.PYTHON
+    except AttributeError:
+        image = ConfigDefaults.images.PYTHON
+
     with repository_root():
         add_command = ["poetry", "add"]
         if dev:
@@ -29,6 +36,6 @@ def install_dependencies(*args, dev=False):
                 ],
                 add_command + list(args),  # args is a tuple and those can't be concatenated
             ],
-            Images.PYTHON,
+            image,
             Projects.BACKEND,
         )

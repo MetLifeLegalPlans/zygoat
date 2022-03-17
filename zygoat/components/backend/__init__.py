@@ -4,7 +4,7 @@ import shutil
 
 from .. import Component
 from zygoat.utils.shell import multi_docker_run
-from zygoat.constants import Projects, Images
+from zygoat.constants import Projects
 
 from .dockerfile import dockerfile
 from .settings import settings
@@ -36,7 +36,7 @@ class Backend(Component):
                     Projects.BACKEND,
                 ],
             ],
-            Images.PYTHON,
+            self.docker_image("PYTHON"),
             ".",
         )
 
@@ -51,7 +51,7 @@ class Backend(Component):
                 ],
                 ["poetry", "init", "-n", "--name", "backend"],
             ],
-            Images.PYTHON,
+            self.docker_image("PYTHON"),
             Projects.BACKEND,
         )
 

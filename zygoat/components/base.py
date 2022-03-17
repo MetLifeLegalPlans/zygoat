@@ -5,7 +5,7 @@ from click import style
 
 from zygoat.utils.files import repository_root
 from zygoat.config import Config
-from zygoat.constants import Phases
+from zygoat.constants import Phases, ConfigDefaults
 
 log = logging.getLogger()
 
@@ -92,6 +92,15 @@ class Component:
         Convenience wrapper for easier reading
         """
         return not self.exclude
+
+    def docker_image(self, identifier):
+        """
+        Checks the config file for a docker image and returns the default value if not specified
+        """
+        try:
+            return self.config.images[identifier]
+        except AttributeError:
+            return ConfigDefaults.images[identifier]
 
     def call_phase(self, phase, force_create=False):
         """

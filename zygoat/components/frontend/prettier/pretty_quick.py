@@ -2,7 +2,7 @@ import json
 import logging
 
 from zygoat.components import Component
-from zygoat.constants import Projects, Phases, Images
+from zygoat.constants import Projects, Phases
 from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
@@ -12,7 +12,11 @@ log = logging.getLogger()
 class PrettyQuick(Component):
     def create(self):
         log.info("Installing pretty-quick into frontend project")
-        docker_run(["yarn", "add", "--dev", "pretty-quick"], Images.NODE, Projects.FRONTEND)
+        docker_run(
+            ["yarn", "add", "--dev", "pretty-quick"],
+            self.docker_image("NODE"),
+            Projects.FRONTEND,
+        )
 
         with use_dir(Projects.FRONTEND):
             log.info("Adding pretty-quick lint command")
