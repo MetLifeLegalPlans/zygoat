@@ -7,6 +7,8 @@ from click import style
 from ruamel.yaml import YAML
 import logging
 
+from semver import VersionInfo
+
 from .utils.files import find_nearest
 from .constants import config_file_name, __version__
 
@@ -24,6 +26,7 @@ class Config(object):
         :param initial_data: When creating a new config file, add this to the file
         """
         try:
+            self.check_version()
             return Config.load()
         except FileNotFoundError:
             log.debug("Config file not found, creating a new one")
@@ -47,6 +50,7 @@ class Config(object):
 
         Config.dump(Box(data))
 
+        self.check_version()
         return Config.load()
 
     @classmethod
@@ -72,3 +76,18 @@ class Config(object):
     @classmethod
     def delete(cls):
         os.remove(find_nearest(config_file_name))
+
+    @classmethod
+    def check_version(cls):
+        conf = cls.load()
+        conf_version = conf.get("version")
+        if conf_version is None:
+            return
+
+        current = VersionInfo.parse(__version__)
+        loaded = VersionInfo.parse(conf_version)
+
+        if current < loaded:
+            raise EnvironmentError(
+                f"Current version of Zygoat ({current}) is older than project version ({loaded}), exiting"
+            )
