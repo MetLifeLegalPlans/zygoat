@@ -91,3 +91,7 @@ class Config(object):
             raise EnvironmentError(
                 f"Current version of Zygoat ({current}) is older than project version ({loaded}), exiting"
             )
+
+        log.debug(f"Bumping project version flag from {loaded} to {current}")
+        conf.version = __version__
+        cls.dump(conf)
