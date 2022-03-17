@@ -23,6 +23,8 @@ Phases = Box([(t.upper(), t) for t in phase_function_names])
 Projects = Box([(t.upper(), t) for t in project_dir_names])
 Images = Box({"NODE": "node:latest", "PYTHON": "python:latest"})
 
+ConfigDefaults = Box({"images": {"NODE": "node:latest", "PYTHON": "python:latest"}})
+
 FrontendUtils = os.path.join(Projects.FRONTEND, "zg_utils")
 
 __version__ = version("zygoat")

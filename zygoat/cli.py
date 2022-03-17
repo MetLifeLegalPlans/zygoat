@@ -81,6 +81,7 @@ def init(project_name):
     _name_project(project_name)
 
     log.info(f"Initialized {config_file_name}")
+    log.info(str(Config().to_dict()))
 
 
 @cli.command(help="Creates a new settings file and all components")
