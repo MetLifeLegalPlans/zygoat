@@ -10,7 +10,7 @@ import logging
 from semver import VersionInfo
 
 from .utils.files import find_nearest
-from .constants import config_file_name, __version__
+from .constants import config_file_name, __version__, ConfigDefaults
 
 
 yaml = YAML(typ="safe")
@@ -46,6 +46,7 @@ class Config(object):
             sys.exit(1)
 
         data = {"version": __version__}
+        data.update(ConfigDefaults)
         data.update(initial_data)
 
         Config.dump(Box(data))
@@ -88,9 +89,12 @@ class Config(object):
         loaded = VersionInfo.parse(conf_version)
 
         if current < loaded:
-            raise EnvironmentError(
-                f"Current version of Zygoat ({current}) is older than project version ({loaded}), exiting"
+            log.critical(
+                "Current version of Zygoat ({}) is older than project version ({}), exiting".format(
+                    style(current, bold=True, fg="red"), style(loaded, bold=True, fg="red")
+                )
             )
+            sys.exit(1)
 
         log.debug(f"Bumping project version flag from {loaded} to {current}")
         conf.version = __version__
