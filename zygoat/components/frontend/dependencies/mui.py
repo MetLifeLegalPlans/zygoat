@@ -2,7 +2,7 @@ import logging
 import os
 
 from zygoat.components import Component, FileComponent
-from zygoat.constants import Projects, Images
+from zygoat.constants import Projects
 from zygoat.utils.shell import docker_run
 
 from . import resources
@@ -38,7 +38,7 @@ class Mui(Component):
                 "@emotion/server",
                 "@emotion/styled",
             ],
-            Images.NODE,
+            self.docker_image("NODE"),
             Projects.FRONTEND,
         )
 
