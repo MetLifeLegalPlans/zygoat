@@ -3,7 +3,7 @@ import os
 import shutil
 
 from zygoat.components import Component
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
@@ -23,7 +23,9 @@ class Frontend(Component):
     def create(self):
         log.info("Running create-next-app")
         docker_run(
-            ["yarn", "create", "next-app", Projects.FRONTEND], self.docker_image("NODE"), "."
+            ["yarn", "create", "next-app", Projects.FRONTEND],
+            self.docker_image(Images.NODE),
+            ".",
         )
 
         log.info("Emptying a poorly formatted index.js file")
@@ -52,7 +54,7 @@ class Reformat(Component):
         log.info("Formatting package.json with prettier")
         with use_dir(Projects.FRONTEND):
             docker_run(
-                ["yarn", "prettier", "-w", "package.json"], self.docker_image("NODE"), "."
+                ["yarn", "prettier", "-w", "package.json"], self.docker_image(Images.NODE), "."
             )
 
     def update(self):

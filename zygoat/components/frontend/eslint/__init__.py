@@ -1,7 +1,7 @@
 import json
 import logging
 
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.components import Component
 from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
@@ -27,21 +27,21 @@ class Eslint(Component):
         log.info("Installing eslint dev dependencies to frontend")
         docker_run(
             ["yarn", "add", "--dev", *self.dependencies],
-            self.docker_image("NODE"),
+            self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Installing eslint plugins to frontend")
         docker_run(
             ["yarn", "add", "--dev", *self.plugins],
-            self.docker_image("NODE"),
+            self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Installing eslint configs to frontend")
         docker_run(
             ["yarn", "add", "--dev", *self.configs],
-            self.docker_image("NODE"),
+            self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 

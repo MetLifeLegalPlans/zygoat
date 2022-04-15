@@ -1,7 +1,7 @@
 import json
 import logging
 
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.components import Component
 from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
@@ -34,13 +34,15 @@ class Dependencies(Component):
     def create(self):
         log.info("Installing frontend production dependencies")
         docker_run(
-            ["yarn", "add", *self.dependencies], self.docker_image("NODE"), Projects.FRONTEND
+            ["yarn", "add", *self.dependencies],
+            self.docker_image(Images.NODE),
+            Projects.FRONTEND,
         )
 
         log.info("Installing frontend dev dependencies")
         docker_run(
             ["yarn", "add", "--dev", *self.dev_dependencies],
-            self.docker_image("NODE"),
+            self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
@@ -58,7 +60,7 @@ class Dependencies(Component):
     def update(self):
         self.call_phase(Phases.CREATE, force_create=True)
         log.info("Upgrading frontend dependencies")
-        docker_run(["yarn", "upgrade"], self.docker_image("NODE"), Projects.FRONTEND)
+        docker_run(["yarn", "upgrade"], self.docker_image(Images.NODE), Projects.FRONTEND)
 
     @property
     def installed(self):
