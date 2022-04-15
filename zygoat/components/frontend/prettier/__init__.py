@@ -2,7 +2,7 @@ import json
 import logging
 
 from zygoat.components import Component
-from zygoat.constants import Projects, Phases
+from zygoat.constants import Projects, Phases, Images
 from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
@@ -18,7 +18,9 @@ class Prettier(Component):
     def create(self):
         log.info("Installing prettier dev dependency into the frontend project")
         docker_run(
-            ["yarn", "add", "--dev", "prettier"], self.docker_image("NODE"), Projects.FRONTEND
+            ["yarn", "add", "--dev", "prettier"],
+            self.docker_image(Images.NODE),
+            Projects.FRONTEND,
         )
 
     def update(self):
