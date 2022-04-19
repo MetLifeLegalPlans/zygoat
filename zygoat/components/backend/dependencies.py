@@ -2,8 +2,9 @@ import logging
 import os
 
 from zygoat.components import Component
-from zygoat.constants import Phases, Projects
+from zygoat.constants import Projects
 from zygoat.utils.backend import install_dependencies
+from zygoat.utils.shell import compose_run
 
 log = logging.getLogger()
 
@@ -35,7 +36,7 @@ class Dependencies(Component):
         install_dependencies(*dev_dependencies, dev=True)
 
     def update(self):
-        self.call_phase(Phases.CREATE, force_create=True)
+        compose_run(["poetry", "update"], Projects.BACKEND)
 
     @property
     def installed(self):
