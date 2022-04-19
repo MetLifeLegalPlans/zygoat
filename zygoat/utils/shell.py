@@ -20,6 +20,11 @@ def run(cmd, *args, **kwargs):
     )
 
 
+def compose_run(cmd, project):
+    prelude = ["docker-compose", "run", "--rm", project]
+    return run(prelude + cmd)
+
+
 def docker_run(cmd, image, vol, chown=True, *args, **kwargs):
     if image not in pulled_images:
         run(["docker", "pull", image])
