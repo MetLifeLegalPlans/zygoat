@@ -2,30 +2,33 @@
 // be edited manually. To extend or overwrite these settings, edit
 // next.config.js
 
-const withSvgr = require('next-svgr');
-const withImages = require('next-images');
+const withSvgr = require("next-svgr");
+const withImages = require("next-images");
 
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV === "production";
 
 const headers = [
-  { key: 'X-FRAME-Options', value: 'DENY' },
-  { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
-  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
-  { key: 'Cache-Control', value: 'no-cache, no-store' },
-  { key: 'X-Content-Type-Options', value: 'nosniff' },
-  { key: 'X-XSS-Protection', value: '1; mode=block' },
+  { key: "X-FRAME-Options", value: "DENY" },
+  { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=31536000; includeSubDomains",
+  },
+  { key: "Cache-Control", value: "no-cache, no-store" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-XSS-Protection", value: "1; mode=block" },
 ];
 
 const config = {
   webpack5: true,
   webpack: (webpackConfig, { webpack }) => {
-    webpackConfig.resolve.alias['@@'] = __dirname;
-    webpackConfig.resolve.alias['@wui'] = '@bequestinc/wui';
+    webpackConfig.resolve.alias["@@"] = __dirname;
+    webpackConfig.resolve.alias["@wui"] = "@bequestinc/wui";
 
     webpackConfig.plugins.push(
       new webpack.ProvidePlugin({
-        React: 'react',
-      }),
+        React: "react",
+      })
     );
 
     return webpackConfig;
@@ -33,17 +36,17 @@ const config = {
   env: {
     PROD: prod,
   },
-  headers: async () => [
+  headers: async (overrideHeaders = {}) => [
     {
-      source: '/:path*',
+      source: "/:path*",
       // This file does not get compiled
       // eslint-disable-next-line object-shorthand
-      headers: headers,
+      headers: { ...headers, ...overrideHeaders },
     },
     {
-      source: '/',
+      source: "/",
       // eslint-disable-next-line object-shorthand
-      headers: headers,
+      headers: { ...headers, ...overrideHeaders },
     },
   ],
   productionBrowserSourceMaps: true,
