@@ -16,6 +16,23 @@ const headers = [
   { key: 'X-XSS-Protection', value: '1; mode=block' },
 ];
 
+const buildHeaders =
+  (overrideHeaders = []) =>
+  async () =>
+    [
+      {
+        source: '/:path*',
+        // This file does not get compiled
+        // eslint-disable-next-line object-shorthand
+        headers: [...headers, ...overrideHeaders],
+      },
+      {
+        source: '/',
+        // eslint-disable-next-line object-shorthand
+        headers: [...headers, ...overrideHeaders],
+      },
+    ];
+
 const config = {
   webpack5: true,
   webpack: (webpackConfig, { webpack }) => {
@@ -33,19 +50,8 @@ const config = {
   env: {
     PROD: prod,
   },
-  headers: async (overrideHeaders = {}) => [
-    {
-      source: '/:path*',
-      // This file does not get compiled
-      // eslint-disable-next-line object-shorthand
-      headers: { ...headers, ...overrideHeaders },
-    },
-    {
-      source: '/',
-      // eslint-disable-next-line object-shorthand
-      headers: { ...headers, ...overrideHeaders },
-    },
-  ],
+
+  headers: buildHeaders(),
   productionBrowserSourceMaps: true,
   poweredByHeader: false,
   swcMinify: true,
@@ -57,4 +63,4 @@ const withImagesConfig = {
 
 const plugins = [withSvgr, [withImages, withImagesConfig]];
 
-module.exports = { plugins, config };
+module.exports = { plugins, config, buildHeaders };
