@@ -23,8 +23,9 @@ class Dependencies(Component):
             "djangorestframework-camel-case",
             "django-anymail",
             "zygoat-django",
-            "gunicorn",
+            "gunicorn[gevent]",
             "uvicorn[standard]",
+            "psycogreen",
         ]
 
         dev_dependencies = ["pytz", "factory-boy", "flake8-black", "bandit"]

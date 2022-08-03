@@ -24,4 +24,13 @@ class Local(FileComponent):
     overwrite = False
 
 
-dockerfile = Dockerfile(sub_components=[docker_compose, Prod(), Local()])
+class GunicornConf(FileComponent):
+    resource_pkg = resources
+    base_path = Projects.BACKEND
+    filename = "gunicorn.conf.py"
+    overwrite = False
+
+
+dockerfile = Dockerfile(
+    sub_components=[docker_compose, Prod(sub_components=[GunicornConf()]), Local()]
+)
