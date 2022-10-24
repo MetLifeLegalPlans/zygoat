@@ -14,7 +14,6 @@ class Flake8(Component):
     def create(self):
         dependencies = [
             "flake8",
-            "flake8-mock",
             "flake8-commas",
             "flake8-quotes",
             "flake8-debugger",
