@@ -9,7 +9,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 const headers = [
   { key: 'X-FRAME-Options', value: 'DENY' },
-  { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" },
+  { key: 'Content-Security-Policy', value: "frame-ancestors 'none'; upgrade-insecure-requests" },
   { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
   { key: 'Cache-Control', value: 'no-cache, no-store' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
