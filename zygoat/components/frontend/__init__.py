@@ -22,8 +22,16 @@ log = logging.getLogger()
 class Frontend(Component):
     def create(self):
         log.info("Running create-next-app")
+        non_interactive_args = [
+            "--js",
+            "--eslint",
+            "--no-tailwind",
+            "--no-src-dir",
+            "--no-experimental-app",
+            "--import-alias '@/*'",
+        ]
         docker_run(
-            ["yarn", "create", "next-app", Projects.FRONTEND],
+            ["yarn", "create", "next-app", Projects.FRONTEND, *non_interactive_args],
             self.docker_image(Images.NODE),
             ".",
         )
@@ -39,6 +47,9 @@ class Frontend(Component):
 
         log.info("Deleting the default api directory")
         shutil.rmtree(os.path.join(Projects.FRONTEND, "pages", "api"))
+
+        log.info("Deleting default _document.js")
+        os.remove(os.path.join(Projects.FRONTEND, "pages", "_document.js"))
 
     def delete(self):
         log.warning(f"Deleting the {Projects.FRONTEND} project")
