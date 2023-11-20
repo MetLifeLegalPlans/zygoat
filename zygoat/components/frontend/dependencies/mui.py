@@ -29,8 +29,8 @@ class Mui(Component):
         log.info("Installing material-ui core and icons")
         docker_run(
             [
-                "yarn",
-                "add",
+                "npm",
+                "install",
                 "@mui/material",
                 "@mui/icons-material",
                 "@emotion/cache",

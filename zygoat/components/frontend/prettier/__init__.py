@@ -18,7 +18,7 @@ class Prettier(Component):
     def create(self):
         log.info("Installing prettier dev dependency into the frontend project")
         docker_run(
-            ["yarn", "add", "--dev", "prettier"],
+            ["npm", "install", "--save-dev", "prettier"],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
