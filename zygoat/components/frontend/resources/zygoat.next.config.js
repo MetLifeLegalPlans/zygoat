@@ -55,6 +55,7 @@ const config = {
   productionBrowserSourceMaps: true,
   poweredByHeader: false,
   swcMinify: true,
+  reactStrictMode: true,
 };
 
 const withImagesConfig = {
