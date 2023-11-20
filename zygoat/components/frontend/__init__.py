@@ -25,13 +25,13 @@ class Frontend(Component):
         non_interactive_args = [
             "--js",
             "--eslint",
+            "--app",
             "--no-tailwind",
             "--no-src-dir",
-            "--no-experimental-app",
             "--import-alias '@/*'",
         ]
         docker_run(
-            ["yarn", "create", "next-app", Projects.FRONTEND, *non_interactive_args],
+            ["npx", "create-next-app", Projects.FRONTEND, *non_interactive_args],
             self.docker_image(Images.NODE),
             ".",
         )
@@ -65,7 +65,7 @@ class Reformat(Component):
         log.info("Formatting package.json with prettier")
         with use_dir(Projects.FRONTEND):
             docker_run(
-                ["yarn", "prettier", "-w", "package.json"], self.docker_image(Images.NODE), "."
+                ["npm", "prettier", "-w", "package.json"], self.docker_image(Images.NODE), "."
             )
 
     def update(self):

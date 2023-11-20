@@ -26,21 +26,21 @@ class Eslint(Component):
     def create(self):
         log.info("Installing eslint dev dependencies to frontend")
         docker_run(
-            ["yarn", "add", "--dev", *self.dependencies],
+            ["npm", "install", "--save-dev", *self.dependencies],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Installing eslint plugins to frontend")
         docker_run(
-            ["yarn", "add", "--dev", *self.plugins],
+            ["npm", "install", "--save-dev", *self.plugins],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Installing eslint configs to frontend")
         docker_run(
-            ["yarn", "add", "--dev", *self.configs],
+            ["npm", "install", "--save-dev", *self.configs],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
@@ -50,7 +50,7 @@ class Eslint(Component):
             with open("package.json") as f:
                 data = json.load(f)
                 data["scripts"]["lint"] = "eslint --ext .js,.jsx ."
-                data["scripts"]["fix"] = "yarn lint --fix"
+                data["scripts"]["fix"] = "npm lint --fix"
 
             log.info("Dumping new frontend package file")
             with open("package.json", "w") as f:

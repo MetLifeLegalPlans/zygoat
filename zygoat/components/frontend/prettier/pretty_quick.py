@@ -13,7 +13,7 @@ class PrettyQuick(Component):
     def create(self):
         log.info("Installing pretty-quick into frontend project")
         docker_run(
-            ["yarn", "add", "--dev", "pretty-quick"],
+            ["npm", "install", "--save-dev", "pretty-quick"],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )

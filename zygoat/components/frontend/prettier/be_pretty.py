@@ -13,21 +13,21 @@ class BePretty(Component):
     def create(self):
         log.info("Installing be-pretty into frontend project")
         docker_run(
-            ["yarn", "add", "--dev", "be-pretty@0.9.5"],
+            ["npm", "install", "--save-dev", "be-pretty@0.9.5"],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Configuring be-pretty to use the correct RC file")
         docker_run(
-            ["yarn", "run", "be-pretty", "setDefault"],
+            ["npm", "run", "be-pretty", "setDefault"],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
 
         log.info("Formatting project with prettier")
         docker_run(
-            ["yarn", "run", "be-pretty", "formatAll"],
+            ["npm", "run", "be-pretty", "formatAll"],
             self.docker_image(Images.NODE),
             Projects.FRONTEND,
         )
