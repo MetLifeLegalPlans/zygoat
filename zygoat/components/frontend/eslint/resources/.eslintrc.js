@@ -1,9 +1,14 @@
 module.exports = {
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: '12',
   },
 
-  extends: ['airbnb', 'plugin:jest/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'airbnb',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended',
+    'next/core-web-vitals',
+  ],
 
   plugins: ['react', 'react-hooks', 'prettier'],
 
