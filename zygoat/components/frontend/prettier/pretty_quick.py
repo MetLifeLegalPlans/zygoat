@@ -23,6 +23,7 @@ class PrettyQuick(Component):
             with open("package.json") as f:
                 data = json.load(f)
                 data["scripts"]["pretty-lint"] = "pretty-quick --check --branch"
+                data["scripts"]["prettier"] = "prettier"
 
             log.info("Dumping new frontend package file")
             with open("package.json", "w") as f:
@@ -40,6 +41,7 @@ class PrettyQuick(Component):
                 return (
                     "pretty-quick" in data.get("devDependencies", {})
                     and "pretty-lint" in data["scripts"]
+                    and "prettier" in data["scripts"]
                 )
 
 

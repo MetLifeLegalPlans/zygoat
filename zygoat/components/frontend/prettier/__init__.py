@@ -33,4 +33,4 @@ class Prettier(Component):
                 return "prettier" in json.load(f).get("devDependencies", {})
 
 
-prettier = Prettier(sub_components=[prettierrc, be_pretty, pretty_quick, prettierignore])
+prettier = Prettier(sub_components=[prettierrc, pretty_quick, prettierignore])

@@ -28,7 +28,8 @@ class Frontend(Component):
             "--app",
             "--no-tailwind",
             "--no-src-dir",
-            "--import-alias '@/*'",
+            "--import-alias",
+            "'@/*'",
         ]
         docker_run(
             ["npx", "create-next-app", Projects.FRONTEND, *non_interactive_args],
@@ -36,20 +37,14 @@ class Frontend(Component):
             ".",
         )
 
-        log.info("Emptying a poorly formatted index.js file")
-        open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
+        # log.info("Emptying a poorly formatted index.js file")
+        # open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
 
-        log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
-        os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
+        # log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
+        # os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
 
         log.info("Deleting default next.config.js (added in create-next-app v11)")
         os.remove(os.path.join(Projects.FRONTEND, "next.config.js"))
-
-        log.info("Deleting the default api directory")
-        shutil.rmtree(os.path.join(Projects.FRONTEND, "pages", "api"))
-
-        log.info("Deleting default _document.js")
-        os.remove(os.path.join(Projects.FRONTEND, "pages", "_document.js"))
 
     def delete(self):
         log.warning(f"Deleting the {Projects.FRONTEND} project")
@@ -65,7 +60,9 @@ class Reformat(Component):
         log.info("Formatting package.json with prettier")
         with use_dir(Projects.FRONTEND):
             docker_run(
-                ["npm", "prettier", "-w", "package.json"], self.docker_image(Images.NODE), "."
+                ["npm", "run", "prettier", "--", "-w", "package.json"],
+                self.docker_image(Images.NODE),
+                ".",
             )
 
     def update(self):
