@@ -25,7 +25,7 @@ class Frontend(Component):
         non_interactive_args = [
             "--js",
             "--eslint",
-            "--app",
+            "--no-app",
             "--no-tailwind",
             "--no-src-dir",
             "--import-alias",
@@ -37,11 +37,11 @@ class Frontend(Component):
             ".",
         )
 
-        # log.info("Emptying a poorly formatted index.js file")
-        # open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
+        log.info("Emptying a poorly formatted index.js file")
+        open(os.path.join(Projects.FRONTEND, "pages", "index.js"), "w").close()
 
-        # log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
-        # os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
+        log.info("Deleting default _app.js file (added in create-next-app v9.5.5)")
+        os.remove(os.path.join(Projects.FRONTEND, "pages", "_app.js"))
 
         log.info("Deleting default next.config.js (added in create-next-app v11)")
         os.remove(os.path.join(Projects.FRONTEND, "next.config.js"))
@@ -57,10 +57,10 @@ class Frontend(Component):
 
 class Reformat(Component):
     def create(self):
-        log.info("Formatting package.json with prettier")
+        log.info("Formatting package with prettier")
         with use_dir(Projects.FRONTEND):
             docker_run(
-                ["npm", "run", "prettier", "--", "-w", "package.json"],
+                ["npm", "run", "prettier", "--", "-w", "."],
                 self.docker_image(Images.NODE),
                 ".",
             )
