@@ -7,7 +7,7 @@ from zygoat.utils.shell import docker_run
 from zygoat.utils.files import use_dir
 
 from .prettierrc import prettierrc
-from .be_pretty import be_pretty
+
 from .pretty_quick import pretty_quick
 from .prettierignore import prettierignore
 
