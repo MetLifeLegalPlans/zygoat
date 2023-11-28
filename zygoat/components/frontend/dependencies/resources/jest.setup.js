@@ -1,4 +1,5 @@
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/jest-globals';
 import mediaQuery from 'css-mediaquery';
 import * as nextRouter from 'next/router';
 
