@@ -11,14 +11,14 @@ def docker_client():
     return docker.from_env()
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def temp_dir():
     with tempfile.TemporaryDirectory() as path:
         yield path
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def python(docker_client: docker.DockerClient, temp_dir):
     container = container_ext.spawn("python:latest", temp_dir, wait=False)
     yield container
-    container.stop()
+    container.stop(timeout=0)

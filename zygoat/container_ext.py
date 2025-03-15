@@ -1,5 +1,6 @@
 from time import sleep
 import os
+import inspect
 
 # Required for 3.9 compatibility
 from typing import Any, Optional, Union
@@ -19,28 +20,23 @@ def patch():
     """
     Injects the zg_* suite of helper functions onto Docker's Container model
     """
-    _patches = [
-        ("zg_run", _zg_run),
-        ("zg_run_all", _zg_run_all),
-        ("zg_perms", _zg_perms),
-    ]
+    # Get all members in the current global scope
+    members = globals().items()
 
-    for name, func in _patches:
+    # Filter functions whose names start with '_zg'
+    patches = [
+        (name[1:], func)
+        for name, func in members
+        if inspect.isfunction(func) and name.startswith("_zg")
+    ]
+    for name, func in patches:
         setattr(Container, name, func)
 
 
-def wait_for(container: Container):
-    """
-    Waits for a container to enter the running state
-    """
-    container.reload()
-    while container.status != "running":
-        log.info(f"Waiting for container {container.image}: {container.status}")
-        sleep(0.25)
-        container.reload()
-
-
 def spawn(image: str, project_path: Union[str, os.PathLike], wait: bool = False) -> Container:
+    """
+    Creates a new container from the specified image using shared defaults
+    """
     container = _client.containers.run(
         image,
         volumes={project_path: {"bind": paths.WORKSPACE, "mode": "rw"}},
@@ -53,6 +49,17 @@ def spawn(image: str, project_path: Union[str, os.PathLike], wait: bool = False)
     if wait:
         wait_for(container)
     return container
+
+
+def wait_for(container: Container):
+    """
+    Waits for a container to enter the running state
+    """
+    container.reload()
+    while container.status != "running":
+        log.info(f"Waiting for container {container.image}: {container.status}")
+        sleep(1)
+        container.reload()
 
 
 def _zg_run(self: Container, *args, correct_perms=True, throw=True, **kwargs) -> int:
