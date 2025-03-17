@@ -5,6 +5,7 @@ import click
 
 from .logging import log
 from .projects import backend
+from .utils import chdir
 from . import container_ext
 
 _images = ["python:latest", "node:latest"]
@@ -23,8 +24,9 @@ def new(name: str):
     containers = [container_ext.spawn(image, project_path, wait=True) for image in _images]
 
     python, node = containers
-    try:
-        backend.generate(python=python, node=node)
-    finally:
-        for container in containers:
-            container.stop()
+    with chdir(project_path):
+        try:
+            backend.generate(python=python, node=node)
+        finally:
+            for container in containers:
+                container.stop()

@@ -2,6 +2,7 @@ import pytest
 import docker
 
 from zygoat import container_ext
+from zygoat.utils import chdir
 
 import tempfile
 
@@ -20,5 +21,6 @@ def temp_dir():
 @pytest.fixture(scope="module")
 def python(docker_client: docker.DockerClient, temp_dir):
     container = container_ext.spawn("python:latest", temp_dir, wait=False)
-    yield container
+    with chdir(temp_dir):
+        yield container
     container.stop(timeout=0)

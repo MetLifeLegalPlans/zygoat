@@ -1,4 +1,7 @@
+from contextlib import ExitStack
+
 from docker.models.containers import Container
+
 from zygoat.logging import log
 from zygoat.constants import paths
 
@@ -23,7 +26,8 @@ def generate(python: Container = None, node: Container = None):
     log.info("Generating the Django project")
     python.zg_run("poetry init -n --name backend", workdir=paths.B)
 
-    with SettingsManager() as settings:
+    with ExitStack() as stack:
+        settings = stack.enter_context(SettingsManager())
         log.info("Creating import for zygoat-django settings")
         settings.add_import("from zygoat_django.settings import *")
 
