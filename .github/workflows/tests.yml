@@ -2,16 +2,16 @@ name: Lint and Test
 permissions:
   contents: read
 
-'on': pull_request
+'on': push
 
 jobs:
-  test_matrix:
+  CI:
     strategy:
       matrix:
         cmd: ["mypy zygoat", "ruff check .", "pytest -m slow", "pytest -m 'not slow'"]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

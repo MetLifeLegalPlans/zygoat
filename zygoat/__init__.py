@@ -20,6 +20,7 @@ def new(name: str):
     if os.path.exists(project_path):
         log.critical(f"Target path {project_path} already exists")
         sys.exit(1)
+    os.mkdir(project_path)
 
     containers = [container_ext.spawn(image, project_path, wait=True) for image in _images]
 

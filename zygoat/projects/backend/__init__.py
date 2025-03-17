@@ -1,5 +1,3 @@
-from contextlib import ExitStack
-
 from docker.models.containers import Container
 
 from zygoat.logging import log
@@ -16,18 +14,17 @@ _exported_settings_values = [
 def generate(python: Container = None, node: Container = None):
     log.info("Starting backend generation")
 
-    log.info("Installing pip, poetry, and django")
+    log.info("Installing pip, poetry, and generating the Django project")
     python.zg_run_all(
         "pip install --upgrade pip",  # Run on its own so the new resolver can be used for future dependencies
         "pip install --upgrade django poetry",
         "django-admin startproject backend",
     )
 
-    log.info("Generating the Django project")
+    log.info("Generating a pyproject.toml")
     python.zg_run("poetry init -n --name backend", workdir=paths.B)
 
-    with ExitStack() as stack:
-        settings = stack.enter_context(SettingsManager())
+    with SettingsManager() as settings:
         log.info("Creating import for zygoat-django settings")
         settings.add_import("from zygoat_django.settings import *")
 
