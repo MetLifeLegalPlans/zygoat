@@ -1,9 +1,12 @@
 import os
-from zygoat.constants import WORKSPACE as _w, BACKEND as _b, FRONTEND as _F
+from zygoat.constants import WORKSPACE as _w, BACKEND as _b, FRONTEND as _f
 
 WORKSPACE = os.path.join("/", _w)
 BACKEND = os.path.join(WORKSPACE, _b)
-FRONTEND = os.path.join(WORKSPACE, _b)
+FRONTEND = os.path.join(WORKSPACE, _f)
+
+# Backend specific
+SETTINGS = os.path.join(_b, _b, "settings.py")
 
 # Aliases for convenience, to avoid repetition
 B = BACKEND

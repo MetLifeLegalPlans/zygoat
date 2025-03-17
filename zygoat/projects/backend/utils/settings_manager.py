@@ -4,6 +4,7 @@ import os
 import shlex
 
 from redbaron import RedBaron
+from zygoat.constants import paths
 
 
 class SettingsManager:
@@ -21,7 +22,7 @@ class SettingsManager:
     red: RedBaron
     path: Union[os.PathLike, str]
 
-    def __init__(self, path: Union[os.PathLike, str]):
+    def __init__(self, path: Union[os.PathLike, str] = paths.SETTINGS):
         self.path = path
 
     def add_import(self, line: str):
@@ -65,6 +66,15 @@ class SettingsManager:
         if prepend:
             return apps.insert(0, app)
         return apps.append(app)
+
+    def remove_variable(self, name: str):
+        """
+        Removes an identifier from the settings file. Mostly useful for
+        removing defaults for variables exported from zygoat_django
+        """
+        # red.find => NameNode, .parent => AssignmentNode
+        idx = self.red.find("name", value=name).parent.index_on_parent
+        del self.red[idx]
 
     @property
     def raw(self) -> str:
