@@ -8,16 +8,17 @@ jobs:
   CI:
     strategy:
       matrix:
-        - cmd: mypy zygoat
-          name: Type Checks
-        - cmd: ruff check .
-          name: Linting/Formatting
-        - cmd: pytest -m slow
-          name: Project Generation
-        - cmd: pytest -m 'not slow'
-          name: Unit Tests
+        step:
+          - cmd: mypy zygoat
+            name: Type Checks
+          - cmd: ruff check .
+            name: Linting/Formatting
+          - cmd: pytest -m slow
+            name: Project Generation
+          - cmd: pytest -m 'not slow'
+            name: Unit Tests
     runs-on: ubuntu-latest
-    name: ${{ matrix.name}}
+    name: ${{ matrix.step.name}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -28,5 +29,5 @@ jobs:
         run: |
           pip install --upgrade pip poetry
           poetry install
-      - name: ${{ matrix.cmd }}
-        run: poetry run ${{ matrix.cmd }}
+      - name: ${{ matrix.step.cmd }}
+        run: poetry run ${{ matrix.step.cmd }}
