@@ -18,6 +18,7 @@ GUNICORN_CONF = "gunicorn.conf.py"
 # Frontend specific
 PACKAGE = join(_f, "package.json")
 JSCONFIG = join(_f, "jsconfig.json")
+PAGES = join(_f, "pages")
 
 # Aliases for convenience, to avoid repetition
 B = BACKEND
