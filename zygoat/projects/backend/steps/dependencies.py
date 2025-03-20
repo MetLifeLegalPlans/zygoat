@@ -1,6 +1,4 @@
-from docker.models.containers import Container
-
-from zygoat.types import Path
+from zygoat.types import Path, Container
 from zygoat.logging import log
 
 from ..dependencies import Dependencies
