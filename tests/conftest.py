@@ -24,3 +24,11 @@ def python(docker_client: docker.DockerClient, temp_dir):
     with chdir(temp_dir):
         yield container
     container.stop(timeout=0)
+
+
+@pytest.fixture(scope="module")
+def node(docker_client: docker.DockerClient, temp_dir):
+    container = container_ext.spawn("node:latest", temp_dir, wait=False)
+    with chdir(temp_dir):
+        yield container
+    container.stop(timeout=0)

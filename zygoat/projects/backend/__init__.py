@@ -1,13 +1,9 @@
-import os
-import inspect
-import importlib
-
-from typing import Iterator
 from docker.models.containers import Container
 
-from zygoat.types import Path, Step
+from zygoat.types import Path
 from zygoat.logging import log
 from zygoat.constants import paths
+from zygoat.utils import find_steps
 
 from .settings import Settings
 from . import steps
@@ -19,8 +15,6 @@ _exported_settings_values = [
     "ALLOWED_HOSTS",
     "DATABASES",
 ]
-
-_run = "run"
 
 
 def generate(python: Container, project_path: Path):
@@ -48,32 +42,8 @@ def generate(python: Container, project_path: Path):
             settings.remove_variable(identifier)
 
     # Ready for dynamic step resolution!
-    for step in _steps():
+    for step in find_steps(steps):
         step(python, project_path)
 
     # Finally, reformat our project to bring everything back inline
     python.zg_run("poetry run ruff format .", workdir=paths.B)
-
-
-def _steps() -> Iterator[Step]:
-    """
-    Yields an iterator of Step functions discovered dynamically from .steps
-    """
-
-    # Get real path to our steps package
-    base_dir = os.path.dirname(inspect.getfile(steps))
-
-    # Walk the package file tree
-    for root, dirs, files in os.walk(base_dir):
-        # Only search the top level
-        if root != base_dir:
-            break
-        for name in files:
-            if ".py" not in name or "__init__" in name:
-                continue
-
-            module = importlib.import_module(
-                f"{steps.__name__}.{os.path.splitext(name)[0]}",
-            )
-            if hasattr(module, _run):
-                yield module.run

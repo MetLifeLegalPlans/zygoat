@@ -1,0 +1,8 @@
+FROM 818831340115.dkr.ecr.us-east-1.amazonaws.com/node:22
+
+WORKDIR /code
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+CMD npm run dev -p 3000
