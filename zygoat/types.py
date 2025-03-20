@@ -1,5 +1,5 @@
 from docker.models.containers import Container
-from typing import Union, List, Callable, Iterator
+from typing import Union, List, Callable
 
 import os
 

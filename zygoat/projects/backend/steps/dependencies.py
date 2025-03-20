@@ -2,11 +2,8 @@ from docker.models.containers import Container
 
 from zygoat.types import Path
 from zygoat.logging import log
-from zygoat.constants import paths
 
-from ..settings import Settings
 from ..dependencies import Dependencies
-from zygoat.resources import Resources
 
 _prod_deps = [
     "Django",
