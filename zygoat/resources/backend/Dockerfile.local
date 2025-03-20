@@ -1,0 +1,15 @@
+FROM 818831340115.dkr.ecr.us-east-1.amazonaws.com/python:3.12
+
+WORKDIR /code
+
+COPY pyproject.toml poetry.lock ./
+
+RUN pip install -U poetry
+
+RUN poetry install
+
+CMD poetry run python manage.py wait_for_db && \
+  poetry run python manage.py collectstatic --noinput && \
+  poetry run python manage.py migrate && \
+  poetry run python manage.py createcachetable && \
+  poetry run uvicorn --host 0.0.0.0 --port 3000 --reload backend.asgi:application

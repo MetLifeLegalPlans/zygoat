@@ -1,12 +1,15 @@
-import os
+from os.path import join
 from zygoat.constants import WORKSPACE as _w, BACKEND as _b, FRONTEND as _f
 
-WORKSPACE = os.path.join("/", _w)
-BACKEND = os.path.join(WORKSPACE, _b)
-FRONTEND = os.path.join(WORKSPACE, _f)
+WORKSPACE = join("/", _w)
+BACKEND = join(WORKSPACE, _b)
+FRONTEND = join(WORKSPACE, _f)
 
 # Backend specific
-SETTINGS = os.path.join(_b, _b, "settings.py")
+SETTINGS = join(_b, _b, "settings.py")
+
+# Frontend specific
+PACKAGE = join(_f, "package.json")
 
 # Aliases for convenience, to avoid repetition
 B = BACKEND

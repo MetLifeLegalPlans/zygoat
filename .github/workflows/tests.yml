@@ -8,8 +8,16 @@ jobs:
   CI:
     strategy:
       matrix:
-        cmd: ["mypy zygoat", "ruff check .", "pytest -m slow", "pytest -m 'not slow'"]
+        - cmd: mypy zygoat
+          name: Type Checks
+        - cmd: ruff check .
+          name: Linting/Formatting
+        - cmd: pytest -m slow
+          name: Project Generation
+        - cmd: pytest -m 'not slow'
+          name: Unit Tests
     runs-on: ubuntu-latest
+    name: ${{ matrix.name}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

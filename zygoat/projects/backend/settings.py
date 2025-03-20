@@ -1,13 +1,14 @@
-from typing import Union, Optional
+from typing import Optional
 
-import os
 import shlex
 
-from redbaron import RedBaron
 from zygoat.constants import paths
+from zygoat.types import Path
+
+from redbaron import RedBaron
 
 
-class SettingsManager:
+class Settings:
     """
     Provides a handful of utilities for accessing and modifying
     a Django settings.py file. For use as a context manager -
@@ -20,9 +21,9 @@ class SettingsManager:
     """
 
     red: RedBaron
-    path: Union[os.PathLike, str]
+    path: Path
 
-    def __init__(self, path: Union[os.PathLike, str] = paths.SETTINGS):
+    def __init__(self, path: Path = paths.SETTINGS):
         self.path = path
 
     def add_import(self, line: str):

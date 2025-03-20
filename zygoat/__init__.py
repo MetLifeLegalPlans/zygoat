@@ -27,7 +27,9 @@ def new(name: str):
     python, node = containers
     with chdir(project_path):
         try:
-            backend.generate(python=python, node=node)
+            backend.generate(python, project_path)
         finally:
+            log.info("Stopping containers...")
             for container in containers:
-                container.stop()
+                # timeout=0 needed because the main process is purposefully hung
+                container.stop(timeout=0)

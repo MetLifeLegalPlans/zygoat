@@ -6,13 +6,15 @@ authors = [
     {name = "MetLife Legal Plans",email = "oss@willing.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.9,<4.0"
 dependencies = [
     "docker (>=7.1.0,<8.0.0)",
     "click (>=8.1.8,<9.0.0)",
     "colorama (>=0.4.6,<0.5.0)",
     "redbaron (>=0.9.2,<0.10.0)",
-    "importlib-metadata (>=8.6.1,<9.0.0)"
+    "importlib-metadata (>=8.6.1,<9.0.0)",
+    "importlib-resources (>=6.5.2,<7.0.0)",
+    "requests (>=2.32.3,<3.0.0)"
 ]
 
 [tool.poetry]
