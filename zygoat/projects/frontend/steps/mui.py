@@ -12,14 +12,10 @@ _prod_deps = [
     "@mui/material-nextjs",
     "@emotion/react",
     "@emotion/cache",
-    "@emotion/server",
     "@emotion/styled",
 ]
 
-_files = [
-    "pages/_app.js",
-    "pages/_document.js",
-]
+_files = ["app/layout.js", "theme.js"]
 
 
 def run(node: Container, project_path: Path):
