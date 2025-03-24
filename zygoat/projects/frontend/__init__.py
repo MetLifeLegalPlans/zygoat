@@ -18,7 +18,7 @@ def generate(node: Container, project_path: Path):
             "-y",  # Non-interactively install create-next-app
             "create-next-app@latest",
             "frontend",  # Project name
-            "--js",  # We don't use typescript
+            "--ts",  # We have to use Typescript for prop type checking
             "--eslint",  # Use Next's default eslint config
             "--app",  # Use React server components
             "--no-tailwind",  # MUI is our design system

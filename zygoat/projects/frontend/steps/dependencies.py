@@ -15,9 +15,6 @@ _prod_deps = [
 _dev_deps = [
     "jest",
     "@axe-core/react",
-    "@testing-library/dom",
-    "@testing-library/react",
-    "@testing-library/jest-dom",
     "css-mediaquery",
 ]
 

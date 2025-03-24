@@ -13,10 +13,10 @@ jobs:
             name: Type Checks
           - cmd: ruff check .
             name: Linting/Formatting
-          - cmd: pytest -m slow
+          - cmd: pytest -m slow -n auto
             name: Project Generation
           - cmd: pytest -m 'not slow'
-            name: Unit Tests
+            name: Unit Tests -n auto
     runs-on: ubuntu-latest
     name: ${{ matrix.step.name}}
     steps:

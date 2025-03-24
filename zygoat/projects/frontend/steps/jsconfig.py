@@ -7,5 +7,5 @@ from zygoat.constants import paths
 
 def run(node: Container, project_path: Path):
     resources = Resources(project_path)
-    log.info(f"Copying {paths.JSCONFIG}")
-    resources.cp(paths.JSCONFIG)
+    log.info(f"Copying {paths.TSCONFIG}")
+    resources.cp(paths.TSCONFIG)
