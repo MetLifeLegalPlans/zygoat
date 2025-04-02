@@ -1,12 +1,16 @@
+import os
+import toml
 from docker.models.containers import Container
 
 from zygoat.types import Path
 from zygoat.logging import log
-from zygoat.constants import paths
+from zygoat.constants import paths, BACKEND
 from zygoat.utils import find_steps
 
 from .settings import Settings
 from . import steps
+
+_pyproject = "pyproject.toml"
 
 # TODO: untangle zygoat-django dependencies so we can drop this
 _python_ver = ">=3.10,<4.0"
@@ -29,8 +33,17 @@ def generate(python: Container, project_path: Path):
     )
 
     # Initialize pyproject.toml
-    log.info("Generating a pyproject.toml")
+    log.info(f"Generating a {_pyproject}")
     python.zg_run(f"poetry init -n --name backend --python '{_python_ver}'", workdir=paths.B)
+
+    log.info(f"Setting package-mode=false in {_pyproject}")
+    pyproject_path = os.path.join(BACKEND, _pyproject)
+    with open(pyproject_path) as f:
+        data = toml.load(f)
+
+    data["project"]["package-mode"] = False
+    with open(pyproject_path, "w") as f:
+        f.write(toml.dumps(data))
 
     # Perform settings modifications
     with Settings() as settings:

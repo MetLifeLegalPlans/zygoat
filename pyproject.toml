@@ -14,7 +14,8 @@ dependencies = [
     "redbaron (>=0.9.2,<0.10.0)",
     "importlib-metadata (>=8.6.1,<9.0.0)",
     "importlib-resources (>=6.5.2,<7.0.0)",
-    "requests (>=2.32.3,<3.0.0)"
+    "requests (>=2.32.3,<3.0.0)",
+    "toml (>=0.10.2,<0.11.0)"
 ]
 
 [tool.poetry]
