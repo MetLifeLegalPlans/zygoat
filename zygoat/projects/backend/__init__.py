@@ -45,13 +45,15 @@ def generate(python: Container, project_path: Path):
     # may change that
     tool = data.get("tool", {"poetry": {}})
     tool["poetry"]["package-mode"] = False
+    data["tool"] = tool
     with open(pyproject_path, "w") as f:
         f.write(toml.dumps(data))
 
     # Perform settings modifications
     with Settings() as settings:
-        log.info("Creating import for zygoat-django settings")
-        settings.add_import("from zygoat_django.settings import *")
+        # TODO: replace this with RedBaron injections
+        # log.info("Creating import for zygoat-django settings")
+        # settings.add_import("from zygoat_django.settings import *")
 
         for identifier in _exported_settings_values:
             log.info(f"Removing default {identifier}")
@@ -62,4 +64,8 @@ def generate(python: Container, project_path: Path):
         step(python, project_path)
 
     # Finally, reformat our project to bring everything back inline
-    python.zg_run("poetry run ruff format .", workdir=paths.B)
+    python.zg_run_all(
+        "poetry run ruff format .",
+        "poetry run ruff check --fix .",
+        workdir=paths.B,
+    )

@@ -32,8 +32,7 @@ jobs:
       - name: ${{ matrix.step.cmd }}
         run: poetry run ${{ matrix.step.cmd }}
 
-  # frontend
-  generated: # Tests run on the generated frontend
+  generated: # Test suites on the generated project
     strategy:
       matrix:
         step:
@@ -46,10 +45,10 @@ jobs:
             name: Compile
 
           # Backend
-          - cmd: ruff check .
+          - cmd: poetry run ruff check .
             project: backend
             name: Lint
-          - cmd: mypy .
+          - cmd: poetry run mypy .
             project: backend
             name: Type Checks
     runs-on: ubuntu-latest
