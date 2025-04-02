@@ -79,4 +79,4 @@ jobs:
         run: docker network create mlp_network
       - name: ${{ matrix.step.name }}
         working-directory: ./project
-        run: docker compose run -it --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}
+        run: docker compose run -T --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}
