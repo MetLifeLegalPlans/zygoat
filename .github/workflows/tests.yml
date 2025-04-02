@@ -37,11 +37,9 @@ jobs:
       matrix:
         step:
           - cmd: npm run lint
-            name: eslint
-          - cmd: npm run format-check
-            name: prettier
+            name: Lint
           - cmd: npm run build
-            name: typescript
+            name: Compile
     runs-on: ubuntu-latest
     name: "[frontend] ${{ matrix.step.name }}"
     steps:
@@ -56,6 +54,8 @@ jobs:
           poetry install
       - name: Generate project
         run: poetry run zygoat project
+      - name: Create shared network
+        run: docker network create mlp_network
       - name: ${{ matrix.step.name }}
         working-directory: ./project
         run: docker compose run -it --rm frontend ${{ matrix.step.cmd }}
@@ -65,9 +65,9 @@ jobs:
       matrix:
         step:
           - cmd: ruff check .
-            name: ruff
-          - cmd: type checks
-            name: mypy .
+            name: Lint
+          - cmd: mypy .
+            name: Type Checks
     runs-on: ubuntu-latest
     name: "[backend] ${{ matrix.step.name }}"
     steps:
@@ -82,6 +82,8 @@ jobs:
           poetry install
       - name: Generate project
         run: poetry run zygoat project
+      - name: Create shared network
+        run: docker network create mlp_network
       - name: ${{ matrix.step.name }}
         working-directory: ./project
         run: docker compose run -it --rm backend ${{ matrix.step.cmd }}
