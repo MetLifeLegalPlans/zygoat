@@ -18,7 +18,7 @@ jobs:
           - cmd: pytest -m 'not slow' -n auto
             name: Unit Tests
     runs-on: ubuntu-latest
-    name: ${{ matrix.step.name }}
+    name: "[CI] ${{ matrix.step.name }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
