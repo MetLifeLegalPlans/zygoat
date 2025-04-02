@@ -8,7 +8,16 @@ from zygoat.logging import log
 from ..dependencies import Dependencies
 
 _deps = ["@sentry/nextjs"]
-_files = ["next.config.ts", "zygoat.next.config.js"]
+_files = [
+    "next.config.ts",
+    "zygoat.next.config.js",
+    "instrumentation.ts",
+    "instrumentation-client.ts",
+    "app/global-error.tsx",
+]
+
+_sentry_pattern = "sentry.{}.config.ts"
+_files += [_sentry_pattern.format(conf) for conf in ("server", "edge")]
 
 
 def run(node: Container, project_path: Path):
