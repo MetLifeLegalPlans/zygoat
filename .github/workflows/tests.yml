@@ -5,7 +5,7 @@ permissions:
 'on': push
 
 jobs:
-  CI:
+  CI: # Static analysis checks on our own code
     strategy:
       matrix:
         step:
@@ -18,7 +18,7 @@ jobs:
           - cmd: pytest -m 'not slow'
             name: Unit Tests -n auto
     runs-on: ubuntu-latest
-    name: ${{ matrix.step.name}}
+    name: ${{ matrix.step.name }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,3 +31,57 @@ jobs:
           poetry install
       - name: ${{ matrix.step.cmd }}
         run: poetry run ${{ matrix.step.cmd }}
+
+  frontend: # Tests run on the generated frontend
+    strategy:
+      matrix:
+        step:
+          - cmd: npm run lint
+            name: eslint
+          - cmd: npm run format-check
+            name: prettier
+          - cmd: npm run build
+            name: typescript
+      runs-on: ubuntu-latest
+      name: ${{ matrix.step.name }}
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.12'
+            architecture: 'x64'
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip poetry
+            poetry install
+        - name: Generate project
+          run: poetry run zygoat project
+        - name: ${{ matrix.step.name }}
+          working-directory:
+          run: docker compose run -it --rm frontend ${{ matrix.step.cmd }}
+
+  backend: # Tests run on the generated backend
+    strategy:
+      matrix:
+        step:
+          - cmd: ruff check .
+            name: ruff
+          - cmd: type checks
+            name: mypy .
+      runs-on: ubuntu-latest
+      name: ${{ matrix.step.name }}
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.12'
+            architecture: 'x64'
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip poetry
+            poetry install
+        - name: Generate project
+          run: poetry run zygoat project
+        - name: ${{ matrix.step.name }}
+          working-directory:
+          run: docker compose run -it --rm backend ${{ matrix.step.cmd }}
