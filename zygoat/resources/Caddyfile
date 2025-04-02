@@ -1,0 +1,20 @@
+:3003
+
+reverse_proxy /api* backend:3000 {
+    header_up Host {http.reverse_proxy.upstream.host}
+}
+
+reverse_proxy frontend:3000 {
+    header_up Host {http.reverse_proxy.upstream.host}
+    flush_interval -1
+}
+
+
+# Proxy static files to the backend so WhiteNoise can serve them
+reverse_proxy /static* backend:3000 {
+    header_up Host {http.reverse_proxy.upstream.host}
+}
+
+reverse_proxy /admin* backend:3000 {
+    header_up Host {http.reverse_proxy.upstream.host}
+}

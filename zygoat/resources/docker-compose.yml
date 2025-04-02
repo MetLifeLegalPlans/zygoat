@@ -1,0 +1,72 @@
+services:
+  backend:
+    build: &build
+      context: backend
+      dockerfile: Dockerfile.local
+    depends_on: &depends_on
+      - db
+      - cache
+    volumes: &volumes
+      - ./backend:/code
+    networks: &networks
+      - default
+      - shared
+    environment: &environment
+      - COMPOSE_HTTP_TIMEOUT=120
+      - USE_LOCAL_AUTH
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_SESSION_TOKEN
+      - DJANGO_USE_SPONSORS_ENROLLMENT
+      - DJANGO_USE_SPONSORS_INVOICES
+      - DJANGO_ENABLE_SILK_PROFILING
+  cache:
+    image: redis
+  db:
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    image: postgres:16
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./frontend:/code
+      - /code/node_modules
+      - /code/.next
+  reverse-proxy:
+    depends_on:
+      - frontend
+      - backend
+    image: caddy:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+  # Uncomment if using Dramatiq
+  # worker:
+  #   build: *build
+  #   command: poetry run python watch_tasks.py
+  #   depends_on: *depends_on
+  #   volumes: *volumes
+  #   networks: *networks
+  #   environment: *environment
+  # scheduler:
+  #   build: *build
+  #   command: poetry run python ./manage.py run_scheduler
+  #   depends_on: *depends_on
+  #   volumes: *volumes
+  #   networks: *networks
+  #   environment: *environment
+
+networks:
+  shared:
+    name: mlp_network
+    driver: bridge
+    external: true
+    driver_opts:
+      com.docker.network.driver.mtu: 1280
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1280

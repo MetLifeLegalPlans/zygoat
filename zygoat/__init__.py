@@ -4,7 +4,7 @@ import sys
 import click
 
 from .logging import log
-from .projects import backend, frontend
+from .projects import backend, frontend, finalize
 from .utils import chdir
 from . import container_ext
 
@@ -29,6 +29,7 @@ def new(name: str):
         try:
             backend.generate(python, project_path)
             frontend.generate(node, project_path)
+            finalize.generate(project_path)
         finally:
             log.info("Stopping containers...")
             for container in containers:
