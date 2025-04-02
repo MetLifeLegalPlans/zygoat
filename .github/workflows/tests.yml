@@ -32,46 +32,39 @@ jobs:
       - name: ${{ matrix.step.cmd }}
         run: poetry run ${{ matrix.step.cmd }}
 
-  frontend: # Tests run on the generated frontend
+  # frontend
+  generated: # Tests run on the generated frontend
     strategy:
       matrix:
         step:
+          # Frontend
           - cmd: npm run lint
+            project: frontend
             name: Lint
           - cmd: npm run build
+            project: frontend
             name: Compile
-    runs-on: ubuntu-latest
-    name: "[frontend] ${{ matrix.step.name }}"
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          architecture: 'x64'
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip poetry
-          poetry install
-      - name: Generate project
-        run: poetry run zygoat project
-      - name: Create shared network
-        run: docker network create mlp_network
-      - name: ${{ matrix.step.name }}
-        working-directory: ./project
-        run: docker compose run -it --rm frontend ${{ matrix.step.cmd }}
 
-  backend: # Tests run on the generated backend
-    strategy:
-      matrix:
-        step:
+          # Backend
           - cmd: ruff check .
+            project: backend
             name: Lint
           - cmd: mypy .
+            project: backend
             name: Type Checks
     runs-on: ubuntu-latest
-    name: "[backend] ${{ matrix.step.name }}"
+    name: "[${{ matrix.step.project }}] ${{ matrix.step.name }}"
     steps:
       - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Log into Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -86,4 +79,4 @@ jobs:
         run: docker network create mlp_network
       - name: ${{ matrix.step.name }}
         working-directory: ./project
-        run: docker compose run -it --rm backend ${{ matrix.step.cmd }}
+        run: docker compose run -it --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}
