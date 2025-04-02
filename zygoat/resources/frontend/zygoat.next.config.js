@@ -2,7 +2,7 @@
 // be edited manually. To extend or overwrite these settings, edit
 // next.config.js
 
-const withSvgr = require('next-svgr');
+const withSvgr = require('next-plugin-svgr');
 const withImages = require('next-images');
 
 const prod = process.env.NODE_ENV === 'production';
@@ -47,7 +47,6 @@ const config = {
   ],
   productionBrowserSourceMaps: true,
   poweredByHeader: false,
-  swcMinify: true,
 };
 
 const plugins = [withSvgr, [withImages]];

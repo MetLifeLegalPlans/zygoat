@@ -1,6 +1,7 @@
 from docker.models.containers import Container
 
 from zygoat.types import Path
+from zygoat.constants import paths
 from zygoat.logging import log
 from zygoat.utils import find_steps
 
@@ -9,6 +10,9 @@ from . import steps
 
 def generate(node: Container, project_path: Path):
     log.info("Starting frontend generation")
+
+    log.info("Updating NPM")
+    node.zg_run("npm install -g npm@latest")
 
     # Collect basic dependencies and generate project
     log.info("Running create-next-app")
@@ -31,3 +35,6 @@ def generate(node: Container, project_path: Path):
     # Ready for dynamic step resolution!
     for step in find_steps(steps):
         step(node, project_path)
+
+    # Finally, reformat our project to bring everything back inline
+    node.zg_run("npm run format", workdir=paths.F)

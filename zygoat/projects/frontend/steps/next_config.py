@@ -8,7 +8,7 @@ from zygoat.logging import log
 from ..dependencies import Dependencies
 
 _deps = ["@sentry/nextjs"]
-_files = ["next.config.js", "zygoat.next.config.js"]
+_files = ["next.config.ts", "zygoat.next.config.js"]
 
 
 def run(node: Container, project_path: Path):

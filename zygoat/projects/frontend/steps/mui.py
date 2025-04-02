@@ -15,7 +15,7 @@ _prod_deps = [
     "@emotion/styled",
 ]
 
-_files = ["app/layout.js", "theme.js"]
+_files = ["app/layout.tsx", "theme.ts"]
 
 
 def run(node: Container, project_path: Path):

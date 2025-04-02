@@ -80,7 +80,7 @@ poetry run zygoat my-project-name
 _or_
 
 ```bash
-make
+make # Default project name last-run
 ```
 
 This runs the generator command directly in the same way an end user would and generates `my-project-name` in the current directory. For convenience there is a `Makefile` in the root of the repository that is roughly equivalent to `poetry run zygoat last-run`.

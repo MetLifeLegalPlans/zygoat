@@ -33,6 +33,7 @@ _dev_deps = [
     "@testing-library/dom",
     "@testing-library/react",
     "@testing-library/jest-dom",
+    "typescript-eslint",
 ]
 _files = ["eslint.config.mjs"]
 
@@ -48,7 +49,7 @@ def run(node: Container, project_path: Path):
 
     log.info("Adding lint scripts")
     with Package() as package:
-        package.add_script("format", f"prettier --check {_prettier_glob}")
+        package.add_script("format-check", f"prettier --check {_prettier_glob}")
         package.add_script("fix", "npm run lint -- --fix && npm run format")
 
     log.info("Copying prettier config files")
