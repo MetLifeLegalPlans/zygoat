@@ -10,7 +10,7 @@ from ..package import Package
 
 _prettier = "prettier"
 _dev_deps = [_prettier, "@trivago/prettier-plugin-sort-imports"]
-_files = [".prettierrc.js", ".prettierignore"]
+_files = [".prettierrc", ".prettierignore"]
 
 
 def run(node: Container, project_path: Path):
