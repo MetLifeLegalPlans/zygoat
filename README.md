@@ -1,5 +1,7 @@
 # zygoat
 
+[![Lint and Test](https://github.com/MetLifeLegalPlans/zygoat-gf/actions/workflows/tests.yml/badge.svg)](https://github.com/MetLifeLegalPlans/zygoat-gf/actions/workflows/tests.yml)
+
 <img src="https://user-images.githubusercontent.com/640862/75250233-e287ea80-57a5-11ea-9d9f-553662a17706.jpeg" />
 
 ## What is zygoat?
