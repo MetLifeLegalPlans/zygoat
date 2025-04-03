@@ -1,9 +1,8 @@
 all: clean deps
-	poetry run zygoat test
-	mv test last-run
+	poetry run zygoat last-run
 
 clean:
-	rm -rf last-run test
+	rm -rf last-run
 
 deps: pyproject.toml
 	poetry install
