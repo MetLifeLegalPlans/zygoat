@@ -55,9 +55,7 @@ def run(python: Container, project_path: Path):
     resources.cp(_path)
 ```
 
-This step will be automatically detected at runtime and executed against the project
-
-For more information on authoring steps, see [STEPS.md](STEPS.md)
+This step will be automatically detected at runtime and executed against the project. For more information on authoring steps, see [STEPS.md](STEPS.md)
 
 ## How do I develop changes for it?
 
