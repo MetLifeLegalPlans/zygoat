@@ -1,0 +1,22 @@
+on: pull_request
+name: Prevent duplicate migrations
+
+jobs:
+  prevent-duplicate-migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: check for migration changes
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v41
+        with:
+          files: "backend/**/migrations/**"
+
+      - name: list all migration files that were changed and throw an error if any exists
+        if: steps.changed-files-specific.outputs.modified_files != ''
+        run: |
+          echo "the following migrations were found ${{ steps.changed-files-specific.outputs.modified_files }}"
+          exit 1

@@ -12,6 +12,7 @@ _dev_deps = [
     "pytest",
     "pytest-django",
     "pytest-cov",
+    "pytest-xdist",
 ]
 
 

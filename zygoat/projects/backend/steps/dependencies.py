@@ -20,7 +20,6 @@ _prod_deps = [
 _dev_deps = [
     "pytz",
     "factory-boy",
-    "flake8-black",
     "bandit",
 ]
 

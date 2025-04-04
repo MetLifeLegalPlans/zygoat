@@ -1,0 +1,44 @@
+on: pull_request
+name: CI
+
+jobs:
+  CI:
+    strategy:
+      matrix:
+        step:
+          # Backend
+          - cmd: poetry run ruff check
+            project: backend
+            name: Linting
+
+          - cmd: poetry run ruff format --check
+            project: backend
+            name: Formatting
+
+          - cmd: poetry run pytest -n auto
+            project: backend
+            name: Pytest
+
+          # Frontend
+          - cmd: npm run lint
+            project: frontend
+            name: Linting + Formatting
+
+          - cmd: npm run test
+            project: frontend
+            name: Tests
+    runs-on: ubuntu-latest
+    name: "[${{ matrix.step.project }}] ${{ matrix.step.name }}"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Log into Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: ${{ matrix.step.name }}
+        run: docker compose run -T --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}

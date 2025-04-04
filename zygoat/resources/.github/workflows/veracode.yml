@@ -1,0 +1,31 @@
+name: Veracode Static Analysis Demo
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  static_analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v2
+      - name: Tar files
+        run: tar -cvf REPLACEME.tar $GITHUB_WORKSPACE/backend $GITHUB_WORKSPACE/frontend
+
+      - name: Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: '12180_MLP Sponsor Website'
+          createprofile: false
+          filepath: 'REPLACEME.tar'
+          vid: '${{ secrets.VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY }}'
+          #createsandbox: true
+          #sandboxname: 'github_test'
+          version: 'scan_from_github_job_${{GITHUB.RUN_ID}}'
