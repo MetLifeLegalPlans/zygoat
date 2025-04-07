@@ -40,5 +40,7 @@ jobs:
       - name: Log into Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      - name: Create shared network
+        run: docker network create mlp_network
       - name: ${{ matrix.step.name }}
         run: docker compose run -T --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}

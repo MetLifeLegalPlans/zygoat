@@ -34,6 +34,8 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       - name: Pull backend base images
         run: docker pull 818831340115.dkr.ecr.us-east-1.amazonaws.com/python:3.10
+      - name: Create shared network
+        run: docker network create mlp_network
       - name: Build the Docker image
         working-directory: backend
         run: docker build . -f Dockerfile -t sponsors-backend

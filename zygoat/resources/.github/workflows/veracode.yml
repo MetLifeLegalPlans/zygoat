@@ -21,7 +21,7 @@ jobs:
       - name: Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.4
         with:
-          appname: '12180_MLP Sponsor Website'
+          appname: 'REPLACEME'
           createprofile: false
           filepath: 'REPLACEME.tar'
           vid: '${{ secrets.VERACODE_API_ID }}'

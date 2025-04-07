@@ -15,12 +15,15 @@ container_ext.patch()
 
 @click.command()
 @click.argument("name")
-def new(name: str):
+@click.option("--force", "force", flag_value="force", default=False)
+def new(name: str, force: bool):
     project_path = os.path.join(os.getcwd(), name)
     if os.path.exists(project_path):
-        log.critical(f"Target path {project_path} already exists")
-        sys.exit(1)
-    os.mkdir(project_path)
+        if not force:
+            log.critical(f"Target path {project_path} already exists")
+            sys.exit(1)
+    else:
+        os.mkdir(project_path)
 
     containers = [container_ext.spawn(image, project_path, wait=True) for image in _images]
 
