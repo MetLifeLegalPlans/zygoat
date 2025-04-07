@@ -12,10 +12,8 @@ from zygoat.resources import Resources
 from .settings import Settings
 from . import steps
 
+_python_ver = ">=3.10,<4"
 _pyproject = "pyproject.toml"
-
-# TODO: untangle zygoat-django dependencies so we can drop this
-_python_ver = ">=3.10,<4.0"
 
 _overridden_settings = [
     "ALLOWED_HOSTS",
@@ -38,7 +36,7 @@ def generate(python: Container, project_path: Path):
 
     # Initialize pyproject.toml
     log.info(f"Generating a {_pyproject}")
-    python.zg_run(f"poetry init -n --name backend --python '{_python_ver}'", workdir=paths.B)
+    python.zg_run(f"poetry init -n --name backend --python='{_python_ver}'", workdir=paths.B)
 
     log.info(f"Setting package-mode=false in {_pyproject}")
     pyproject_path = os.path.join(BACKEND, _pyproject)
@@ -55,9 +53,13 @@ def generate(python: Container, project_path: Path):
 
     # Perform settings modifications
     with Settings() as settings:
+        settings.wrap_secret_key()
+
         for identifier in _overridden_settings:
             log.info(f"Removing default {identifier}")
             settings.remove_variable(identifier)
+
+        settings.add_installed_app("'rest_framework'")
 
         # Assemble new settings block from resource files
         new_settings = "\n".join(
@@ -68,6 +70,9 @@ def generate(python: Container, project_path: Path):
             + ["\n"]  # Add a newline before the next comment in the file
         )
         settings.add_import(new_settings)  # Append to the end of the import block
+
+    log.info("Adding base management commands")
+    resources.cp(os.path.join(BACKEND, BACKEND, "management"), recursive=True)
 
     # Ready for dynamic step resolution!
     for step in find_steps(steps):

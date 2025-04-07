@@ -26,6 +26,18 @@ class Settings:
     def __init__(self, path: Path = paths.SETTINGS):
         self.path = path
 
+    def wrap_secret_key(self):
+        r = self.red
+        key_statement = r.find("name", value="SECRET_KEY").parent
+
+        # Get the actual secret key
+        current = str(key_statement.value)
+
+        # Wrap it as a prod_required_env
+        r[key_statement.index_on_parent] = (
+            f"SECRET_KEY = prod_required_env('DJANGO_SECRET_KEY', default={current})"
+        )
+
     def append(self, line: str):
         """
         Appends a new line to the end of the file.
@@ -71,11 +83,6 @@ class Settings:
         >>> settings.add_installed_app("unfold", position=1)
         """
         r = self.red
-
-        # Quote the string if not already so it is interpreted as a string value
-        # and not a variable. For INSTALLED_APPS specifically this is sane,
-        # for other lists we want the caller to quote explicitly if required
-        app = shlex.quote(app)
         apps = r.find("name", value="INSTALLED_APPS").parent.value
 
         if position is not None:

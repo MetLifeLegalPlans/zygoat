@@ -12,7 +12,6 @@ _prod_deps = [
     "djangorestframework-camel-case",
     "django-anymail",
     "django-redis",
-    "zygoat-django",
     "gunicorn[gevent]",
     "uvicorn[standard]",
     "psycogreen",
