@@ -1,7 +1,7 @@
 from functools import partial
 import os
 from shutil import copy, copytree
-from typing import Optional
+from typing import Optional, Union, ByteString
 
 import importlib_resources
 
@@ -41,3 +41,20 @@ class Resources:
 
         cp = partial(copytree, dirs_exist_ok=True) if recursive else copy
         return cp(src_path, dest_path)
+
+    def read(self, path: Path, binary=False) -> Union[bytes, str]:
+        """
+        Reads a file from the resources package. By default it returns
+        the contents as text, but this can be controlled with the binary
+        flag.
+
+        >>> r.read("backend/pytest.ini")
+        "pytest_ini_contents..."
+        >>> r.read("backend/pytest.ini", binary=True)
+        b"pytest_ini_contents..."
+        """
+
+        pkg = self.pkg
+        mode = "rb" if binary else "r"
+        with open(os.path.join(pkg, path), mode) as f:
+            return f.read()

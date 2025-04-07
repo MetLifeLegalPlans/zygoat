@@ -1,3 +1,4 @@
+from typing import cast
 import os
 import toml
 from docker.models.containers import Container
@@ -6,6 +7,7 @@ from zygoat.types import Path
 from zygoat.logging import log
 from zygoat.constants import paths, BACKEND
 from zygoat.utils import find_steps
+from zygoat.resources import Resources
 
 from .settings import Settings
 from . import steps
@@ -15,14 +17,16 @@ _pyproject = "pyproject.toml"
 # TODO: untangle zygoat-django dependencies so we can drop this
 _python_ver = ">=3.10,<4.0"
 
-_exported_settings_values = [
+_overridden_settings = [
     "ALLOWED_HOSTS",
     "DATABASES",
 ]
+_settings_blocks = ["environment", "cache", "rest_framework"]
 
 
 def generate(python: Container, project_path: Path):
     log.info("Starting backend generation")
+    resources = Resources(project_path)
 
     # Collect basic dependencies and generate project
     log.info("Installing pip, poetry, and generating the Django project")
@@ -51,13 +55,19 @@ def generate(python: Container, project_path: Path):
 
     # Perform settings modifications
     with Settings() as settings:
-        # TODO: replace this with RedBaron injections
-        # log.info("Creating import for zygoat-django settings")
-        # settings.add_import("from zygoat_django.settings import *")
-
-        for identifier in _exported_settings_values:
+        for identifier in _overridden_settings:
             log.info(f"Removing default {identifier}")
             settings.remove_variable(identifier)
+
+        # Assemble new settings block from resource files
+        new_settings = "\n".join(
+            [
+                str(resources.read(os.path.join(BACKEND, "settings", f"{block}.py")))
+                for block in _settings_blocks
+            ]
+            + ["\n"]  # Add a newline before the next comment in the file
+        )
+        settings.add_import(new_settings)  # Append to the end of the import block
 
     # Ready for dynamic step resolution!
     for step in find_steps(steps):

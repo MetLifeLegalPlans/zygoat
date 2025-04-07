@@ -26,6 +26,16 @@ class Settings:
     def __init__(self, path: Path = paths.SETTINGS):
         self.path = path
 
+    def append(self, line: str):
+        """
+        Appends a new line to the end of the file.
+
+        >>> settings.append("env = environ.Env()")
+        """
+        r = self.red
+
+        r.append(line)
+
     def add_import(self, line: str):
         """
         Appends a new line to the import block.
@@ -37,8 +47,14 @@ class Settings:
 
         # Find all imports in the
         imports = r.find_all("FromImportNode") + r.find_all("ImportNode")
-        last_import = max([node.index_on_parent for node in imports])
-        r.insert(last_import + 1, line)
+        last_import = max([node.index_on_parent for node in imports]) + 1
+        pre = r[:last_import]
+        new = RedBaron(line)
+        post = r[last_import:]
+
+        pre.extend(new)
+        pre.extend(post)
+        self.red = pre
 
     def add_installed_app(
         self,
