@@ -31,7 +31,7 @@ jobs:
           aws-region: us-east-1
       - name: Log into Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
       - name: Pull backend base images
         run: docker pull 818831340115.dkr.ecr.us-east-1.amazonaws.com/python:3.10
       - name: Create shared network

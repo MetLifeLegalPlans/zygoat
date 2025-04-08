@@ -14,7 +14,7 @@ jobs:
           aws-region: us-east-1
       - name: Log into Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v4
+        uses: aws-actions/amazon-ecr-login@v2
       - name: Pull base images
         run: docker compose pull
       - name: Create shared network

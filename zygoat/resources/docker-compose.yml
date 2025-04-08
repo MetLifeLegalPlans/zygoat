@@ -14,18 +14,12 @@ services:
     environment: &environment
       - COMPOSE_HTTP_TIMEOUT=120
       - USE_LOCAL_AUTH
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_SESSION_TOKEN
-      - DJANGO_USE_SPONSORS_ENROLLMENT
-      - DJANGO_USE_SPONSORS_INVOICES
-      - DJANGO_ENABLE_SILK_PROFILING
   cache:
     image: redis
   db:
     environment:
       - POSTGRES_PASSWORD=postgres
-    image: postgres:16
+    image: postgres:17
   frontend:
     build:
       context: frontend
