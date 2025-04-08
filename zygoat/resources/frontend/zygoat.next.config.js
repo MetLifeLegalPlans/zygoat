@@ -31,6 +31,8 @@ const config = {
   },
   env: {
     PROD: prod.toString(),
+    // On local dev we always know where the backend is
+    BACKEND_URL: prod ? process.env.BACKEND_URL : 'http://backend:3000',
   },
   headers: async () => [
     {
