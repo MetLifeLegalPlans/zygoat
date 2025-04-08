@@ -1,7 +1,7 @@
-from typing import Iterator
-import os
 import importlib
 import inspect
+import os
+from typing import Iterator
 
 from zygoat.types import Step
 

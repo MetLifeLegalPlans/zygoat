@@ -1,10 +1,9 @@
 import os
 
-from zygoat.resources import Resources
-
-from zygoat.types import Path, Container
-from zygoat.logging import log
 from zygoat.constants import FRONTEND, paths
+from zygoat.logging import log
+from zygoat.resources import Resources
+from zygoat.types import Container, Path
 
 
 def run(node: Container, project_path: Path):

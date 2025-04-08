@@ -1,8 +1,8 @@
 import requests
 
-from zygoat.types import Path, Container
-from zygoat.logging import log
 from zygoat.constants import GITIGNORE_URL, paths
+from zygoat.logging import log
+from zygoat.types import Container, Path
 
 _static = """
 # Used by some language servers

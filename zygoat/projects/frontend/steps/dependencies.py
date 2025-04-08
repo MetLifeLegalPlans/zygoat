@@ -1,5 +1,5 @@
-from zygoat.types import Path, Container
 from zygoat.logging import log
+from zygoat.types import Container, Path
 
 from ..dependencies import Dependencies
 

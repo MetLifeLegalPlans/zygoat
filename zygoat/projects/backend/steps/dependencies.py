@@ -1,5 +1,5 @@
-from zygoat.types import Path, Container
 from zygoat.logging import log
+from zygoat.types import Container, Path
 
 from ..dependencies import Dependencies
 
@@ -15,6 +15,7 @@ _prod_deps = [
     "gunicorn[gevent]",
     "uvicorn[standard]",
     "psycogreen",
+    "django-willing-zg",
 ]
 
 _dev_deps = [

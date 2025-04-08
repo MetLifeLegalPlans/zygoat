@@ -1,8 +1,8 @@
 from docker.models.containers import Container
 
-from zygoat.types import Path
 from zygoat.constants import paths
 from zygoat.logging import log
+from zygoat.types import Path
 from zygoat.utils import find_steps
 
 from . import steps

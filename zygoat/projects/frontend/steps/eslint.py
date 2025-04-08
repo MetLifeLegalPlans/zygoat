@@ -1,10 +1,9 @@
 import os
 
-from zygoat.resources import Resources
-
 from zygoat.constants import FRONTEND
-from zygoat.types import Path, Container
 from zygoat.logging import log
+from zygoat.resources import Resources
+from zygoat.types import Container, Path
 
 from ..dependencies import Dependencies
 from ..package import Package

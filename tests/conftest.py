@@ -1,10 +1,10 @@
-import pytest
+import tempfile
+
 import docker
+import pytest
 
 from zygoat import container_ext
 from zygoat.utils import chdir
-
-import tempfile
 
 
 @pytest.fixture(scope="module")

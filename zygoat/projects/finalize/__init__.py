@@ -1,6 +1,6 @@
-from zygoat.types import Path
 from zygoat.logging import log
 from zygoat.resources import Resources
+from zygoat.types import Path
 
 _files = [
     "Caddyfile",

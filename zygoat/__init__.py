@@ -3,10 +3,10 @@ import sys
 
 import click
 
-from .logging import log
-from .projects import backend, frontend, finalize
-from .utils import chdir
 from . import container_ext
+from .logging import log
+from .projects import backend, finalize, frontend
+from .utils import chdir
 
 _images = ["python:latest", "node:latest"]
 

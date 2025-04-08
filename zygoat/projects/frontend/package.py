@@ -1,6 +1,5 @@
-from typing import Dict, Any
-
 import json
+from typing import Any, Dict
 
 from zygoat.constants import paths
 from zygoat.types import Path

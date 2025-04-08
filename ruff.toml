@@ -1,0 +1,5 @@
+extend-exclude = ["resources"]
+line-length = 95
+
+[lint]
+extend-select = ["I"]

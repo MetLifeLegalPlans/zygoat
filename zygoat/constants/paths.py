@@ -1,5 +1,8 @@
 from os.path import join
-from zygoat.constants import WORKSPACE as _w, BACKEND as _b, FRONTEND as _f
+
+from zygoat.constants import BACKEND as _b
+from zygoat.constants import FRONTEND as _f
+from zygoat.constants import WORKSPACE as _w
 
 GITIGNORE = ".gitignore"
 DOCKERFILE = "Dockerfile"

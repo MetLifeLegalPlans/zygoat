@@ -1,17 +1,16 @@
-from time import sleep
-import os
 import inspect
+import os
+from time import sleep
 
 # Required for 3.9 compatibility
 from typing import Any, Optional, Union
 
 import docker
-
 from docker.models.containers import Container
 
 from .constants import paths
-from .logging import log
 from .errors import CommandError
+from .logging import log
 
 _client = docker.from_env()
 

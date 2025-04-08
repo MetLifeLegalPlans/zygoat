@@ -1,5 +1,5 @@
-from zygoat.utils.dependencies import AbstractDependenciesManager
 from zygoat.constants import paths
+from zygoat.utils.dependencies import AbstractDependenciesManager
 
 
 class Dependencies(AbstractDependenciesManager):

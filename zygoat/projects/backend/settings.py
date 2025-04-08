@@ -1,11 +1,9 @@
 from typing import Optional
 
-import shlex
+from redbaron import RedBaron
 
 from zygoat.constants import paths
 from zygoat.types import Path
-
-from redbaron import RedBaron
 
 
 class Settings:
@@ -27,6 +25,16 @@ class Settings:
         self.path = path
 
     def wrap_secret_key(self):
+        """
+        Wraps the generated SECRET_KEY with prod_required_env for security.
+
+        # SECRET_KEY = 'django-insecure_abc123'
+        >>> settings.wrap_secret_key()
+        # SECRET_KEY = prod_required_env(
+        #     'DJANGO_SECRET_KEY',
+        #      default='django-insecure_abc123',
+        # )
+        """
         r = self.red
         key_statement = r.find("name", value="SECRET_KEY").parent
 

@@ -1,8 +1,7 @@
+import os
 from typing import Callable
 
 from zygoat.types import Path
-
-import os
 
 chdir: Callable
 

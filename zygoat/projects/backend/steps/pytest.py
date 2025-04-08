@@ -1,11 +1,11 @@
 import os
 
-from zygoat.resources import Resources
-from ..dependencies import Dependencies
-
-from zygoat.types import Path, Container
-from zygoat.logging import log
 from zygoat.constants import BACKEND
+from zygoat.logging import log
+from zygoat.resources import Resources
+from zygoat.types import Container, Path
+
+from ..dependencies import Dependencies
 
 _pytest_path = os.path.join(BACKEND, "pytest.ini")
 _dev_deps = [

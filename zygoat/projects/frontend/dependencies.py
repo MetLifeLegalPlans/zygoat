@@ -1,8 +1,8 @@
 import shlex
 
-from zygoat.utils.dependencies import AbstractDependenciesManager, Action
-from zygoat.utils.commands import expand
 from zygoat.constants import paths
+from zygoat.utils.commands import expand
+from zygoat.utils.dependencies import AbstractDependenciesManager, Action
 
 
 class Dependencies(AbstractDependenciesManager):

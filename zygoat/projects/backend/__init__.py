@@ -1,16 +1,16 @@
-from typing import cast
 import os
+
 import toml
 from docker.models.containers import Container
 
-from zygoat.types import Path
+from zygoat.constants import BACKEND, paths
 from zygoat.logging import log
-from zygoat.constants import paths, BACKEND
-from zygoat.utils import find_steps
 from zygoat.resources import Resources
+from zygoat.types import Path
+from zygoat.utils import find_steps
 
-from .settings import Settings
 from . import steps
+from .settings import Settings
 
 _python_ver = ">=3.10,<4"
 _pyproject = "pyproject.toml"
@@ -60,6 +60,7 @@ def generate(python: Container, project_path: Path):
             settings.remove_variable(identifier)
 
         settings.add_installed_app("'rest_framework'")
+        settings.add_installed_app("'willing_zg'")
 
         # Assemble new settings block from resource files
         new_settings = "\n".join(

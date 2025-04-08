@@ -1,9 +1,11 @@
-from enum import Enum
-from typing import List, Any
 import shlex
+from enum import Enum
+from typing import Any, List
+
 from docker.models.containers import Container
 
-from zygoat.types import Path, Command
+from zygoat.types import Command, Path
+
 from .commands import expand
 
 
