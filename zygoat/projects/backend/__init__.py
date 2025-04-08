@@ -43,8 +43,7 @@ def generate(python: Container, project_path: Path):
     with open(pyproject_path) as f:
         data = toml.load(f)
 
-    # This section should be blank by default but future poetry updates
-    # may change that
+    # This section should be blank by default but future poetry updates may change that
     tool = data.get("tool", {"poetry": {}})
     tool["poetry"]["package-mode"] = False
     data["tool"] = tool
