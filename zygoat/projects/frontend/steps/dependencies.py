@@ -6,6 +6,7 @@ from ..dependencies import Dependencies
 _prod_deps = [
     "prop-types",
     "axios",
+    "js-cookie",
     "next-compose-plugins",
     "next-plugin-svgr",
     "next-images",

@@ -9,6 +9,7 @@ _dirs = [
     "components",  # Zendesk chat widget
     "utils",  # Chat widget config
     "zg_utils",  # Authentication and environment utils
+    "api",  # Basic API client
 ]
 
 
