@@ -1,4 +1,4 @@
-:3003
+:3000
 
 reverse_proxy /api* backend:3000 {
     header_up Host {http.reverse_proxy.upstream.host}

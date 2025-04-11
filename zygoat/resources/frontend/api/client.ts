@@ -1,7 +1,7 @@
+import tokenFetcher from '@/zg_utils/tokens';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { cookies } from 'next/headers';
-import tokenFetcher from 'zg_utils/tokens';
 
 const isSSR = typeof window === 'undefined';
 

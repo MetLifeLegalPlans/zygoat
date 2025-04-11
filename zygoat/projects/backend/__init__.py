@@ -60,6 +60,7 @@ def generate(python: Container, project_path: Path):
 
         settings.add_installed_app("'rest_framework'")
         settings.add_installed_app("'willing_zg'")
+        settings.add_installed_app("'backend'")
 
         # Assemble new settings block from resource files
         new_settings = "\n".join(
@@ -70,6 +71,7 @@ def generate(python: Container, project_path: Path):
             + ["\n"]  # Add a newline before the next comment in the file
         )
         settings.add_import(new_settings)  # Append to the end of the import block
+        settings.append('STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")')
 
     log.info("Adding base management commands")
     resources.cp(os.path.join(BACKEND, BACKEND, "management"), recursive=True)

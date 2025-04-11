@@ -20,3 +20,7 @@ def run(node: Container, project_path: Path):
         path = os.path.join(FRONTEND, dockerfile)
         log.info(f"Copying {dockerfile}")
         resources.cp(path)
+
+    for dirname in _dirs:
+        log.info(f"Copying {dirname}")
+        resources.cp(os.path.join(FRONTEND, dirname), recursive=True)

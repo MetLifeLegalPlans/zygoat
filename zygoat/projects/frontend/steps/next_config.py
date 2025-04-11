@@ -5,6 +5,7 @@ from zygoat.logging import log
 from zygoat.resources import Resources
 from zygoat.types import Container, Path
 
+from ..package import Package
 from ..dependencies import Dependencies
 
 _deps = ["@sentry/nextjs"]
@@ -23,6 +24,9 @@ _files += [_sentry_pattern.format(conf) for conf in ("server", "edge")]
 def run(node: Container, project_path: Path):
     dependencies = Dependencies(node)
     resources = Resources(project_path)
+
+    with Package() as package:
+        package.add_script("dev", "next dev --turbopack -p 3000")
 
     log.info("Installing Sentry package")
     dependencies.install(*_deps)
