@@ -5,8 +5,8 @@ from zygoat.logging import log
 from zygoat.resources import Resources
 from zygoat.types import Container, Path
 
-from ..package import Package
 from ..dependencies import Dependencies
+from ..package import Package
 
 _deps = ["@sentry/nextjs"]
 _files = [

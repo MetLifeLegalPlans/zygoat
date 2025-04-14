@@ -1,5 +1,6 @@
 import environ
 import os
+import sys
 
 env = environ.Env()
 
@@ -16,6 +17,11 @@ Used internally by Django to decide how much debugging context is sent to the
 browser when a failure occurs.
 
 Cannot be `True` if `PRODUCTION` is `True`
+"""
+
+TESTING = "pytest" in sys.modules
+"""
+Whether or not we're running as part of a test suite.
 """
 
 

@@ -54,7 +54,7 @@ class Settings:
         """
         r = self.red
 
-        r.append(line)
+        r.extend(RedBaron(line))
 
     def add_import(self, line: str):
         """

@@ -15,7 +15,10 @@ const eslintConfig = [
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: true,
+        projectService: {
+          allowDefaultProject: ['*/ChatWidget.js'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },
