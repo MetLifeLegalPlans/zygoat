@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react';
+
 import PropTypes from 'prop-types';
 
 const setDepartment = department => {
@@ -19,7 +20,7 @@ const setDepartment = department => {
 
 const defaultDepartment = 'Members';
 import('utils/constants/chat').then(module => {
-  setDepartment(module.ZENDESK_CHAT_DEPARTMENT || defaultDepartment);
+  setDepartment(module.ZENDESK_CHAT_DEPARTMENT ?? defaultDepartment);
 });
 
 const ChatWidget = ({ apiKey }) => {
