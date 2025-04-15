@@ -17,6 +17,7 @@ _dev_deps = [
     "jest",
     "@axe-core/react",
     "css-mediaquery",
+    "@types/js-cookie",
 ]
 
 

@@ -3,6 +3,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { cookies } from 'next/headers';
 
+interface CookieStore {
+  get(name: string): unknown;
+}
+
 const isSSR = typeof window === 'undefined';
 
 let baseURL = '/api/';
@@ -20,9 +24,9 @@ const client = axios.create({
   },
 });
 client.interceptors.request.use(async config => {
-  let cookieStore = Cookies;
+  let cookieStore = Cookies as CookieStore;
   if (isSSR) {
-    cookieStore = await cookies();
+    cookieStore = (await cookies()) as CookieStore;
   }
   config.headers['X-CSRFToken'] = cookieStore.get('csrftoken');
 
