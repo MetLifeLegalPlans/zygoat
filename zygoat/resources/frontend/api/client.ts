@@ -1,4 +1,5 @@
-import tokenFetcher from '@/zg_utils/tokens';
+// UNCOMMENT AFTER SETTING UP AUTH
+// import tokenFetcher from '@/zg_utils/tokens';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { cookies } from 'next/headers';
@@ -30,10 +31,11 @@ client.interceptors.request.use(async config => {
   }
   config.headers['X-CSRFToken'] = cookieStore.get('csrftoken');
 
-  const accessToken = await tokenFetcher.accessToken;
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
-  }
+  // UNCOMMENT AFTER SETTING UP AUTH
+  // const accessToken = await tokenFetcher.accessToken;
+  // if (accessToken) {
+  //   config.headers.Authorization = `Bearer ${accessToken}`;
+  // }
   return config;
 });
 
