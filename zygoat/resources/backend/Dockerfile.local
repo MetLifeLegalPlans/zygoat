@@ -1,10 +1,10 @@
-FROM 818831340115.dkr.ecr.us-east-1.amazonaws.com/python:3.12
+FROM python:3.12
+
+RUN pip install -U pip poetry
 
 WORKDIR /code
 
 COPY pyproject.toml poetry.lock ./
-
-RUN pip install -U poetry
 
 RUN poetry install
 
