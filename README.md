@@ -13,7 +13,7 @@ Linting, test configuration, boilerplate, and development environment are automa
 ## Installation
 
 ```bash
-pip install --upgrade zygoat
+pip install --upgrade git+https://github.com/MetLifeLegalPlans/zygoat
 ```
 
 ## Usage
@@ -26,9 +26,13 @@ zygoat my-cool-app
 
 ## How does it work?
 
-`zygoat` is structured as a collection of _projects_ that contain a series of self-contained, dynamically resolved _steps_ that modify the generated project.
+`zygoat` is structured as a collection of _projects_ that contain a series of self-contained, dynamically resolved _steps_ that modify the generated project. There are currently 3 `project`s in `zygoat`:
 
-To add a new step, place a new `.py` file in the `steps` directory for the project. Here's an example step that installs [Ruff](https://github.com/astral-sh/ruff) as a dev dependency and copies a configuration file for it from our `resources` package.
+- `frontend` - creates + customizes a NextJS frontend
+- `backend` - created + customizes a Django backend
+- `finalize` - adds project-level configuration like `docker-compose.yml`, `Caddyfile`, `.editorconfig`, and so on
+
+Each project (under `zygoat/project/{name}`) contains a `steps` package. To add a new step, place a new `.py` file in the `steps` directory for the project. Here's an example step that installs [Ruff](https://github.com/astral-sh/ruff) as a dev dependency and copies a configuration file for it from our `resources` package.
 
 ```py
 # zygoat/projects/backend/steps/ruff.py
@@ -55,7 +59,7 @@ def run(python: Container, project_path: Path):
     resources.cp(_path)
 ```
 
-This step will be automatically detected at runtime and executed against the project. For more information on authoring steps, see [STEPS.md](STEPS.md)
+This step will be automatically detected at runtime and executed against the project.
 
 ## How do I develop changes for it?
 
