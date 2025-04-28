@@ -3,7 +3,7 @@ name = "zygoat-gf"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "MetLife Legal Plans",email = "oss@willing.com"}
+    {name = "MetLife Legal Plans", email = "oss@willing.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.9,<4.0"
@@ -22,7 +22,7 @@ dependencies = [
 packages = [{include = "zygoat"}]
 
 [tool.poetry.scripts]
-zygoat = 'zygoat:new'
+zygoat = 'zygoat.cli:new'
 
 
 [tool.poetry.group.dev.dependencies]
@@ -32,6 +32,7 @@ mypy = "^1.15.0"
 pytest-xdist = "^3.6.1"
 types-requests = "^2.32.0.20250328"
 types-toml = "^0.10.8.20240310"
+pdoc = "^15.0.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

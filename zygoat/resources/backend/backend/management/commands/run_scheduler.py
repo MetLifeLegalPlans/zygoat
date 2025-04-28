@@ -9,12 +9,14 @@ from django_apscheduler.models import DjangoJobExecution
 from django_dramatiq.tasks import delete_old_tasks
 from sentry_sdk import capture_exception
 
+from typing import Any
+
 
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
 # to wrap any jobs that you schedule that access the Django database in any way.
 @util.close_old_connections
-def delete_old_job_executions(max_age=604_800):
+def delete_old_job_executions(max_age: int = 604_800) -> None:
     """
     This job deletes APScheduler job execution entries older than `max_age` from the database.
     It helps to prevent the database from filling up with old historical records that are no
@@ -28,13 +30,13 @@ def delete_old_job_executions(max_age=604_800):
     DjangoJobExecution.objects.delete_old_job_executions(max_age)
 
 
-def sentry_listener(event):
+def sentry_listener(event: Any) -> None:
     # EVENT_JOB_ERROR as a filter should cover this but provides no guarantee
     if event.exception:
         capture_exception(event.exception)
 
 
-def schedule_delete_old_tasks():
+def schedule_delete_old_tasks() -> None:
     """
     Delete old tasks from the database once a day (this is the default if we don't pass any arguments)
     """
@@ -46,7 +48,7 @@ class Command(BaseCommand):
     help = "Runs APScheduler."
 
     # if you add a new task you HAVE to restart the scheduler container
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
         django_job_store = DjangoJobStore()

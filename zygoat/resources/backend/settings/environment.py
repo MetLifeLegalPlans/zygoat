@@ -2,6 +2,8 @@ import environ
 import os
 import sys
 
+from typing import Any
+
 env = environ.Env()
 
 PRODUCTION = env.bool("DJANGO_PRODUCTION", default=False)
@@ -25,7 +27,7 @@ Whether or not we're running as part of a test suite.
 """
 
 
-def prod_required_env(key: str, default, method="str"):
+def prod_required_env(key: str, default: Any, method: str = "str") -> Any:
     """
     Throw an exception if PRODUCTION is true and the environment key is not provided
     See also:

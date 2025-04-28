@@ -10,7 +10,7 @@ _static = """
 """
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     log.info("Fetching Node gitignore")
     res = requests.get(f"{GITIGNORE_URL}/node")
     res.raise_for_status()

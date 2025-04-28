@@ -15,6 +15,10 @@ jobs:
             project: backend
             name: Formatting
 
+          - cmd: poetry run mypy .
+            project: backend
+            name: Type Checks
+
           - cmd: poetry run pytest -n auto
             project: backend
             name: Pytest

@@ -22,7 +22,7 @@ _overridden_settings = [
 _settings_blocks = ["environment", "cache", "rest_framework"]
 
 
-def generate(python: Container, project_path: Path):
+def generate(python: Container, project_path: Path) -> None:
     log.info("Starting backend generation")
     resources = Resources(project_path)
 

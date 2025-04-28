@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict
+from typing import Any, Dict, Self, Tuple
 
 from zygoat.constants import paths
 from zygoat.types import Path
@@ -18,19 +18,19 @@ class Package:
     See method docstrings for usage information.
     """
 
-    data: Dict[str, Any]
-    path: Path
+    _data: Dict[str, Any]
+    _path: Path
 
     def __init__(self, path: Path = paths.PACKAGE):
-        self.path = path
+        self._path = path
 
-    def add_script(self, name: str, cmd: str):
+    def add_script(self, name: str, cmd: str) -> None:
         """
         Adds a new script.
 
         >>> package.add_script("format", "prettier --write .")
         """
-        p = self.data
+        p = self._data
         p["scripts"][name] = cmd
 
     @property
@@ -38,16 +38,16 @@ class Package:
         """
         The formatted string representation of the package file.
         """
-        return json.dumps(self.data, indent=2)
+        return json.dumps(self._data, indent=2)
 
-    def _load(self):
+    def _load(self) -> None:
         """
         Loads the package from file into memory.
         """
-        with open(self.path, "r") as f:
-            self.data = json.load(f)
+        with open(self._path, "r") as f:
+            self._data = json.load(f)
 
-    def _dump(self):
+    def _dump(self) -> None:
         """
         Dumps the package from memory to file.
         """
@@ -55,12 +55,12 @@ class Package:
         assert self.raw is not None
 
         # THEN write
-        with open(self.path, "w") as f:
+        with open(self._path, "w") as f:
             f.write(self.raw)
 
-    def __enter__(self):
+    def __enter__(self) -> Self:
         self._load()
         return self
 
-    def __exit__(self, *args):
+    def __exit__(self, *args: Tuple[Any, ...]) -> None:
         self._dump()

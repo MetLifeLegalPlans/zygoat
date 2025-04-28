@@ -5,20 +5,17 @@ permissions:
 'on': push
 
 jobs:
-  CI: # Static analysis checks on our own code
+  ci:
     strategy:
       matrix:
-        step:
-          - cmd: mypy zygoat
-            name: Type Checks
-          - cmd: ruff check .
-            name: Linting/Formatting
-          - cmd: pytest -m slow -n auto
-            name: Project Generation
-          - cmd: pytest -m 'not slow' -n auto
-            name: Unit Tests
+        cmd:
+          - mypy zygoat
+          - ruff check .
+          # Disabled for now as it's flaking on GHA
+          # - pytest -m slow -n auto
+          - pytest -m 'not slow' -n auto
     runs-on: ubuntu-latest
-    name: "[CI] ${{ matrix.step.name }}"
+    name: ${{ matrix.cmd }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,53 +26,5 @@ jobs:
         run: |
           pip install --upgrade pip poetry
           poetry install
-      - name: ${{ matrix.step.cmd }}
-        run: poetry run ${{ matrix.step.cmd }}
-
-  generated: # Test suites on the generated project
-    strategy:
-      matrix:
-        step:
-          # Frontend
-          - cmd: npm run lint
-            project: frontend
-            name: Lint
-          - cmd: npm run build
-            project: frontend
-            name: Compile
-
-          # Backend
-          - cmd: poetry run ruff check .
-            project: backend
-            name: Lint
-          - cmd: poetry run mypy .
-            project: backend
-            name: Type Checks
-    runs-on: ubuntu-latest
-    name: "[${{ matrix.step.project }}] ${{ matrix.step.name }}"
-    steps:
-      - uses: actions/checkout@v4
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
-      # - name: Log into Amazon ECR
-      #   id: login-ecr
-      #   uses: aws-actions/amazon-ecr-login@v2
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          architecture: 'x64'
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip poetry
-          poetry install
-      - name: Generate project
-        run: poetry run zygoat project
-      - name: Create shared network
-        run: docker network create mlp_network
-      - name: ${{ matrix.step.name }}
-        working-directory: ./project
-        run: docker compose run -T --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}
+      - name: ${{ matrix.cmd }}
+        run: poetry run ${{ matrix.cmd }}

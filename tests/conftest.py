@@ -14,7 +14,7 @@ def docker_client():
 
 @pytest.fixture(scope="module")
 def temp_dir():
-    with tempfile.TemporaryDirectory() as path:
+    with tempfile.TemporaryDirectory(dir=".") as path:
         yield path
 
 

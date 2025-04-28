@@ -21,7 +21,7 @@ _sentry_pattern = "sentry.{}.config.ts"
 _files += [_sentry_pattern.format(conf) for conf in ("server", "edge")]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     dependencies = Dependencies(node)
     resources = Resources(project_path)
 

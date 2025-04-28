@@ -15,7 +15,7 @@ from .logging import log
 _client = docker.from_env()
 
 
-def patch():
+def patch() -> None:
     """
     Injects the zg_* suite of helper functions onto Docker's Container model
     """
@@ -35,6 +35,9 @@ def patch():
 def spawn(image: str, project_path: Union[str, os.PathLike], wait: bool = False) -> Container:
     """
     Creates a new container from the specified image using shared defaults
+    `image` is the image to pull from
+
+    >>> python = spawn("python:latest", "./my-project", wait=True)
     """
     container = _client.containers.run(
         image,
@@ -50,9 +53,11 @@ def spawn(image: str, project_path: Union[str, os.PathLike], wait: bool = False)
     return container
 
 
-def wait_for(container: Container):
+def wait_for(container: Container) -> None:
     """
     Waits for a container to enter the running state
+
+    >>> wait_for(python)
     """
     container.reload()
     while container.status != "running":
@@ -61,13 +66,22 @@ def wait_for(container: Container):
         container.reload()
 
 
-def _zg_run(self: Container, *args, correct_perms=True, throw=True, **kwargs) -> int:
+def _zg_run(
+    self: Container,
+    *args: str,
+    correct_perms: bool = True,
+    throw: bool = True,
+    **kwargs: Any,
+) -> int:
     """
     Replacement for exec_run that streams log output in real time
     AND returns the exit code of the command (base exec_run cannot
     do both)
 
     Adapted from https://gist.github.com/TTimo/f9c9f8521b0006f5c62a12f076ce3d25
+
+    >>> python.zg_run("pip install --upgrade pip poetry")
+    ...output snipped
     """
     # Get fresh attributes from the server
     self.reload()
@@ -106,12 +120,19 @@ def _zg_run(self: Container, *args, correct_perms=True, throw=True, **kwargs) ->
     return exit_code
 
 
-def _zg_run_all(self: Container, *args, **kwargs) -> Optional[Any]:
+def _zg_run_all(self: Container, *args: str, **kwargs: Any) -> Optional[Any]:
     """
     Runs a series of commands in sequence with identical kwargs
 
     Returns the exit code of the first unsuccessful command,
     or 0 if all commands were successful
+
+    >>> python.zg_run_all(
+        "apt-get update",
+        "apt-get upgrade -y",
+        "apt-get dist-upgrade -y",
+    )
+    ...output snipped
     """
     ret_code = None
 
@@ -123,9 +144,20 @@ def _zg_run_all(self: Container, *args, **kwargs) -> Optional[Any]:
     return ret_code
 
 
-def _zg_perms(self: Container, *args, **kwargs):
+def _zg_perms(self: Container, *args: str, **kwargs: Any) -> None:
     """
     Corrects file permissions across the whole generated workspace
     """
     uid, gid = [os.getuid(), os.getgid()]
     self.exec_run(f"chown -R {uid}:{gid} {paths.WORKSPACE}")
+
+
+# Expose things to pdoc
+__all__ = [
+    "spawn",
+    "_zg_run",
+    "_zg_run_all",
+    "wait_for",
+    "patch",
+    "_zg_perms",
+]

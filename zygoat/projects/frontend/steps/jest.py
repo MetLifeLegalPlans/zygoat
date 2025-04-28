@@ -11,7 +11,7 @@ from ..package import Package
 _dev_deps = ["jest", "next-router-mock", "jest-environment-jsdom"]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     dependencies = Dependencies(node)
     resources = Resources(project_path)
 

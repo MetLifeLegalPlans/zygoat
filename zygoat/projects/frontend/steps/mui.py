@@ -18,7 +18,7 @@ _prod_deps = [
 _files = ["app/layout.tsx", "theme.ts"]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     dependencies = Dependencies(node)
     resources = Resources(project_path)
 

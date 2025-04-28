@@ -11,9 +11,11 @@ A command for marking users as staff.
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
+from typing import Any, Dict
+
 
 class Command(BaseCommand):
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: Any) -> None:
         parser.add_argument("--users", nargs="+", type=str, help="a list of user keys")
         parser.add_argument(
             "--field", type=str, default="pk", help="a unique field name on the user model"
@@ -29,12 +31,12 @@ class Command(BaseCommand):
             help="set is_staff to False instead of True",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Dict[str, Any]) -> None:
         User = get_user_model()
         convert = int if options.get("int") else str
-        user_values = [convert(v.strip()) for v in options.get("users")]
+        user_values = [convert(v.strip()) for v in options.get("users", [])]
         where = {"{}__in".format(options.get("field")): user_values}
         users = User.objects.filter(**where)
         for u in users:
             u.is_staff = not options.get("unset")
-        users = User.objects.bulk_update(users, ["is_staff"])
+        User.objects.bulk_update(users, ["is_staff"])
