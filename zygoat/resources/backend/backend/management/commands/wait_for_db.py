@@ -6,6 +6,7 @@ it blocks indefinitely.
 """
 
 from time import sleep
+from typing import Any
 
 from django.core.management.base import BaseCommand
 from django.db import connection
@@ -13,7 +14,7 @@ from django.db.utils import OperationalError
 
 
 class Command(BaseCommand):
-    def handle(self, *args, **kwargs):
+    def handle(self, *args: Any, **kwargs: Any) -> None:
         while True:
             sleep(0.5)
             try:

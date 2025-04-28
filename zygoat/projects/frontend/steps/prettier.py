@@ -13,7 +13,7 @@ _dev_deps = [_prettier, "@trivago/prettier-plugin-sort-imports"]
 _files = [".prettierrc", ".prettierignore"]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     dependencies = Dependencies(node)
     resources = Resources(project_path)
 

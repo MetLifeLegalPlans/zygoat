@@ -16,7 +16,7 @@ venv/
 """
 
 
-def run(python: Container, project_path: Path):
+def run(python: Container, project_path: Path) -> None:
     log.info("Fetching Python gitignore")
     res = requests.get(f"{GITIGNORE_URL}/python")
     res.raise_for_status()

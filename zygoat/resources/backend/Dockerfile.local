@@ -1,6 +1,7 @@
 FROM python:3.12
 
 RUN pip install -U pip poetry
+RUN poetry self add poetry-types
 
 WORKDIR /code
 
@@ -8,7 +9,8 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry install
 
-CMD poetry run python manage.py wait_for_db && \
+CMD poetry types update -n && \
+  poetry run python manage.py wait_for_db && \
   poetry run python manage.py collectstatic --noinput && \
   poetry run python manage.py migrate && \
   poetry run python manage.py createcachetable && \

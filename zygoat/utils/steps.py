@@ -1,6 +1,7 @@
 import importlib
 import inspect
 import os
+from types import ModuleType
 from typing import Iterator
 
 from zygoat.types import Step
@@ -8,7 +9,7 @@ from zygoat.types import Step
 _run = "run"
 
 
-def find_steps(pkg) -> Iterator[Step]:
+def find_steps(pkg: ModuleType) -> Iterator[Step]:
     """
     Yields an iterator of run(container, project_path) functions discovered
     dynamically from pkg

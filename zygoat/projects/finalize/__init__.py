@@ -12,7 +12,7 @@ _files = [
 _dirs = [".github"]
 
 
-def generate(project_path: Path):
+def generate(project_path: Path) -> None:
     resources = Resources(project_path)
     for name in _files:
         log.info(f"Copying {name}")

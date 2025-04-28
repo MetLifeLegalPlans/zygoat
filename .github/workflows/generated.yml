@@ -1,0 +1,49 @@
+name: Generated CI
+permissions:
+  contents: read
+
+# 'on':
+#   push:
+#     branches: ['*']
+#   schedule:
+#     - cron: '0 0 * * *'
+
+jobs:
+  generated: # Test suites on the generated project
+    strategy:
+      matrix:
+        step:
+          # Frontend
+          - cmd: npm run lint
+            project: frontend
+            name: Lint
+          - cmd: npm run build
+            project: frontend
+            name: Compile
+
+          # Backend
+          - cmd: poetry run ruff check .
+            project: backend
+            name: Lint
+          - cmd: poetry run mypy .
+            project: backend
+            name: Type Checks
+    runs-on: ubuntu-latest
+    name: "[${{ matrix.step.project }}] ${{ matrix.step.name }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip poetry
+          poetry install
+      - name: Generate project
+        run: poetry run zygoat project
+      - name: Create shared network
+        run: docker network create mlp_network
+      - name: ${{ matrix.step.name }}
+        working-directory: ./project
+        run: docker compose run -T --rm ${{ matrix.step.project }} ${{ matrix.step.cmd }}

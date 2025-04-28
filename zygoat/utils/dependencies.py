@@ -21,6 +21,9 @@ class AbstractDependenciesManager:
     """
 
     container: Container
+    """
+    The docker container where commands are executed
+    """
     workdir: Path
 
     cmd_base: Command
@@ -41,7 +44,7 @@ class AbstractDependenciesManager:
 
         self.container = container
 
-    def _cmd(self, *packages, action: Action, dev=False) -> str:
+    def _cmd(self, *packages: str, action: Action, dev: bool = False) -> str:
         """
         Returns the command to install the packages
         """
@@ -53,7 +56,7 @@ class AbstractDependenciesManager:
 
         return shlex.join(cmd)
 
-    def install(self, *packages, dev=False):
+    def install(self, *packages: str, dev: bool = False) -> None:
         """
         Adds dependencies
         """
@@ -62,7 +65,7 @@ class AbstractDependenciesManager:
             workdir=self.workdir,
         )
 
-    def remove(self, *packages, dev=False):
+    def remove(self, *packages: str, dev: bool = False) -> None:
         """
         Removes dependencies
         """

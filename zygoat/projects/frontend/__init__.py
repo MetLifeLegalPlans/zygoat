@@ -8,7 +8,7 @@ from zygoat.utils import find_steps
 from . import steps
 
 
-def generate(node: Container, project_path: Path):
+def generate(node: Container, project_path: Path) -> None:
     log.info("Starting frontend generation")
 
     log.info("Updating NPM")

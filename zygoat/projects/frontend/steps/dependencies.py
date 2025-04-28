@@ -21,7 +21,7 @@ _dev_deps = [
 ]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     dependencies = Dependencies(node)
 
     log.info("Installing prod dependencies")

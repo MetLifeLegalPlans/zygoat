@@ -12,7 +12,7 @@ try:
     worker_class = "gevent"
     timeout = int(os.getenv("GUNICORN_TIMEOUT", default=30))
 
-    def do_post_fork(server, worker):
+    def do_post_fork(server, worker) -> None:
         monkey.patch_all()
         patch_psycopg()
 

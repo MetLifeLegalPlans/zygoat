@@ -13,7 +13,7 @@ _dirs = [
 ]
 
 
-def run(node: Container, project_path: Path):
+def run(node: Container, project_path: Path) -> None:
     resources = Resources(project_path)
 
     for dockerfile in paths.dockerfiles:

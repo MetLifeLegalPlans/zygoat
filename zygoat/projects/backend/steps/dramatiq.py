@@ -16,7 +16,7 @@ _dependencies = [
 ]
 
 
-def run(python: Container, project_path: Path):
+def run(python: Container, project_path: Path) -> None:
     dependencies = Dependencies(python)
     resources = Resources(project_path)
 

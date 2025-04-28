@@ -1,5 +1,5 @@
 import os
-from typing import Callable
+from typing import Callable, Iterator
 
 from zygoat.types import Path
 
@@ -15,7 +15,7 @@ except ImportError:
     from contextlib import contextmanager
 
     @contextmanager
-    def _chdir(path: Path):
+    def _chdir(path: Path) -> Iterator[None]:
         """
         Backwards compatibility shim for contextlib.chdir
         """

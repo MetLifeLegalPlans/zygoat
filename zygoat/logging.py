@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from colorama import Fore, Style, init
 
@@ -14,7 +15,7 @@ color_mappings = {
 
 
 class Formatter(logging.Formatter):
-    def format(self, record):
+    def format(self, record: Any) -> str:
         return " ".join(
             [
                 Style.BRIGHT + color_mappings[record.levelno] + record.levelname,

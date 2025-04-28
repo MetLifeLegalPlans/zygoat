@@ -9,7 +9,7 @@ _path = os.path.join(BACKEND, "tests")
 _name = ".banditrc"
 
 
-def run(python: Container, project_path: Path):
+def run(python: Container, project_path: Path) -> None:
     log.info(f"Adding {_name}")
     resources = Resources(project_path)
     os.makedirs(_path)

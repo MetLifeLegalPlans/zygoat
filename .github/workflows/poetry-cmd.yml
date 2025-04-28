@@ -1,0 +1,28 @@
+on:
+  workflow_call:
+    inputs:
+      command:
+        required: true
+        type: string
+      workdir:
+        required: false
+        type: string
+        default: .
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    name: ${{ inputs.command }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: 'x64'
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip poetry
+          poetry install
+      - name: ${{ inputs.command }}
+        working-directory: ${{ inputs.workdir }}
+        run: "poetry run ${{ inputs.command }}"
