@@ -117,7 +117,7 @@ def _zg_run(
     if throw and exit_code != 0:
         raise CommandError(f"Command failed: {args} (exit code {exit_code})")
 
-    return exit_code
+    return int(exit_code)
 
 
 def _zg_run_all(self: Container, *args: str, **kwargs: Any) -> Optional[Any]:

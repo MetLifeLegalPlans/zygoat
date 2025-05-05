@@ -56,7 +56,7 @@ class AbstractDependenciesManager:
 
         return shlex.join(cmd)
 
-    def install(self, *packages: str, dev: bool = False) -> None:
+    def install(self, *packages: str, dev: bool = False) -> Any:
         """
         Adds dependencies
         """
@@ -65,7 +65,7 @@ class AbstractDependenciesManager:
             workdir=self.workdir,
         )
 
-    def remove(self, *packages: str, dev: bool = False) -> None:
+    def remove(self, *packages: str, dev: bool = False) -> Any:
         """
         Removes dependencies
         """

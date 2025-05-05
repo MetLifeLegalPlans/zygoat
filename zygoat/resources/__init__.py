@@ -80,7 +80,7 @@ class Resources:
         mode = "rb" if binary else "r"
         # See L49
         with open(os.path.join(pkg, path), mode) as f:  # type: ignore
-            return f.read()
+            return f.read()  # type: ignore
 
     @property
     def pkg(self) -> importlib.abc.Traversable:

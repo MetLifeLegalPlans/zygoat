@@ -87,7 +87,7 @@ class Settings:
         app: str,
         prepend: bool = False,
         position: Optional[int] = None,
-    ) -> None:
+    ) -> Any:
         """
         Adds a new app name to INSTALLED_APPS. Defaults to appending,
         but accepts either a prepend flag or specific position.
@@ -122,7 +122,7 @@ class Settings:
         The raw string representation of the AST. Mostly useful for testing,
         not recommended for use in project generation.
         """
-        return self._red.dumps()
+        return self._red.dumps()  # type: ignore
 
     def _load(self) -> None:
         """
