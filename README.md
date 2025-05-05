@@ -6,7 +6,7 @@
 
 ## What is zygoat?
 
-[![Documentation](https://img.shields.io/static/v1?label=&message=Documentation&color=2ea44f)](https://)
+[![Documentation](https://img.shields.io/static/v1?label=&message=Documentation&color=2ea44f)](https://metlifelegalplans.github.io/zygoat/zygoat.html)
 
 `zygoat` is a command line tool used to bootstrap and configure a React/Django/Postgres stack web application.
 
@@ -79,7 +79,7 @@ This step will be automatically detected at runtime and executed.
 
 As you can see in the example, there are a number of utilities provided to help make writing writing steps easier. Currently there is only one top-level utility provided, `zygoat.resources.Resources`, which is used to copy files and directories from zygoat to the generated project. Each project also provides its own utilities, which have their own documentation.
 
-Please see the following for more information on each utility (identifiers are links in the [documentation](https://)):
+Please see the following for more information on each utility (identifiers are links in the [documentation](https://metlifelegalplans.github.io/zygoat/zygoat.html)):
 
 **Global:**
 

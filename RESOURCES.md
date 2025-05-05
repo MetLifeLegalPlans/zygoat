@@ -1,4 +1,4 @@
-# Please read this page in the [API documentation](https://) instead for reference links + type annotations
+# Please read this page in the [API documentation](https://metlifelegalplans.github.io/zygoat/zygoat.html) instead for reference links + type annotations
 
 This module defines the `Resources` class, which is used to copy files and directories stored in `zygoat` to the generated project.
 
