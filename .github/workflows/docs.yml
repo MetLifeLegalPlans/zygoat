@@ -30,7 +30,6 @@ jobs:
       - run: poetry run pdoc -o docs/ ./zygoat
 
       - uses: actions/upload-pages-artifact@v3
-        id: deployment
         with:
           path: docs/
 

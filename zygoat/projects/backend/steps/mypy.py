@@ -11,6 +11,7 @@ _path = os.path.join(BACKEND, "mypy.ini")
 _dev_deps = [
     "mypy",
     "django-stubs[compatible-mypy]",
+    "djangorestframework-stubs[compatible-mypy]",
 ]
 
 
